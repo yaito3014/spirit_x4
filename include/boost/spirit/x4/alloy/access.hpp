@@ -21,12 +21,7 @@ namespace boost::spirit::x4::alloy
     struct adaptor;
 
     template <typename T>
-    concept TupleLike = requires {
-        requires detail::NonTypeList<typename adaptor<T>::getters>;
-        requires []<std::size_t... Is>(std::index_sequence<Is...>){
-            return std::conjunction_v<std::is_invocable<decltype(adaptor<T>::getters::template get<Is>), T>...>;
-        }(std::make_index_sequence<adaptor<T>::getters::size>{});
-    };
+    concept TupleLike = detail::NonTypeList<typename adaptor<T>::getters>;
 
     namespace result_of
     {
