@@ -17,7 +17,27 @@
 
 #include <cstddef>
 
+#ifdef _MSC_VER // MSVC
+
+#if _MSC_VER < 1929 // VS 2019 v16.9 or before
+
+#define BOOST_SPIRIT_X4_ALLOY_DETAIL_NO_UNIQUE_ADDRESS
+
+#elifdef __INTELLISENSE__ // Memory Layout view shows wrong layout without this workaround
+
+#define BOOST_SPIRIT_X4_ALLOY_DETAIL_NO_UNIQUE_ADDRESS [[msvc::no_unique_address, no_unique_address]]
+
+#else // normal MSVC
+
+#define BOOST_SPIRIT_X4_ALLOY_DETAIL_NO_UNIQUE_ADDRESS [[msvc::no_unique_address]]
+
+#endif
+
+#else // other compilers
+
 #define BOOST_SPIRIT_X4_ALLOY_DETAIL_NO_UNIQUE_ADDRESS [[no_unique_address]]
+
+#endif
 
 namespace boost::spirit::x4::alloy::detail
 {
