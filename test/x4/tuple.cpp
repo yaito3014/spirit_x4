@@ -1,7 +1,6 @@
 #include <boost/spirit/x4/alloy/access.hpp>
 #include <boost/spirit/x4/alloy/adapted.hpp>
 
-#include <string>
 #include <tuple>
 #include <type_traits>
 #include <utility>
