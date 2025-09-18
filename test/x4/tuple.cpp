@@ -6,6 +6,7 @@
 ==============================================================================*/
 #include <boost/spirit/x4/alloy/access.hpp>
 #include <boost/spirit/x4/alloy/adapted.hpp>
+#include <boost/spirit/x4/alloy/tuple.hpp>
 
 #include <tuple>
 #include <type_traits>
@@ -18,18 +19,19 @@ int main()
 
         static_assert(!boost::spirit::x4::alloy::TupleLike<NonAdaptedStruct>);
     }
+
     {
         using Pair = std::pair<int, double>;
 
         static_assert(boost::spirit::x4::alloy::TupleLike<Pair>);
 
         static_assert(boost::spirit::x4::alloy::result_of::size<Pair> == 2);
-        
+
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<0, Pair&>, int&>);
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<0, Pair const&>, int const&>);
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<0, Pair&&>, int&&>);
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<0, Pair const&&>, int const&&>);
-        
+
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<1, Pair&>, double&>);
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<1, Pair const&>, double const&>);
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<1, Pair&&>, double&&>);
@@ -49,17 +51,17 @@ int main()
         static_assert(boost::spirit::x4::alloy::TupleLike<Tuple>);
 
         static_assert(boost::spirit::x4::alloy::result_of::size<Tuple> == 3);
-        
+
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<0, Tuple&>, int&>);
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<0, Tuple const&>, int const&>);
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<0, Tuple&&>, int&&>);
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<0, Tuple const&&>, int const&&>);
-        
+
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<1, Tuple&>, double&>);
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<1, Tuple const&>, double const&>);
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<1, Tuple&&>, double&&>);
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<1, Tuple const&&>, double const&&>);
-        
+
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<2, Tuple&>, char&>);
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<2, Tuple const&>, char const&>);
         static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<2, Tuple&&>, char&&>);
@@ -72,5 +74,36 @@ int main()
         static_assert(boost::spirit::x4::alloy::get<0>(p) == 42);
         static_assert(boost::spirit::x4::alloy::get<1>(p) == 3.14);
         static_assert(boost::spirit::x4::alloy::get<2>(p) == 'A');
+    }
+
+    {
+        static_assert(std::is_trivially_default_constructible_v<boost::spirit::x4::alloy::tuple<>>);
+
+        using Tuple = boost::spirit::x4::alloy::tuple<int, double, char>;
+
+        static_assert(boost::spirit::x4::alloy::TupleLike<Tuple>);
+
+        static_assert(boost::spirit::x4::alloy::result_of::size<Tuple> == 3);
+
+        static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<0, Tuple&>, int&>);
+        static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<0, Tuple const&>, int const&>);
+        static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<0, Tuple&&>, int&&>);
+        static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<0, Tuple const&&>, int const&&>);
+
+        static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<1, Tuple&>, double&>);
+        static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<1, Tuple const&>, double const&>);
+        static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<1, Tuple&&>, double&&>);
+        static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<1, Tuple const&&>, double const&&>);
+
+        static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<2, Tuple&>, char&>);
+        static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<2, Tuple const&>, char const&>);
+        static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<2, Tuple&&>, char&&>);
+        static_assert(std::is_same_v<boost::spirit::x4::alloy::result_of::get<2, Tuple const&&>, char const&&>);
+
+        constexpr Tuple t(42, 3.14, 'A');
+
+        static_assert(boost::spirit::x4::alloy::get<0>(t) == 42);
+        static_assert(boost::spirit::x4::alloy::get<1>(t) == 3.14);
+        static_assert(boost::spirit::x4::alloy::get<2>(t) == 'A');
     }
 }
