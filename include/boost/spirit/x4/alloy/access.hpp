@@ -38,10 +38,12 @@ namespace boost::spirit::x4::alloy
     }
 
     namespace result_of
-    {
+    {   
+        // `std::invoke_result_t` MUST NOT be used here due to its side effects:
+        // <https://eel.is/c++draft/meta.trans.other#tab:meta.trans.other-row-11-column-2-note-2>
         template <std::size_t I, typename T>
             requires TupleLike<std::remove_cvref_t<T>>
-        using get = std::invoke_result_t<decltype(adaptor<std::remove_cvref_t<T>>::getters::template get<I>), T>;
+        using get = decltype(std::invoke(adaptor<std::remove_cvref_t<T>>::getters::template get<I>, std::declval<T>()));
     } // result_of
 
     template <std::size_t I, typename T>
