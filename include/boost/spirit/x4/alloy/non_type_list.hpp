@@ -1,0 +1,34 @@
+#ifndef BOOST_SPIRIT_X4_ALLOY_NON_TYPE_LIST_HPP
+#define BOOST_SPIRIT_X4_ALLOY_NON_TYPE_LIST_HPP
+
+#include <boost/spirit/x4/alloy/detail/pack_indexing.hpp>
+
+#include <type_traits>
+
+#include <cstddef>
+
+namespace boost::spirit::x4::alloy
+{
+    template <auto... Vs>
+    struct non_type_list
+    {
+        static constexpr std::size_t size = sizeof...(Vs);
+
+        template <std::size_t I>
+        static constexpr auto get = detail::non_type_pack_indexing_v<I, Vs...>;
+    };
+
+    namespace detail
+    {
+        template <typename T>
+        struct is_non_type_list : std::false_type {};
+
+        template <auto... Vs>
+        struct is_non_type_list<non_type_list<Vs...>> : std::true_type {};
+
+        template <typename T>
+        concept NonTypeList = is_non_type_list<T>::value;
+    } // detail
+}
+
+#endif
