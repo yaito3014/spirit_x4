@@ -21,6 +21,7 @@ namespace boost::spirit::x4::alloy
     class tuple : public detail::tuple_impl<Ts...>
     {
     private:
+        static_assert(!std::disjunction_v<std::is_rvalue_reference<Ts>...>, "alloy::tuple must not be instantiated with rvalue reference type");
         using base_type = detail::tuple_impl<Ts...>;
 
         template <typename... Us>
