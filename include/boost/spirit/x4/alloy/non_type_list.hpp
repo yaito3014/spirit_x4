@@ -35,6 +35,6 @@ namespace boost::spirit::x4::alloy
         template <typename T>
         concept NonTypeList = is_non_type_list<T>::value;
     } // detail
-}
+} // boost::spirit::x4::alloy
 
 #endif
