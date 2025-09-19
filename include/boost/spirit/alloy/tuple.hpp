@@ -7,13 +7,13 @@
 #ifndef BOOST_SPIRIT_X4_ALLOY_TUPLE_HPP
 #define BOOST_SPIRIT_X4_ALLOY_TUPLE_HPP
 
-#include <boost/spirit/x4/alloy/detail/combine_ref.hpp>
-#include <boost/spirit/x4/alloy/detail/forward_like_t.hpp>
-#include <boost/spirit/x4/alloy/detail/integer_seq_transform.hpp>
-#include <boost/spirit/x4/alloy/detail/pack_indexing.hpp>
-#include <boost/spirit/x4/alloy/detail/tuple_impl.hpp>
+#include <boost/spirit/alloy/detail/combine_ref.hpp>
+#include <boost/spirit/alloy/detail/forward_like_t.hpp>
+#include <boost/spirit/alloy/detail/integer_seq_transform.hpp>
+#include <boost/spirit/alloy/detail/pack_indexing.hpp>
+#include <boost/spirit/alloy/detail/tuple_impl.hpp>
 
-#include <boost/spirit/x4/alloy/value_initialize.hpp>
+#include <boost/spirit/alloy/value_initialize.hpp>
 
 namespace boost::spirit::x4::alloy
 {

@@ -7,7 +7,7 @@
 #ifndef BOOST_SPIRIT_X4_ALLOY_NON_TYPE_LIST_HPP
 #define BOOST_SPIRIT_X4_ALLOY_NON_TYPE_LIST_HPP
 
-#include <boost/spirit/x4/alloy/detail/pack_indexing.hpp>
+#include <boost/spirit/alloy/detail/pack_indexing.hpp>
 
 #include <type_traits>
 

@@ -7,9 +7,9 @@
 
 #include "test.hpp"
 
-#include <boost/spirit/x4/alloy/access.hpp>
-#include <boost/spirit/x4/alloy/adapted.hpp>
-#include <boost/spirit/x4/alloy/tuple.hpp>
+#include <boost/spirit/alloy/access.hpp>
+#include <boost/spirit/alloy/adapted.hpp>
+#include <boost/spirit/alloy/tuple.hpp>
 
 #include <tuple>
 #include <type_traits>
