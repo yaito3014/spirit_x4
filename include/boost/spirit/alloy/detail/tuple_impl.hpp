@@ -19,7 +19,7 @@
 
 #include <cstddef>
 
-namespace boost::spirit::x4::alloy::detail
+namespace boost::spirit::alloy::detail
 {
     template <typename... Ts>
     class tuple_impl;
@@ -65,6 +65,6 @@ namespace boost::spirit::x4::alloy::detail
             else return ((forward_like_t<Self, tuple_impl>)self).rest.template get<I - 1>();
         }
     };
-} // boost::spirit::x4::alloy::detail
+} // boost::spirit::alloy::detail
 
 #endif

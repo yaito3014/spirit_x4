@@ -13,7 +13,7 @@
 
 #include <cstddef>
 
-namespace boost::spirit::x4::alloy
+namespace boost::spirit::alloy
 {
     template <auto... Vs>
     struct non_type_list
@@ -35,6 +35,6 @@ namespace boost::spirit::x4::alloy
         template <typename T>
         concept NonTypeList = is_non_type_list<T>::value;
     } // detail
-} // boost::spirit::x4::alloy
+} // boost::spirit::alloy
 
 #endif

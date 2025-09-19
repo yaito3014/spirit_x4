@@ -11,7 +11,7 @@
 
 #include <utility>
 
-namespace boost::spirit::x4::alloy::detail
+namespace boost::spirit::alloy::detail
 {
     template <typename IntegerSeq, template <typename IntegerSeq::value_type> typename F>
     struct integer_seq_transform;
@@ -24,6 +24,6 @@ namespace boost::spirit::x4::alloy::detail
 
     template <typename IntegerSeq, template <typename IntegerSeq::value_type> typename F>
     using integer_seq_transform_t = typename integer_seq_transform<IntegerSeq, F>::type;
-} // boost::spirit::x4::alloy::detail
+} // boost::spirit::alloy::detail
 
 #endif
