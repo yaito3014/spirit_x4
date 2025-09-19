@@ -173,4 +173,6 @@ int main()
         BOOST_TEST(boost::spirit::x4::alloy::get<1>(t) == 3.14);
         BOOST_TEST(boost::spirit::x4::alloy::get<2>(t) == 'A');
     }
+
+    return boost::report_errors();
 }
