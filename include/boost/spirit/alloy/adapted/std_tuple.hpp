@@ -7,7 +7,7 @@
 #ifndef BOOST_SPIRIT_X4_ALLOY_ADAPTED_STD_TUPLE_HPP
 #define BOOST_SPIRIT_X4_ALLOY_ADAPTED_STD_TUPLE_HPP
 
-#include <boost/spirit/x4/alloy/detail/integer_seq_transform.hpp>
+#include <boost/spirit/alloy/detail/integer_seq_transform.hpp>
 
 #include <tuple>
 #include <utility>
