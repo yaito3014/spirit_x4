@@ -7,7 +7,7 @@
 #ifndef BOOST_SPIRIT_X4_ALLOY_DETAIL_INTEGER_SEQ_TRANSFORM_HPP
 #define BOOST_SPIRIT_X4_ALLOY_DETAIL_INTEGER_SEQ_TRANSFORM_HPP
 
-#include <boost/spirit/x4/alloy/non_type_list.hpp>
+#include <boost/spirit/alloy/non_type_list.hpp>
 
 #include <utility>
 

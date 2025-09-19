@@ -9,11 +9,11 @@
 
 #include <boost/spirit/config.hpp>
 
-#include <boost/spirit/x4/alloy/detail/combine_ref.hpp>
-#include <boost/spirit/x4/alloy/detail/forward_like_t.hpp>
-#include <boost/spirit/x4/alloy/detail/pack_indexing.hpp>
+#include <boost/spirit/alloy/detail/combine_ref.hpp>
+#include <boost/spirit/alloy/detail/forward_like_t.hpp>
+#include <boost/spirit/alloy/detail/pack_indexing.hpp>
 
-#include <boost/spirit/x4/alloy/value_initialize.hpp>
+#include <boost/spirit/alloy/value_initialize.hpp>
 
 #include <type_traits>
 
