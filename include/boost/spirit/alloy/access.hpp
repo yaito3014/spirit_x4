@@ -55,4 +55,4 @@ namespace boost::spirit::alloy
     }
 } // boost::spirit::alloy
 
-#endif // BOOST_SPIRIT_ALLOY_ACCESS_HPP
+#endif
