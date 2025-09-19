@@ -7,6 +7,8 @@
 #ifndef BOOST_SPIRIT_X4_ALLOY_DETAIL_TUPLE_IMPL_HPP
 #define BOOST_SPIRIT_X4_ALLOY_DETAIL_TUPLE_IMPL_HPP
 
+#include <boost/spirit/config.hpp>
+
 #include <boost/spirit/x4/alloy/detail/combine_ref.hpp>
 #include <boost/spirit/x4/alloy/detail/forward_like_t.hpp>
 #include <boost/spirit/x4/alloy/detail/pack_indexing.hpp>
@@ -16,28 +18,6 @@
 #include <type_traits>
 
 #include <cstddef>
-
-#ifdef _MSC_VER // MSVC
-
-#if _MSC_VER < 1929 // VS 2019 v16.9 or before
-
-#define BOOST_SPIRIT_X4_ALLOY_DETAIL_NO_UNIQUE_ADDRESS
-
-#elifdef __INTELLISENSE__ // Memory Layout view shows wrong layout without this workaround
-
-#define BOOST_SPIRIT_X4_ALLOY_DETAIL_NO_UNIQUE_ADDRESS [[msvc::no_unique_address, no_unique_address]]
-
-#else // normal MSVC
-
-#define BOOST_SPIRIT_X4_ALLOY_DETAIL_NO_UNIQUE_ADDRESS [[msvc::no_unique_address]]
-
-#endif
-
-#else // other compilers
-
-#define BOOST_SPIRIT_X4_ALLOY_DETAIL_NO_UNIQUE_ADDRESS [[no_unique_address]]
-
-#endif
 
 namespace boost::spirit::x4::alloy::detail
 {
@@ -60,8 +40,8 @@ namespace boost::spirit::x4::alloy::detail
     class tuple_impl<T0, Ts...>
     {
     public:
-        BOOST_SPIRIT_X4_ALLOY_DETAIL_NO_UNIQUE_ADDRESS T0 _0;
-        BOOST_SPIRIT_X4_ALLOY_DETAIL_NO_UNIQUE_ADDRESS tuple_impl<Ts...> rest;
+        BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
+        BOOST_SPIRIT_NO_UNIQUE_ADDRESS tuple_impl<Ts...> rest;
 
         explicit tuple_impl() = default;
         
@@ -86,7 +66,5 @@ namespace boost::spirit::x4::alloy::detail
         }
     };
 } // boost::spirit::x4::alloy::detail
-
-#undef BOOST_SPIRIT_X4_ALLOY_DETAIL_NO_UNIQUE_ADDRESS
 
 #endif
