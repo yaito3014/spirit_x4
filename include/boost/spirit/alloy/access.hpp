@@ -1,11 +1,12 @@
+#ifndef BOOST_SPIRIT_ALLOY_ACCESS_HPP
+#define BOOST_SPIRIT_ALLOY_ACCESS_HPP
+
 /*=============================================================================
     Copyright (c) 2025 Yaito Kakeyama
 
     Distributed under the Boost Software License, Version 1.0. (See accompanying
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
-#ifndef BOOST_SPIRIT_ALLOY_ACCESS_HPP
-#define BOOST_SPIRIT_ALLOY_ACCESS_HPP
 
 #include <boost/spirit/alloy/non_type_list.hpp>
 
