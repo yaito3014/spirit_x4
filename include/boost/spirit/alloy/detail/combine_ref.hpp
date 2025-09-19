@@ -9,7 +9,7 @@
 
 #include <type_traits>
 
-namespace boost::spirit::x4::alloy::detail
+namespace boost::spirit::alloy::detail
 {
     template <typename From, typename To>
     struct combine_ref {
@@ -42,6 +42,6 @@ namespace boost::spirit::x4::alloy::detail
 
     template <typename From, typename To>
     using combine_ref_t = typename combine_ref<From, To>::type;
-} // boost::spirit::x4::alloy::detail
+} // boost::spirit::alloy::detail
 
 #endif

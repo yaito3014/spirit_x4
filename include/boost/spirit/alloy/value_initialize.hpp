@@ -7,11 +7,11 @@
 #ifndef BOOST_SPIRIT_X4_ALLOY_VALUE_INITIALIZE_HPP
 #define BOOST_SPIRIT_X4_ALLOY_VALUE_INITIALIZE_HPP
 
-namespace boost::spirit::x4::alloy
+namespace boost::spirit::alloy
 {
     struct value_initialize_t {};
 
     inline constexpr value_initialize_t value_initialize{};
-} // boost::spirit::x4::alloy
+} // boost::spirit::alloy
 
 #endif

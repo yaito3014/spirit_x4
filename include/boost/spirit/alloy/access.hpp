@@ -15,7 +15,7 @@
 
 #include <cstddef>
 
-namespace boost::spirit::x4::alloy
+namespace boost::spirit::alloy
 {
     template <typename T>
     struct adaptor;
@@ -53,6 +53,6 @@ namespace boost::spirit::x4::alloy
     {
         return std::invoke(adaptor<std::remove_cvref_t<T>>::getters::template get<I>, std::forward<T>(x));
     }
-} // boost::spirit::x4::alloy
+} // boost::spirit::alloy
 
 #endif // BOOST_SPIRIT_X4_ALLOY_ACCESS_HPP

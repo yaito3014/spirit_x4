@@ -11,7 +11,7 @@
 
 #include <utility>
 
-namespace boost::spirit::x4::alloy
+namespace boost::spirit::alloy
 {
     template <typename T>
     struct adaptor;
@@ -21,6 +21,6 @@ namespace boost::spirit::x4::alloy
     {
         using getters = non_type_list<&std::pair<T, U>::first, &std::pair<T, U>::second>;
     };
-} // boost::spirit::x4::alloy
+} // boost::spirit::alloy
 
 #endif
