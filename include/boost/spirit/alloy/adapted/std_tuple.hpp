@@ -14,7 +14,7 @@
 
 #include <cstddef>
 
-namespace boost::spirit::x4::alloy
+namespace boost::spirit::alloy
 {
     template <typename T>
     struct adaptor;
@@ -46,6 +46,6 @@ namespace boost::spirit::x4::alloy
     {
         using getters = detail::integer_seq_transform_t<std::make_index_sequence<sizeof...(Ts)>, detail::make_call_std_get>;
     };
-} // boost::spirit::x4::alloy
+} // boost::spirit::alloy
 
 #endif

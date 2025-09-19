@@ -15,7 +15,7 @@
 
 #include <boost/spirit/alloy/value_initialize.hpp>
 
-namespace boost::spirit::x4::alloy
+namespace boost::spirit::alloy
 {
     template <typename... Ts>
     class tuple : public detail::tuple_impl<Ts...>
@@ -124,6 +124,6 @@ namespace boost::spirit::x4::alloy
     {
         using getters = detail::integer_seq_transform_t<std::make_index_sequence<sizeof...(Ts)>, detail::make_call_alloy_get>;
     };
-} // boost::spirit::x4::alloy
+} // boost::spirit::alloy
 
 #endif

@@ -11,7 +11,7 @@
 
 #include <cstddef>
 
-namespace boost::spirit::x4::alloy::detail
+namespace boost::spirit::alloy::detail
 {
     template <std::size_t I, typename... Ts>
     struct type_pack_indexing;
@@ -58,6 +58,6 @@ namespace boost::spirit::x4::alloy::detail
     template <std::size_t I, auto V, auto... Vs>
     struct non_type_pack_indexing<I, V, Vs...> : non_type_pack_indexing<I - 1, Vs...> {};
 #endif
-} // boost::spirit::x4::alloy::detail
+} // boost::spirit::alloy::detail
 
 #endif
