@@ -4,8 +4,8 @@
     Distributed under the Boost Software License, Version 1.0. (See accompanying
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
-#ifndef BOOST_SPIRIT_X4_ALLOY_ACCESS_HPP
-#define BOOST_SPIRIT_X4_ALLOY_ACCESS_HPP
+#ifndef BOOST_SPIRIT_ALLOY_ACCESS_HPP
+#define BOOST_SPIRIT_ALLOY_ACCESS_HPP
 
 #include <boost/spirit/alloy/non_type_list.hpp>
 
@@ -55,4 +55,4 @@ namespace boost::spirit::alloy
     }
 } // boost::spirit::alloy
 
-#endif // BOOST_SPIRIT_X4_ALLOY_ACCESS_HPP
+#endif // BOOST_SPIRIT_ALLOY_ACCESS_HPP
