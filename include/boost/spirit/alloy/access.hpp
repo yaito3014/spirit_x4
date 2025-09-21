@@ -39,7 +39,7 @@ namespace boost::spirit::alloy
     }
 
     namespace result_of
-    {   
+    {
         // `std::invoke_result_t` MUST NOT be used here due to its side effects:
         // <https://eel.is/c++draft/meta.trans.other#tab:meta.trans.other-row-11-column-2-note-2>
         template <std::size_t I, typename T>
