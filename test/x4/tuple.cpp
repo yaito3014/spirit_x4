@@ -10,6 +10,7 @@
 #include <boost/spirit/alloy/access.hpp>
 #include <boost/spirit/alloy/adapted.hpp>
 #include <boost/spirit/alloy/tuple.hpp>
+#include <boost/spirit/alloy/utility.hpp>
 
 #include <tuple>
 #include <type_traits>
@@ -172,6 +173,14 @@ int main()
         BOOST_TEST(boost::spirit::alloy::get<0>(t) == 42);
         BOOST_TEST(boost::spirit::alloy::get<1>(t) == 3.14);
         BOOST_TEST(boost::spirit::alloy::get<2>(t) == 'A');
+    }
+
+    {
+        constexpr boost::spirit::alloy::tuple<int> a(42);
+        constexpr boost::spirit::alloy::tuple<double> b(3.14);
+        constexpr auto c = boost::spirit::alloy::tuple_cat(a, b);
+        static_assert(boost::spirit::alloy::get<0>(c) == 42);
+        static_assert(boost::spirit::alloy::get<1>(c) == 3.14);
     }
 
     return boost::report_errors();
