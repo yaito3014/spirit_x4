@@ -165,6 +165,28 @@ struct index_sequence_cumulative_sum<std::index_sequence<Is...>>
 template<class IndexSeq>
 using index_sequence_cumulative_sum_t = typename index_sequence_cumulative_sum<IndexSeq>::type;
 
+template<class IndexSeq, class FromIndexSeq, class ToIndexSeq>
+struct index_sequence_segment_impl;
+
+template<class IndexSeq, std::size_t... Froms, std::size_t... Tos>
+struct index_sequence_segment_impl<IndexSeq, std::index_sequence<Froms...>, std::index_sequence<Tos...>> {
+    using type = type_list<index_sequence_subrange_t<Froms, Tos, IndexSeq>...>;
+};
+
+template<class IndexSeq, std::size_t... Sizes>
+struct index_sequence_segment;
+
+template<std::size_t... Is, std::size_t... Sizes>
+struct index_sequence_segment<std::index_sequence<Is...>, Sizes...> {
+    using CumSumIndexSeq = index_sequence_cumulative_sum_t<std::index_sequence<Sizes...>>;
+
+    using type = typename index_sequence_segment_impl0<
+        std::index_sequence<Is...>, index_sequence_take_t<sizeof...(Sizes), CumSumIndexSeq>, index_sequence_drop_t<1, CumSumIndexSeq>>::type;
+};
+
+template<class IndexSeq, std::size_t... Sizes>
+using index_sequence_segment_t = typename index_sequence_segment<IndexSeq, Sizes...>::type;
+
 template<class Tuple, class IndexSeq>
 struct tuple_from_tuple_and_index_sequence;
 
@@ -177,20 +199,19 @@ struct tuple_from_tuple_and_index_sequence<Tuple, std::index_sequence<Is...>>
 template<class Tuple, class IndexSeq>
 using tuple_from_tuple_and_index_sequence_t = typename tuple_from_tuple_and_index_sequence<Tuple, IndexSeq>::type;
 
-template<class Tuple, class FromIndexSeq, class ToIndexSeq>
+template<class Tuple, class SegmentedIndexSeqList>
 struct tuple_split_result_impl;
 
-template<class Tuple, std::size_t... Froms, std::size_t... Tos>
-struct tuple_split_result_impl<Tuple, std::index_sequence<Froms...>, std::index_sequence<Tos...>>
+template<class Tuple, class... SegmentedIndexSeqs>
+struct tuple_split_result_impl<Tuple, type_list<SegmentedIndexSeqs...>>
 {
-    using type = tuple<tuple_from_tuple_and_index_sequence_t<Tuple, index_sequence_subrange_t<Froms, Tos, std::make_index_sequence<result_of::size<Tuple>>>>...>;
+    using type = tuple<tuple_from_tuple_and_index_sequence_t<Tuple, SegmentedIndexSeqs>...>;
 };
 
 template<class Tuple, std::size_t... Sizes>
 struct tuple_split_result
 {
-    using CumSumIndexSeq = index_sequence_cumulative_sum_t<std::index_sequence<Sizes...>>;
-    using type = typename tuple_split_result_impl<Tuple, index_sequence_take_t<sizeof...(Sizes), CumSumIndexSeq>, index_sequence_drop_t<1, CumSumIndexSeq>>::type;
+    using type = typename tuple_split_result_impl<Tuple, index_sequence_segment_t<std::make_index_sequence<result_of::size<Tuple>>, Sizes...>>::type;
 };
 
 template<class Tuple, std::size_t... Sizes>
@@ -212,25 +233,21 @@ struct tuple_split_make_inner<std::index_sequence<Is...>>
     }
 };
 
-template<class ResultTuple, class... IndexSeqs>
+template<class ResultTuple, class SegmentedIndexSeqList>
 struct tuple_split_make_outer;
 
-template<class... ResultInnerTuples, class... IndexSeqs>
-struct tuple_split_make_outer<tuple<ResultInnerTuples...>, IndexSeqs...>
+template<class... ResultInnerTuples, class... SegmentedIndexSeqs>
+struct tuple_split_make_outer<tuple<ResultInnerTuples...>, type_list<SegmentedIndexSeqs...>>
 {
     template<class Tuple>
     static constexpr tuple<ResultInnerTuples...> apply(Tuple&& t)
     {
-        return tuple<ResultInnerTuples...>(tuple_split_make_inner<IndexSeqs>::apply(std::forward<Tuple>(t))...);
+        return tuple<ResultInnerTuples...>(tuple_split_make_inner<SegmentedIndexSeqs>::apply(std::forward<Tuple>(t))...);
     }
 };
 
-template<class ResultTuple, class IdxIndexSeq, class FromIndexSeq, class ToIndexSeq>
-struct tuple_split_impl;
-
-template<class ResultTuple, class IdxIndexSeq, std::size_t... Froms, std::size_t... Tos>
-struct tuple_split_impl<ResultTuple, IdxIndexSeq, std::index_sequence<Froms...>, std::index_sequence<Tos...>>
-    : tuple_split_make_outer<ResultTuple, index_sequence_subrange_t<Froms, Tos, IdxIndexSeq>...> {};
+template<class ResultTuple, class Tuple, std::size_t... Sizes>
+struct tuple_split_impl : tuple_split_make_outer<ResultTuple, index_sequence_segment_t<std::make_index_sequence<result_of::size<Tuple>>, Sizes...>> {};
 
 } // detail
 
@@ -247,13 +264,7 @@ template<std::size_t... Sizes, class Tuple>
 constexpr detail::tuple_split_result_t<Tuple, Sizes...> tuple_split(Tuple&& t)
 {
     static_assert((0 + ... + Sizes) == result_of::size<Tuple>);
-    using CumSumIndexSeq = detail::index_sequence_cumulative_sum_t<std::index_sequence<Sizes...>>;
-    using Impl = detail::tuple_split_impl<
-        detail::tuple_split_result_t<Tuple, Sizes...>,
-        std::make_index_sequence<result_of::size<Tuple>>,
-        detail::index_sequence_take_t<sizeof...(Sizes), CumSumIndexSeq>,
-        detail::index_sequence_drop_t<1, CumSumIndexSeq>
-    >;
+    using Impl = detail::tuple_split_impl<detail::tuple_split_result_t<Tuple, Sizes...>, Tuple, Sizes...>;
     return Impl::apply(std::forward<Tuple>(t));
 }
 
