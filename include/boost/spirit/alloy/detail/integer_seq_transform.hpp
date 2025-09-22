@@ -14,16 +14,16 @@
 
 namespace boost::spirit::alloy::detail {
 
-template <class IntegerSeq, template <typename IntegerSeq::value_type> class F>
+template<class IntegerSeq, template <typename IntegerSeq::value_type> class F>
 struct integer_seq_transform;
 
-template <class T, T... Is, template <T> class F>
+template<class T, T... Is, template <T> class F>
 struct integer_seq_transform<std::integer_sequence<T, Is...>, F>
 {
     using type = non_type_list<F<Is>::value...>;
 };
 
-template <class IntegerSeq, template <typename IntegerSeq::value_type> class F>
+template<class IntegerSeq, template <typename IntegerSeq::value_type> class F>
 using integer_seq_transform_t = typename integer_seq_transform<IntegerSeq, F>::type;
 
 } // boost::spirit::alloy::detail
