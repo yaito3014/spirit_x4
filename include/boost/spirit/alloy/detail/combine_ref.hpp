@@ -10,39 +10,40 @@
 
 #include <type_traits>
 
-namespace boost::spirit::alloy::detail
+namespace boost::spirit::alloy::detail {
+
+template <class From, class To>
+struct combine_ref {
+    static_assert(std::is_reference_v<From>);
+};
+
+template <class T, class To>
+struct combine_ref<T&, To>
 {
-    template <typename From, typename To>
-    struct combine_ref {
-        static_assert(std::is_reference_v<From>);
-    };
+    using type = To&;
+};
 
-    template <typename T, typename To>
-    struct combine_ref<T&, To>
-    {
-        using type = To&;
-    };
-    
-    template <typename T, typename To>
-    struct combine_ref<T const&, To>
-    {
-        using type = To const&;
-    };
-    
-    template <typename T, typename To>
-    struct combine_ref<T&&, To>
-    {
-        using type = To&&;
-    };
-    
-    template <typename T, typename To>
-    struct combine_ref<T const&&, To>
-    {
-        using type = To const&&;
-    };
+template <class T, class To>
+struct combine_ref<T const&, To>
+{
+    using type = To const&;
+};
 
-    template <typename From, typename To>
-    using combine_ref_t = typename combine_ref<From, To>::type;
+template <class T, class To>
+struct combine_ref<T&&, To>
+{
+    using type = To&&;
+};
+
+template <class T, class To>
+struct combine_ref<T const&&, To>
+{
+    using type = To const&&;
+};
+
+template <class From, class To>
+using combine_ref_t = typename combine_ref<From, To>::type;
+
 } // boost::spirit::alloy::detail
 
 #endif
