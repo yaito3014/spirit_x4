@@ -12,16 +12,17 @@
 
 #include <utility>
 
-namespace boost::spirit::alloy
-{
-    template <typename T>
-    struct adaptor;
+namespace boost::spirit::alloy {
 
-    template <typename T, typename U>
-    struct adaptor<std::pair<T, U>>
-    {
-        using getters = non_type_list<&std::pair<T, U>::first, &std::pair<T, U>::second>;
-    };
+template <class T>
+struct adaptor;
+
+template <class T, class U>
+struct adaptor<std::pair<T, U>>
+{
+    using getters = non_type_list<&std::pair<T, U>::first, &std::pair<T, U>::second>;
+};
+
 } // boost::spirit::alloy
 
 #endif
