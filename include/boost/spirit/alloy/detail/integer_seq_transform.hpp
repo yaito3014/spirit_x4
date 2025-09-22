@@ -12,19 +12,20 @@
 
 #include <utility>
 
-namespace boost::spirit::alloy::detail
-{
-    template <typename IntegerSeq, template <typename IntegerSeq::value_type> typename F>
-    struct integer_seq_transform;
-    
-    template <typename T, T... Is, template <T> typename F>
-    struct integer_seq_transform<std::integer_sequence<T, Is...>, F>
-    {
-        using type = non_type_list<F<Is>::value...>;
-    };
+namespace boost::spirit::alloy::detail {
 
-    template <typename IntegerSeq, template <typename IntegerSeq::value_type> typename F>
-    using integer_seq_transform_t = typename integer_seq_transform<IntegerSeq, F>::type;
+template <class IntegerSeq, template <typename IntegerSeq::value_type> class F>
+struct integer_seq_transform;
+
+template <class T, T... Is, template <T> class F>
+struct integer_seq_transform<std::integer_sequence<T, Is...>, F>
+{
+    using type = non_type_list<F<Is>::value...>;
+};
+
+template <class IntegerSeq, template <typename IntegerSeq::value_type> class F>
+using integer_seq_transform_t = typename integer_seq_transform<IntegerSeq, F>::type;
+
 } // boost::spirit::alloy::detail
 
 #endif

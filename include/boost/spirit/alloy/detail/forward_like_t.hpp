@@ -10,10 +10,9 @@
 
 #include <utility>
 
-namespace boost::spirit::alloy::detail
-{
+namespace boost::spirit::alloy::detail {
 
-template <typename T, typename U>
+template <class T, class U>
 using forward_like_t = decltype(std::forward_like<T>(std::declval<U>()));
 
 } // boost::spirit::alloy::detail
