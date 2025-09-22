@@ -182,6 +182,12 @@ int main()
         static_assert(boost::spirit::alloy::get<0>(c) == 42);
         static_assert(boost::spirit::alloy::get<1>(c) == 3.14);
     }
+    {
+        constexpr boost::spirit::alloy::tuple<int, double> a(42, 3.14);
+        constexpr auto b = boost::spirit::alloy::tuple_split<1, 1>(a);
+        static_assert(boost::spirit::alloy::get<0>(boost::spirit::alloy::get<0>(b)) == 42);
+        static_assert(boost::spirit::alloy::get<0>(boost::spirit::alloy::get<1>(b)) == 3.14);
+    }
 
     return boost::report_errors();
 }
