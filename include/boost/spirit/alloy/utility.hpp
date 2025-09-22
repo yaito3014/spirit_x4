@@ -190,7 +190,7 @@ template<class Tuple, std::size_t... Sizes>
 struct tuple_split_result
 {
     using CumSumIndexSeq = index_sequence_cumulative_sum_t<std::index_sequence<Sizes...>>;
-    using type = typename tuple_split_result_impl<Tuple, index_sequence_take_t<result_of::size<Tuple>, CumSumIndexSeq>, index_sequence_drop_t<1, CumSumIndexSeq>>::type;
+    using type = typename tuple_split_result_impl<Tuple, index_sequence_take_t<sizeof...(Sizes), CumSumIndexSeq>, index_sequence_drop_t<1, CumSumIndexSeq>>::type;
 };
 
 template<class Tuple, std::size_t... Sizes>
@@ -251,7 +251,7 @@ constexpr detail::tuple_split_result_t<Tuple, Sizes...> tuple_split(Tuple&& t)
     using Impl = detail::tuple_split_impl<
         detail::tuple_split_result_t<Tuple, Sizes...>,
         std::make_index_sequence<result_of::size<Tuple>>,
-        detail::index_sequence_take_t<result_of::size<Tuple>, CumSumIndexSeq>,
+        detail::index_sequence_take_t<sizeof...(Sizes), CumSumIndexSeq>,
         detail::index_sequence_drop_t<1, CumSumIndexSeq>
     >;
     return Impl::apply(std::forward<Tuple>(t));
