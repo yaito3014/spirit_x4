@@ -8,7 +8,7 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
-#include <boost/spirit/alloy/detail/combine_ref.hpp>
+#include <boost/spirit/alloy/detail/combine_cvref.hpp>
 #include <boost/spirit/alloy/detail/forward_like_t.hpp>
 #include <boost/spirit/alloy/detail/integer_seq_transform.hpp>
 #include <boost/spirit/alloy/detail/pack_indexing.hpp>
@@ -66,7 +66,7 @@ class tuple : public detail::tuple_impl<Ts...>
     {}
 
     template<std::size_t I, class Self>
-    constexpr detail::combine_ref_t<Self&&, detail::type_pack_indexing_t<I, Ts...>> get(this Self&& self) noexcept
+    constexpr detail::combine_cvref_t<Self&&, detail::type_pack_indexing_t<I, Ts...>> get(this Self&& self) noexcept
     {
         static_assert(I < sizeof...(Ts));
         return ((detail::forward_like_t<Self, tuple>)self).base_type::template get<I>();
