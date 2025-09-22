@@ -8,11 +8,12 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
-namespace boost::spirit::alloy
-{
-    struct value_initialize_t {};
+namespace boost::spirit::alloy {
 
-    inline constexpr value_initialize_t value_initialize{};
+struct value_initialize_t {};
+
+inline constexpr value_initialize_t value_initialize{};
+
 } // boost::spirit::alloy
 
 #endif

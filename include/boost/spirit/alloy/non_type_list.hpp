@@ -14,28 +14,30 @@
 
 #include <cstddef>
 
-namespace boost::spirit::alloy
+namespace boost::spirit::alloy {
+
+template<auto... Vs>
+struct non_type_list
 {
-    template <auto... Vs>
-    struct non_type_list
-    {
-        static constexpr std::size_t size = sizeof...(Vs);
+    static constexpr std::size_t size = sizeof...(Vs);
 
-        template <std::size_t I>
-        static constexpr auto get = detail::non_type_pack_indexing_v<I, Vs...>;
-    };
+    template<std::size_t I>
+    static constexpr auto get = detail::non_type_pack_indexing_v<I, Vs...>;
+};
 
-    namespace detail
-    {
-        template <typename T>
-        struct is_non_type_list : std::false_type {};
+namespace detail {
 
-        template <auto... Vs>
-        struct is_non_type_list<non_type_list<Vs...>> : std::true_type {};
+template<class T>
+struct is_non_type_list : std::false_type {};
 
-        template <typename T>
-        concept NonTypeList = is_non_type_list<T>::value;
-    } // detail
+template<auto... Vs>
+struct is_non_type_list<non_type_list<Vs...>> : std::true_type {};
+
+template<class T>
+concept NonTypeList = is_non_type_list<T>::value;
+
+} // detail
+
 } // boost::spirit::alloy
 
 #endif
