@@ -22,10 +22,10 @@
 
 namespace boost::spirit::alloy::detail {
 
-template <class... Ts>
+template<class... Ts>
 class tuple_impl;
 
-template <>
+template<>
 class tuple_impl<>
 {
 public:
@@ -38,7 +38,7 @@ public:
     constexpr tuple_impl(value_initialize_t) noexcept {}
 };
 
-template <class T0, class... Ts>
+template<class T0, class... Ts>
 class tuple_impl<T0, Ts...>
 {
 public:
@@ -55,12 +55,12 @@ public:
         noexcept(std::conjunction_v<std::is_nothrow_default_constructible<T0>, std::is_nothrow_default_constructible<Ts>...>)
         : _0{}, rest(vi) {}
     
-    template <class U0, class... Us>
+    template<class U0, class... Us>
     constexpr explicit tuple_impl(U0&& u0, Us&&... us)
         noexcept(std::conjunction_v<std::is_nothrow_constructible<T0, U0>, std::is_nothrow_constructible<Ts, Us>...>)
         : _0(static_cast<U0&&>(u0)), rest(static_cast<Us&&>(us)...) {}
     
-    template <std::size_t I, class Self>
+    template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, Ts...>> get(this Self&& self) noexcept
     {
         if constexpr (I == 0) return ((forward_like_t<Self, tuple_impl>)self)._0;

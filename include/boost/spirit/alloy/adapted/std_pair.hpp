@@ -14,10 +14,10 @@
 
 namespace boost::spirit::alloy {
 
-template <class T>
+template<class T>
 struct adaptor;
 
-template <class T, class U>
+template<class T, class U>
 struct adaptor<std::pair<T, U>>
 {
     using getters = non_type_list<&std::pair<T, U>::first, &std::pair<T, U>::second>;
