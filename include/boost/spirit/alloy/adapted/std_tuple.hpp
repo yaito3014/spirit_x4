@@ -17,15 +17,15 @@
 
 namespace boost::spirit::alloy {
 
-template <class T>
+template<class T>
 struct adaptor;
 
-template <auto... Vs>
+template<auto... Vs>
 struct non_type_list;
 
 namespace detail {
 
-template <std::size_t I>
+template<std::size_t I>
 struct call_std_get
 {
     template <class Tuple>
@@ -35,7 +35,7 @@ struct call_std_get
     }
 };
 
-template <std::size_t I>
+template<std::size_t I>
 struct make_call_std_get
 {
     static constexpr auto value = call_std_get<I>{};
@@ -43,7 +43,7 @@ struct make_call_std_get
 
 } // detail
 
-template <class... Ts>
+template<class... Ts>
 struct adaptor<std::tuple<Ts...>>
 {
     using getters = detail::integer_seq_transform_t<std::make_index_sequence<sizeof...(Ts)>, detail::make_call_std_get>;

@@ -12,7 +12,7 @@
 
 namespace boost::spirit::alloy::detail {
 
-template <class T, class U>
+template<class T, class U>
 using forward_like_t = decltype(std::forward_like<T>(std::declval<U>()));
 
 } // boost::spirit::alloy::detail
