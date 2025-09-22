@@ -10,7 +10,7 @@
 
 #include <boost/spirit/config.hpp>
 
-#include <boost/spirit/alloy/detail/combine_ref.hpp>
+#include <boost/spirit/alloy/detail/combine_cvref.hpp>
 #include <boost/spirit/alloy/detail/forward_like_t.hpp>
 #include <boost/spirit/alloy/detail/pack_indexing.hpp>
 
@@ -61,7 +61,7 @@ public:
         : _0(static_cast<U0&&>(u0)), rest(static_cast<Us&&>(us)...) {}
     
     template <std::size_t I, class Self>
-    constexpr combine_ref_t<Self&&, type_pack_indexing_t<I, T0, Ts...>> get(this Self&& self) noexcept
+    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, Ts...>> get(this Self&& self) noexcept
     {
         if constexpr (I == 0) return ((forward_like_t<Self, tuple_impl>)self)._0;
         else return ((forward_like_t<Self, tuple_impl>)self).rest.template get<I - 1>();
