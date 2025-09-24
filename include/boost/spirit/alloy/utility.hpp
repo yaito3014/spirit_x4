@@ -169,7 +169,8 @@ template<class IndexSeq, class FromIndexSeq, class ToIndexSeq>
 struct index_sequence_segment_impl;
 
 template<class IndexSeq, std::size_t... Froms, std::size_t... Tos>
-struct index_sequence_segment_impl<IndexSeq, std::index_sequence<Froms...>, std::index_sequence<Tos...>> {
+struct index_sequence_segment_impl<IndexSeq, std::index_sequence<Froms...>, std::index_sequence<Tos...>>
+{
     using type = type_list<index_sequence_subrange_t<Froms, Tos, IndexSeq>...>;
 };
 
@@ -177,11 +178,12 @@ template<class IndexSeq, std::size_t... Sizes>
 struct index_sequence_segment;
 
 template<std::size_t... Is, std::size_t... Sizes>
-struct index_sequence_segment<std::index_sequence<Is...>, Sizes...> {
+struct index_sequence_segment<std::index_sequence<Is...>, Sizes...>
+{
     using CumSumIndexSeq = index_sequence_cumulative_sum_t<std::index_sequence<Sizes...>>;
 
-    using type = typename index_sequence_segment_impl<
-        std::index_sequence<Is...>, index_sequence_take_t<sizeof...(Sizes), CumSumIndexSeq>, index_sequence_drop_t<1, CumSumIndexSeq>>::type;
+    using type = typename index_sequence_segment_impl<std::index_sequence<Is...>, index_sequence_take_t<sizeof...(Sizes), CumSumIndexSeq>,
+                                                      index_sequence_drop_t<1, CumSumIndexSeq>>::type;
 };
 
 template<class IndexSeq, std::size_t... Sizes>
@@ -229,7 +231,7 @@ struct tuple_split_make_inner<std::index_sequence<Is...>>
     template<class Tuple>
     static constexpr ResultInnerTuple<Tuple> apply(Tuple&& t)
     {
-        return ResultInnerTuple<Tuple> (alloy::get<Is>(std::forward<Tuple>(t))...);
+        return ResultInnerTuple<Tuple>(alloy::get<Is>(std::forward<Tuple>(t))...);
     }
 };
 
