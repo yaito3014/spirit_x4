@@ -8,6 +8,8 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
+#include <boost/spirit/alloy/detail/deduce.hpp>
+
 #include <boost/spirit/alloy/access.hpp>
 #include <boost/spirit/alloy/tuple.hpp>
 
@@ -19,31 +21,6 @@
 namespace boost::spirit::alloy {
 
 namespace detail {
-
-template<class FromLValue, class FromXValue>
-struct deduce
-{
-    static_assert(std::conjunction_v<std::is_lvalue_reference<FromLValue>, std::is_reference<FromXValue>,
-                                     std::is_same<std::remove_reference_t<FromLValue>, std::remove_reference_t<FromXValue>>>);
-};
-
-template<class T>
-struct deduce<T&, T&>
-{
-    using type = T&;
-};
-
-template<class T>
-struct deduce<T&, T&&>
-{
-    using type = T;
-};
-
-template<class FromLValue, class FromXValue>
-using deduce_t = typename deduce<FromLValue, FromXValue>::type;
-
-template<std::size_t I, class Tuple>
-using tuple_deduce_t = deduce_t<result_of::get<I, std::remove_cvref_t<Tuple>&>, result_of::get<I, std::remove_cvref_t<Tuple>&&>>;
 
 template<class... Ts>
 struct type_list;
