@@ -8,7 +8,7 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
-#include <boost/spirit/alloy/non_type_list.hpp>
+#include <boost/spirit/alloy/tuple_like.hpp>
 
 #include <functional>
 #include <type_traits>
@@ -18,13 +18,8 @@
 
 namespace boost::spirit::alloy {
 
-template<class T>
-struct adaptor;
-
-template<class T>
-concept TupleLike = detail::NonTypeList<typename adaptor<T>::getters>;
-
 namespace result_of {
+
 template<class T>
     requires TupleLike<std::remove_cvref_t<T>>
 inline constexpr std::size_t size = adaptor<std::remove_cvref_t<T>>::getters::size;
