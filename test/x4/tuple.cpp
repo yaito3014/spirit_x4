@@ -10,6 +10,8 @@
 #include <boost/spirit/alloy/access.hpp>
 #include <boost/spirit/alloy/adapted.hpp>
 #include <boost/spirit/alloy/tuple.hpp>
+#include <boost/spirit/alloy/tuple_like.hpp>
+#include <boost/spirit/alloy/tuple_like_view.hpp>
 #include <boost/spirit/alloy/utility.hpp>
 
 #include <tuple>
@@ -115,6 +117,7 @@ int main()
         using Tuple = boost::spirit::alloy::tuple<int&, double&, char&>;
 
         static_assert(boost::spirit::alloy::TupleLike<Tuple>);
+        static_assert(boost::spirit::alloy::TupleLikeView<Tuple>);
 
         static_assert(boost::spirit::alloy::result_of::size<Tuple> == 3);
 
@@ -147,6 +150,7 @@ int main()
         using Tuple = boost::spirit::alloy::tuple<int const&, double const&, char const&>;
 
         static_assert(boost::spirit::alloy::TupleLike<Tuple>);
+        static_assert(boost::spirit::alloy::TupleLikeView<Tuple>);
 
         static_assert(boost::spirit::alloy::result_of::size<Tuple> == 3);
 
