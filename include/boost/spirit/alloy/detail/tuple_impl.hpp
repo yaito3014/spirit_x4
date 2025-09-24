@@ -41,6 +41,8 @@ public:
 template<class T0, class... Ts>
 class tuple_impl<T0, Ts...>
 {
+    template<class... Us>
+    friend class tuple_impl;
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS tuple_impl<Ts...> rest;
@@ -57,10 +59,31 @@ public:
     {}
 
     template<class U0, class... Us>
+        requires (sizeof...(Ts) == sizeof...(Us))
     constexpr explicit tuple_impl(U0&& u0, Us&&... us)
         noexcept(std::conjunction_v<std::is_nothrow_constructible<T0, U0>, std::is_nothrow_constructible<Ts, Us>...>)
         : _0(static_cast<U0&&>(u0)), rest(static_cast<Us&&>(us)...)
     {}
+
+    template<class U0, class... Us>
+    constexpr explicit tuple_impl(tuple_impl<U0, Us...>& other)
+        noexcept(std::conjunction_v<std::is_nothrow_constructible<T0, U0&>, std::is_nothrow_constructible<Ts, Us&>...>)
+        : _0(other._0), rest(other.rest) {}
+    
+    template<class U0, class... Us>
+    constexpr explicit tuple_impl(tuple_impl<U0, Us...> const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_constructible<T0, U0 const&>, std::is_nothrow_constructible<Ts, Us const&>...>)
+        : _0(other._0), rest(other.rest) {}
+    
+    template<class U0, class... Us>
+    constexpr explicit tuple_impl(tuple_impl<U0, Us...>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_constructible<T0, U0&&>, std::is_nothrow_constructible<Ts, Us&&>...>)
+        : _0(static_cast<tuple_impl<U0, Us...>&&>(other)._0), rest(static_cast<tuple_impl<U0, Us...>&&>(other).rest) {}
+    
+    template<class U0, class... Us>
+    constexpr explicit tuple_impl(tuple_impl<U0, Us...> const&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_constructible<T0, U0 const&&>, std::is_nothrow_constructible<Ts, Us const&&>...>)
+        : _0(static_cast<tuple_impl<U0, Us...>&&>(other)._0), rest(static_cast<tuple_impl<U0, Us...>&&>(other).rest) {}
 
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, Ts...>> get(this Self&& self) noexcept

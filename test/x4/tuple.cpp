@@ -9,6 +9,7 @@
 
 #include <boost/spirit/alloy/access.hpp>
 #include <boost/spirit/alloy/adapted.hpp>
+#include <boost/spirit/alloy/non_type_list.hpp>
 #include <boost/spirit/alloy/tuple.hpp>
 #include <boost/spirit/alloy/tuple_like.hpp>
 #include <boost/spirit/alloy/tuple_like_view.hpp>
@@ -18,12 +19,46 @@
 #include <type_traits>
 #include <utility>
 
+struct NonAdaptedStruct {};
+
+struct AdaptedStruct {
+    int x;
+    double y;
+};
+
+template<>
+struct boost::spirit::alloy::adaptor<AdaptedStruct>
+{
+    using getters = non_type_list<&AdaptedStruct::x, &AdaptedStruct::y>;
+};
+
 int main()
 {
     {
-        struct NonAdaptedStruct {};
-
         static_assert(!boost::spirit::alloy::TupleLike<NonAdaptedStruct>);
+    }
+
+    {
+        static_assert(boost::spirit::alloy::TupleLike<AdaptedStruct>);
+        
+        static_assert(boost::spirit::alloy::result_of::size<AdaptedStruct> == 2);
+
+        static_assert(std::is_same_v<boost::spirit::alloy::result_of::get<0, AdaptedStruct&>, int&>);
+        static_assert(std::is_same_v<boost::spirit::alloy::result_of::get<0, AdaptedStruct const&>, int const&>);
+        static_assert(std::is_same_v<boost::spirit::alloy::result_of::get<0, AdaptedStruct&&>, int&&>);
+        static_assert(std::is_same_v<boost::spirit::alloy::result_of::get<0, AdaptedStruct const&&>, int const&&>);
+
+        static_assert(std::is_same_v<boost::spirit::alloy::result_of::get<1, AdaptedStruct&>, double&>);
+        static_assert(std::is_same_v<boost::spirit::alloy::result_of::get<1, AdaptedStruct const&>, double const&>);
+        static_assert(std::is_same_v<boost::spirit::alloy::result_of::get<1, AdaptedStruct&&>, double&&>);
+        static_assert(std::is_same_v<boost::spirit::alloy::result_of::get<1, AdaptedStruct const&&>, double const&&>);
+
+        constexpr AdaptedStruct a{ 42, 3.14 };
+
+        static_assert(boost::spirit::alloy::size(a) == 2);
+
+        static_assert(boost::spirit::alloy::get<0>(a) == 42);
+        static_assert(boost::spirit::alloy::get<1>(a) == 3.14);
     }
 
     {
@@ -177,6 +212,37 @@ int main()
         BOOST_TEST(boost::spirit::alloy::get<0>(t) == 42);
         BOOST_TEST(boost::spirit::alloy::get<1>(t) == 3.14);
         BOOST_TEST(boost::spirit::alloy::get<2>(t) == 'A');
+    }
+
+    {
+        static_assert(std::is_constructible_v<boost::spirit::alloy::tuple<int, float>, boost::spirit::alloy::tuple<float, int>&>);
+        static_assert(std::is_constructible_v<boost::spirit::alloy::tuple<int, float>, boost::spirit::alloy::tuple<float, int> const&>);
+        static_assert(std::is_constructible_v<boost::spirit::alloy::tuple<int, float>, boost::spirit::alloy::tuple<float, int>&&>);
+        static_assert(std::is_constructible_v<boost::spirit::alloy::tuple<int, float>, boost::spirit::alloy::tuple<float, int> const&&>);
+
+        static_assert(std::is_convertible_v<boost::spirit::alloy::tuple<float, int>&, boost::spirit::alloy::tuple<int, float>>);
+        static_assert(std::is_convertible_v<boost::spirit::alloy::tuple<float, int> const&, boost::spirit::alloy::tuple<int, float>>);
+        static_assert(std::is_convertible_v<boost::spirit::alloy::tuple<float, int>&&, boost::spirit::alloy::tuple<int, float>>);
+        static_assert(std::is_convertible_v<boost::spirit::alloy::tuple<float, int> const&&, boost::spirit::alloy::tuple<int, float>>);
+
+        struct NeedExplicitConversion {
+            explicit NeedExplicitConversion(int) {}
+        };
+
+        static_assert(std::is_constructible_v<boost::spirit::alloy::tuple<NeedExplicitConversion>, boost::spirit::alloy::tuple<int>&>);
+        static_assert(std::is_constructible_v<boost::spirit::alloy::tuple<NeedExplicitConversion>, boost::spirit::alloy::tuple<int> const&>);
+        static_assert(std::is_constructible_v<boost::spirit::alloy::tuple<NeedExplicitConversion>, boost::spirit::alloy::tuple<int>&&>);
+        static_assert(std::is_constructible_v<boost::spirit::alloy::tuple<NeedExplicitConversion>, boost::spirit::alloy::tuple<int>const &&>);
+        
+        static_assert(!std::is_convertible_v<boost::spirit::alloy::tuple<int>&, boost::spirit::alloy::tuple<NeedExplicitConversion>>);
+        static_assert(!std::is_convertible_v<boost::spirit::alloy::tuple<int> const&, boost::spirit::alloy::tuple<NeedExplicitConversion>>);
+        static_assert(!std::is_convertible_v<boost::spirit::alloy::tuple<int>&&, boost::spirit::alloy::tuple<NeedExplicitConversion>>);
+        static_assert(!std::is_convertible_v<boost::spirit::alloy::tuple<int>const &&, boost::spirit::alloy::tuple<NeedExplicitConversion>>);
+
+        boost::spirit::alloy::tuple<int, float> a(42, 3.14f);
+        boost::spirit::alloy::tuple<float, int> b(a);
+        BOOST_TEST(boost::spirit::alloy::get<0>(b) == float{42});
+        BOOST_TEST(boost::spirit::alloy::get<1>(b) == 3);
     }
 
     {
