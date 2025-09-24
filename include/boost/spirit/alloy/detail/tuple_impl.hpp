@@ -30,7 +30,7 @@ class tuple_impl<>
 {
 public:
     tuple_impl() = default;
-    
+
     tuple_impl(tuple_impl const&) = default;
 
     tuple_impl(tuple_impl&&) = default;
@@ -46,25 +46,29 @@ public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS tuple_impl<Ts...> rest;
 
     explicit tuple_impl() = default;
-    
+
     explicit tuple_impl(tuple_impl const&) = default;
 
     explicit tuple_impl(tuple_impl&&) = default;
 
     constexpr explicit tuple_impl(value_initialize_t vi)
         noexcept(std::conjunction_v<std::is_nothrow_default_constructible<T0>, std::is_nothrow_default_constructible<Ts>...>)
-        : _0{}, rest(vi) {}
-    
+        : _0{}, rest(vi)
+    {}
+
     template<class U0, class... Us>
     constexpr explicit tuple_impl(U0&& u0, Us&&... us)
         noexcept(std::conjunction_v<std::is_nothrow_constructible<T0, U0>, std::is_nothrow_constructible<Ts, Us>...>)
-        : _0(static_cast<U0&&>(u0)), rest(static_cast<Us&&>(us)...) {}
-    
+        : _0(static_cast<U0&&>(u0)), rest(static_cast<Us&&>(us)...)
+    {}
+
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, Ts...>> get(this Self&& self) noexcept
     {
-        if constexpr (I == 0) return ((forward_like_t<Self, tuple_impl>)self)._0;
-        else return ((forward_like_t<Self, tuple_impl>)self).rest.template get<I - 1>();
+        if constexpr (I == 0)
+            return ((forward_like_t<Self, tuple_impl>)self)._0;
+        else
+            return ((forward_like_t<Self, tuple_impl>)self).rest.template get<I - 1>();
     }
 };
 
