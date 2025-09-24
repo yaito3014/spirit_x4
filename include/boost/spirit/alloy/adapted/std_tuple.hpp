@@ -28,7 +28,7 @@ namespace detail {
 template<std::size_t I>
 struct call_std_get
 {
-    template <class Tuple>
+    template<class Tuple>
     static constexpr decltype(auto) operator()(Tuple&& t)
     {
         return std::get<I>(static_cast<Tuple&&>(t));

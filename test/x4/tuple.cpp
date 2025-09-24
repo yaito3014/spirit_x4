@@ -48,7 +48,7 @@ int main()
         static_assert(boost::spirit::alloy::get<0>(p) == 42);
         static_assert(boost::spirit::alloy::get<1>(p) == 3.14);
     }
-    
+
     {
         using Tuple = std::tuple<int, double, char>;
 
