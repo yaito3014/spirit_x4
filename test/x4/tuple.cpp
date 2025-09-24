@@ -246,6 +246,15 @@ int main()
     }
 
     {
+        static_assert(std::is_constructible_v<boost::spirit::alloy::tuple<int, double>, AdaptedStruct>);
+
+        constexpr AdaptedStruct a{42, 3.14};
+        constexpr boost::spirit::alloy::tuple<int, double> t(a);
+        static_assert(boost::spirit::alloy::get<0>(t) == 42);
+        static_assert(boost::spirit::alloy::get<1>(t) == 3.14);
+    }
+
+    {
         constexpr boost::spirit::alloy::tuple<int> a(42);
         constexpr boost::spirit::alloy::tuple<double> b(3.14);
         constexpr auto c = boost::spirit::alloy::tuple_cat(a, b);
