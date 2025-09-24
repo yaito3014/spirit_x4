@@ -16,7 +16,46 @@
 
 #include <boost/spirit/alloy/value_initialize.hpp>
 
+#include <type_traits>
+#include <utility>
+
+#include <cstddef>
+
 namespace boost::spirit::alloy {
+
+template<class... Ts>
+class tuple;
+
+namespace detail {
+
+template<class... Ts>
+struct type_list;
+
+template<class IndexSeq, class UTuple, class... Ts>
+struct tuple_traits_impl;
+
+template<std::size_t... Is, class UTuple, class... Ts>
+struct tuple_traits_impl<std::index_sequence<Is...>, UTuple, Ts...>
+    : std::conjunction<std::is_constructible<Ts, result_of::get<Is, UTuple>>...>
+{
+    static constexpr bool all_convertible = std::conjunction_v<std::is_convertible<result_of::get<Is, UTuple>, Ts>...>;
+    static constexpr bool all_constructible = std::conjunction_v<std::is_constructible<Ts, result_of::get<Is, UTuple>>...>;
+    static constexpr bool all_nothrow_constructible = std::conjunction_v<std::is_nothrow_constructible<Ts, result_of::get<Is, UTuple>>...>;
+};
+
+template<class UTuple, class... Ts>
+struct tuple_traits : tuple_traits_impl<std::index_sequence_for<Ts...>, UTuple, Ts...> {};
+
+template<class UTuple, class... Ts>
+struct tuple_one_element_is_constructible_from_tuple
+    : std::bool_constant<(sizeof...(Ts) == 1) &&
+                         (std::is_convertible_v<UTuple, type_pack_indexing_t<0, Ts...>> || std::is_constructible_v<type_pack_indexing_t<0, Ts...>, UTuple>)>
+{};
+
+template<class UTuple, class... Ts>
+inline constexpr bool tuple_one_element_is_constructible_from_tuple_v = tuple_one_element_is_constructible_from_tuple<UTuple, Ts...>::value;
+
+} // detail
 
 template<class... Ts>
 class tuple : public detail::tuple_impl<Ts...>
@@ -63,6 +102,54 @@ class tuple : public detail::tuple_impl<Ts...>
     constexpr explicit(!std::conjunction_v<std::is_convertible<Us, Ts>...>) tuple(Us&&... us)
         noexcept(std::conjunction_v<std::is_nothrow_constructible<Ts, Us>...>)
         : base_type(static_cast<Us&&>(us)...)
+    {}
+
+    template<class... Us>
+        requires requires {
+            requires sizeof...(Ts) == sizeof...(Us);
+            requires std::negation_v<std::conjunction<std::is_same<Ts, Us>...>>;
+            requires detail::tuple_traits<tuple<Us...>&, Ts...>::all_constructible;
+            requires (!detail::tuple_one_element_is_constructible_from_tuple_v<tuple<Us...>&, Ts...>);
+        }
+    constexpr explicit(!detail::tuple_traits<tuple<Us...>&, Ts...>::all_convertible) tuple(tuple<Us...>& other)
+        noexcept(detail::tuple_traits<tuple<Us...>&, Ts...>::all_nothrow_constructible)
+        : base_type(other)
+    {}
+
+    template<class... Us>
+        requires requires {
+            requires sizeof...(Ts) == sizeof...(Us);
+            requires std::negation_v<std::conjunction<std::is_same<Ts, Us>...>>;
+            requires detail::tuple_traits<tuple<Us...> const&, Ts...>::all_constructible;
+            requires (!detail::tuple_one_element_is_constructible_from_tuple_v<tuple<Us...> const&, Ts...>);
+        }
+    constexpr explicit(!detail::tuple_traits<tuple<Us...> const&, Ts...>::all_convertible) tuple(tuple<Us...> const& other)
+        noexcept(detail::tuple_traits<tuple<Us...> const&, Ts...>::all_nothrow_constructible)
+        : base_type(other)
+    {}
+
+    template<class... Us>
+        requires requires {
+            requires sizeof...(Ts) == sizeof...(Us);
+            requires std::negation_v<std::conjunction<std::is_same<Ts, Us>...>>;
+            requires detail::tuple_traits<tuple<Us...>&&, Ts...>::all_constructible;
+            requires (!detail::tuple_one_element_is_constructible_from_tuple_v<tuple<Us...>&&, Ts...>);
+        }
+    constexpr explicit(!detail::tuple_traits<tuple<Us...>&&, Ts...>::all_convertible) tuple(tuple<Us...>&& other)
+        noexcept(detail::tuple_traits<tuple<Us...>&&, Ts...>::all_nothrow_constructible)
+        : base_type(static_cast<tuple<Us...>&&>(other))
+    {}
+
+    template<class... Us>
+        requires requires {
+            requires sizeof...(Ts) == sizeof...(Us);
+            requires std::negation_v<std::conjunction<std::is_same<Ts, Us>...>>;
+            requires detail::tuple_traits<tuple<Us...> const&&, Ts...>::all_constructible;
+            requires (!detail::tuple_one_element_is_constructible_from_tuple_v<tuple<Us...> const&&, Ts...>);
+        }
+    constexpr explicit(!detail::tuple_traits<tuple<Us...> const&&, Ts...>::all_convertible) tuple(tuple<Us...> const&& other)
+        noexcept(detail::tuple_traits<tuple<Us...> const&&, Ts...>::all_nothrow_constructible)
+        : base_type(static_cast<tuple<Us...> const&&>(other))
     {}
 
     template<std::size_t I, class Self>
