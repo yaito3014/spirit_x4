@@ -1,5 +1,5 @@
-#ifndef BOOST_SPIRIT_ALLOY_ADAPTED_HPP
-#define BOOST_SPIRIT_ALLOY_ADAPTED_HPP
+#ifndef BOOST_SPIRIT_ALLOY_ADAPTED_STRUCT_HPP
+#define BOOST_SPIRIT_ALLOY_ADAPTED_STRUCT_HPP
 
 /*=============================================================================
     Copyright (c) 2025 Yaito Kakeyama
@@ -8,8 +8,11 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
-#include <boost/spirit/alloy/adapted/std_pair.hpp>
-#include <boost/spirit/alloy/adapted/std_tuple.hpp>
-#include <boost/spirit/alloy/adapted/struct.hpp>
+namespace boost::spirit::alloy {
+
+template<class T>
+struct adaptor;
+
+} // boost::spirit::alloy
 
 #endif
