@@ -180,7 +180,7 @@ template<std::size_t... Is, std::size_t... Sizes>
 struct index_sequence_segment<std::index_sequence<Is...>, Sizes...> {
     using CumSumIndexSeq = index_sequence_cumulative_sum_t<std::index_sequence<Sizes...>>;
 
-    using type = typename index_sequence_segment_impl0<
+    using type = typename index_sequence_segment_impl<
         std::index_sequence<Is...>, index_sequence_take_t<sizeof...(Sizes), CumSumIndexSeq>, index_sequence_drop_t<1, CumSumIndexSeq>>::type;
 };
 
