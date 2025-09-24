@@ -73,6 +73,15 @@ class tuple : public detail::tuple_impl<Ts...>
         }
     }();
 
+    struct construct_t {};
+
+    static constexpr construct_t construct{};
+
+    template<std::size_t... Is, class UTuple>
+    constexpr explicit tuple(construct_t, std::index_sequence<Is...>, UTuple&& other)
+        : base_type(alloy::get<Is>(static_cast<UTuple>(other))...)
+    {}
+
   public:
     tuple() = default;
 
@@ -150,6 +159,18 @@ class tuple : public detail::tuple_impl<Ts...>
     constexpr explicit(!detail::tuple_traits<tuple<Us...> const&&, Ts...>::all_convertible) tuple(tuple<Us...> const&& other)
         noexcept(detail::tuple_traits<tuple<Us...> const&&, Ts...>::all_nothrow_constructible)
         : base_type(static_cast<tuple<Us...> const&&>(other))
+    {}
+
+    template<class UTuple>
+        requires requires {
+            requires TupleLike<std::remove_cvref_t<UTuple>>;
+            requires !std::is_same_v<std::remove_cvref<UTuple>, tuple>;
+            requires sizeof...(Ts) == result_of::size<UTuple>;
+            requires detail::tuple_traits<UTuple, Ts...>::all_constructible;
+            requires !(detail::tuple_one_element_is_constructible_from_tuple_v<UTuple, Ts...>);
+        }
+    constexpr explicit(!detail::tuple_traits<UTuple, Ts...>::all_convertible) tuple(UTuple&& other)
+        : tuple(construct, std::make_index_sequence<result_of::size<UTuple>>{}, static_cast<UTuple>(other))
     {}
 
     template<std::size_t I, class Self>
