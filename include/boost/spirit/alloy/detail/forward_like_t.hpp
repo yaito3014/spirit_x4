@@ -8,12 +8,29 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
-#include <utility>
+#include <type_traits>
 
 namespace boost::spirit::alloy::detail {
 
+// Clang workaround; as code below does not work unless -fno-builtin-std-forward_like is specified
+// ```
+// template<class T, class U>
+// using forward_like_t = decltype(std::forward_like<T>(std::declval<U>()));
+// ```
 template<class T, class U>
-using forward_like_t = decltype(std::forward_like<T>(std::declval<U>()));
+using forward_like_t = std::conditional_t<
+    std::is_rvalue_reference_v<T&&>,
+    std::conditional_t<
+        std::is_const_v<std::remove_reference_t<T>>,
+        std::remove_cvref_t<U> const,
+        std::remove_cvref_t<U>
+    >&&,
+    std::conditional_t<
+        std::is_const_v<std::remove_reference_t<T>>,
+        std::remove_cvref_t<U> const,
+        std::remove_cvref_t<U>
+    >&
+>;
 
 } // boost::spirit::alloy::detail
 
