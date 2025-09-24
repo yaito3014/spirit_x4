@@ -13,7 +13,8 @@
 namespace boost::spirit::alloy::detail {
 
 template<class From, class To>
-struct combine_cvref {
+struct combine_cvref
+{
     static_assert(std::is_reference_v<From>);
 };
 
