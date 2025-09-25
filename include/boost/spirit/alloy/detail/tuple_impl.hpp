@@ -14,22 +14,6 @@
 #include <boost/preprocessor/repeat.hpp>
 #include <boost/preprocessor/repeat_from_to.hpp>
 
-#ifndef BOOST_SPIRIT_ALLOY_GENERATE_PREPROCESSED
-
-#include <boost/spirit/config.hpp>
-
-#include <boost/spirit/alloy/detail/combine_cvref.hpp>
-#include <boost/spirit/alloy/detail/forward_like_t.hpp>
-#include <boost/spirit/alloy/detail/pack_indexing.hpp>
-
-#include <boost/spirit/alloy/value_initialize.hpp>
-
-#include <type_traits>
-
-#include <cstddef>
-
-#endif
-
 namespace boost::spirit::alloy::detail {
 
 template<class... Ts>
