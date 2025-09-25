@@ -130,4 +130,4 @@ run rule_separate_tu.cpp rule_separate_tu_grammar catch2 ;
 obj grammar_linker : grammar.cpp ;
 run grammar_linker.cpp grammar_linker catch2 ;
 
-run tuple.cpp catch2;
+run tuple.cpp catch2 ;
