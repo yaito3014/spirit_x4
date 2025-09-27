@@ -102,6 +102,7 @@ x4_define_tests(
     symbols3
     to_utf8
     tst
+    tuple
     uint
     uint_radix
     unused
