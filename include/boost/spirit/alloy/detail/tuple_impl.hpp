@@ -8,6 +8,20 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
+#ifndef BOOST_SPIRIT_ALLOY_GENERATE_PREPROCESSED
+
+#include <boost/spirit/config.hpp>
+
+#include <boost/spirit/alloy/detail/combine_cvref.hpp>
+#include <boost/spirit/alloy/detail/forward_like_t.hpp>
+#include <boost/spirit/alloy/detail/pack_indexing.hpp>
+
+#include <type_traits>
+
+#include <cstddef>
+
+#endif
+
 #include <boost/preprocessor/cat.hpp>
 #include <boost/preprocessor/comma_if.hpp>
 #include <boost/preprocessor/expr_if.hpp>
