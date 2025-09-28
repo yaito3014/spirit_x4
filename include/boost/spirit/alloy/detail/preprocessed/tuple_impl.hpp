@@ -66,6 +66,16 @@ public:
         : _0(static_cast<decltype(other)>(other)._0)
     {
     }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other) noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        return *this;
+    }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0>> get(this Self&& self) noexcept
     {
@@ -118,6 +128,18 @@ public:
         noexcept(std::conjunction_v<std::is_nothrow_constructible<T0, U0 const&&>, std::is_nothrow_constructible<T1, U1 const&&>>)
         : _0(static_cast<decltype(other)>(other)._0), _1(static_cast<decltype(other)>(other)._1)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other) noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1>> get(this Self&& self) noexcept
@@ -177,6 +199,21 @@ public:
                                     std::is_nothrow_constructible<T2, U2 const&&>>)
         : _0(static_cast<decltype(other)>(other)._0), _1(static_cast<decltype(other)>(other)._1), _2(static_cast<decltype(other)>(other)._2)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2>> get(this Self&& self) noexcept
@@ -245,6 +282,23 @@ public:
         : _0(static_cast<decltype(other)>(other)._0), _1(static_cast<decltype(other)>(other)._1), _2(static_cast<decltype(other)>(other)._2),
           _3(static_cast<decltype(other)>(other)._3)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other) noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>,
+                                                                                    std::is_nothrow_move_assignable<T2>, std::is_nothrow_move_assignable<T3>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3>> get(this Self&& self) noexcept
@@ -318,6 +372,26 @@ public:
         : _0(static_cast<decltype(other)>(other)._0), _1(static_cast<decltype(other)>(other)._1), _2(static_cast<decltype(other)>(other)._2),
           _3(static_cast<decltype(other)>(other)._3), _4(static_cast<decltype(other)>(other)._4)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4>> get(this Self&& self) noexcept
@@ -394,6 +468,28 @@ public:
         : _0(static_cast<decltype(other)>(other)._0), _1(static_cast<decltype(other)>(other)._1), _2(static_cast<decltype(other)>(other)._2),
           _3(static_cast<decltype(other)>(other)._3), _4(static_cast<decltype(other)>(other)._4), _5(static_cast<decltype(other)>(other)._5)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5>> get(this Self&& self) noexcept
@@ -482,6 +578,31 @@ public:
           _3(static_cast<decltype(other)>(other)._3), _4(static_cast<decltype(other)>(other)._4), _5(static_cast<decltype(other)>(other)._5),
           _6(static_cast<decltype(other)>(other)._6)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6>> get(this Self&& self) noexcept
@@ -573,6 +694,33 @@ public:
           _3(static_cast<decltype(other)>(other)._3), _4(static_cast<decltype(other)>(other)._4), _5(static_cast<decltype(other)>(other)._5),
           _6(static_cast<decltype(other)>(other)._6), _7(static_cast<decltype(other)>(other)._7)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7>> get(this Self&& self) noexcept
@@ -667,6 +815,35 @@ public:
           _3(static_cast<decltype(other)>(other)._3), _4(static_cast<decltype(other)>(other)._4), _5(static_cast<decltype(other)>(other)._5),
           _6(static_cast<decltype(other)>(other)._6), _7(static_cast<decltype(other)>(other)._7), _8(static_cast<decltype(other)>(other)._8)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8>> get(this Self&& self) noexcept
@@ -772,6 +949,38 @@ public:
           _6(static_cast<decltype(other)>(other)._6), _7(static_cast<decltype(other)>(other)._7), _8(static_cast<decltype(other)>(other)._8),
           _9(static_cast<decltype(other)>(other)._9)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>> get(this Self&& self) noexcept
@@ -882,6 +1091,40 @@ public:
           _6(static_cast<decltype(other)>(other)._6), _7(static_cast<decltype(other)>(other)._7), _8(static_cast<decltype(other)>(other)._8),
           _9(static_cast<decltype(other)>(other)._9), _10(static_cast<decltype(other)>(other)._10)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> get(this Self&& self) noexcept
@@ -996,6 +1239,42 @@ public:
           _6(static_cast<decltype(other)>(other)._6), _7(static_cast<decltype(other)>(other)._7), _8(static_cast<decltype(other)>(other)._8),
           _9(static_cast<decltype(other)>(other)._9), _10(static_cast<decltype(other)>(other)._10), _11(static_cast<decltype(other)>(other)._11)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> get(this Self&& self) noexcept
@@ -1121,6 +1400,45 @@ public:
           _9(static_cast<decltype(other)>(other)._9), _10(static_cast<decltype(other)>(other)._10), _11(static_cast<decltype(other)>(other)._11),
           _12(static_cast<decltype(other)>(other)._12)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> get(this Self&& self) noexcept
@@ -1250,6 +1568,47 @@ public:
           _9(static_cast<decltype(other)>(other)._9), _10(static_cast<decltype(other)>(other)._10), _11(static_cast<decltype(other)>(other)._11),
           _12(static_cast<decltype(other)>(other)._12), _13(static_cast<decltype(other)>(other)._13)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> get(this Self&& self) noexcept
@@ -1388,6 +1747,49 @@ public:
           _9(static_cast<decltype(other)>(other)._9), _10(static_cast<decltype(other)>(other)._10), _11(static_cast<decltype(other)>(other)._11),
           _12(static_cast<decltype(other)>(other)._12), _13(static_cast<decltype(other)>(other)._13), _14(static_cast<decltype(other)>(other)._14)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> get(this Self&& self) noexcept
@@ -1537,6 +1939,52 @@ public:
           _12(static_cast<decltype(other)>(other)._12), _13(static_cast<decltype(other)>(other)._13), _14(static_cast<decltype(other)>(other)._14),
           _15(static_cast<decltype(other)>(other)._15)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>>
@@ -1691,6 +2139,54 @@ public:
           _12(static_cast<decltype(other)>(other)._12), _13(static_cast<decltype(other)>(other)._13), _14(static_cast<decltype(other)>(other)._14),
           _15(static_cast<decltype(other)>(other)._15), _16(static_cast<decltype(other)>(other)._16)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>>
@@ -1848,6 +2344,56 @@ public:
           _12(static_cast<decltype(other)>(other)._12), _13(static_cast<decltype(other)>(other)._13), _14(static_cast<decltype(other)>(other)._14),
           _15(static_cast<decltype(other)>(other)._15), _16(static_cast<decltype(other)>(other)._16), _17(static_cast<decltype(other)>(other)._17)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>>
@@ -2016,6 +2562,59 @@ public:
           _15(static_cast<decltype(other)>(other)._15), _16(static_cast<decltype(other)>(other)._16), _17(static_cast<decltype(other)>(other)._17),
           _18(static_cast<decltype(other)>(other)._18)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
+                                    std::is_nothrow_move_assignable<T18>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>>
@@ -2189,6 +2788,61 @@ public:
           _15(static_cast<decltype(other)>(other)._15), _16(static_cast<decltype(other)>(other)._16), _17(static_cast<decltype(other)>(other)._17),
           _18(static_cast<decltype(other)>(other)._18), _19(static_cast<decltype(other)>(other)._19)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
+                                    std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>>
@@ -2368,6 +3022,63 @@ public:
           _15(static_cast<decltype(other)>(other)._15), _16(static_cast<decltype(other)>(other)._16), _17(static_cast<decltype(other)>(other)._17),
           _18(static_cast<decltype(other)>(other)._18), _19(static_cast<decltype(other)>(other)._19), _20(static_cast<decltype(other)>(other)._20)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
+                                    std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>>
@@ -2560,6 +3271,66 @@ public:
           _18(static_cast<decltype(other)>(other)._18), _19(static_cast<decltype(other)>(other)._19), _20(static_cast<decltype(other)>(other)._20),
           _21(static_cast<decltype(other)>(other)._21)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
+                                    std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
+                                    std::is_nothrow_move_assignable<T21>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&,
@@ -2758,6 +3529,68 @@ public:
           _18(static_cast<decltype(other)>(other)._18), _19(static_cast<decltype(other)>(other)._19), _20(static_cast<decltype(other)>(other)._20),
           _21(static_cast<decltype(other)>(other)._21), _22(static_cast<decltype(other)>(other)._22)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
+                                    std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
+                                    std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&,
@@ -2964,6 +3797,70 @@ public:
           _18(static_cast<decltype(other)>(other)._18), _19(static_cast<decltype(other)>(other)._19), _20(static_cast<decltype(other)>(other)._20),
           _21(static_cast<decltype(other)>(other)._21), _22(static_cast<decltype(other)>(other)._22), _23(static_cast<decltype(other)>(other)._23)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
+                                    std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
+                                    std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>, std::is_nothrow_move_assignable<T23>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<
@@ -3180,6 +4077,73 @@ public:
           _21(static_cast<decltype(other)>(other)._21), _22(static_cast<decltype(other)>(other)._22), _23(static_cast<decltype(other)>(other)._23),
           _24(static_cast<decltype(other)>(other)._24)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        _24 = other._24;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
+                                    std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
+                                    std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>, std::is_nothrow_move_assignable<T23>,
+                                    std::is_nothrow_move_assignable<T24>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        _24 = static_cast<decltype(other)>(other)._24;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<
@@ -3400,6 +4364,75 @@ public:
           _21(static_cast<decltype(other)>(other)._21), _22(static_cast<decltype(other)>(other)._22), _23(static_cast<decltype(other)>(other)._23),
           _24(static_cast<decltype(other)>(other)._24), _25(static_cast<decltype(other)>(other)._25)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        _24 = other._24;
+        _25 = other._25;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
+                                    std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
+                                    std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>, std::is_nothrow_move_assignable<T23>,
+                                    std::is_nothrow_move_assignable<T24>, std::is_nothrow_move_assignable<T25>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        _24 = static_cast<decltype(other)>(other)._24;
+        _25 = static_cast<decltype(other)>(other)._25;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<
@@ -3625,6 +4658,77 @@ public:
           _21(static_cast<decltype(other)>(other)._21), _22(static_cast<decltype(other)>(other)._22), _23(static_cast<decltype(other)>(other)._23),
           _24(static_cast<decltype(other)>(other)._24), _25(static_cast<decltype(other)>(other)._25), _26(static_cast<decltype(other)>(other)._26)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        _24 = other._24;
+        _25 = other._25;
+        _26 = other._26;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
+                                    std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
+                                    std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>, std::is_nothrow_move_assignable<T23>,
+                                    std::is_nothrow_move_assignable<T24>, std::is_nothrow_move_assignable<T25>, std::is_nothrow_move_assignable<T26>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        _24 = static_cast<decltype(other)>(other)._24;
+        _25 = static_cast<decltype(other)>(other)._25;
+        _26 = static_cast<decltype(other)>(other)._26;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
@@ -3866,6 +4970,80 @@ public:
           _24(static_cast<decltype(other)>(other)._24), _25(static_cast<decltype(other)>(other)._25), _26(static_cast<decltype(other)>(other)._26),
           _27(static_cast<decltype(other)>(other)._27)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        _24 = other._24;
+        _25 = other._25;
+        _26 = other._26;
+        _27 = other._27;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
+                                    std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
+                                    std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>, std::is_nothrow_move_assignable<T23>,
+                                    std::is_nothrow_move_assignable<T24>, std::is_nothrow_move_assignable<T25>, std::is_nothrow_move_assignable<T26>,
+                                    std::is_nothrow_move_assignable<T27>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        _24 = static_cast<decltype(other)>(other)._24;
+        _25 = static_cast<decltype(other)>(other)._25;
+        _26 = static_cast<decltype(other)>(other)._26;
+        _27 = static_cast<decltype(other)>(other)._27;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
@@ -4112,6 +5290,82 @@ public:
           _24(static_cast<decltype(other)>(other)._24), _25(static_cast<decltype(other)>(other)._25), _26(static_cast<decltype(other)>(other)._26),
           _27(static_cast<decltype(other)>(other)._27), _28(static_cast<decltype(other)>(other)._28)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        _24 = other._24;
+        _25 = other._25;
+        _26 = other._26;
+        _27 = other._27;
+        _28 = other._28;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
+                                    std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
+                                    std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>, std::is_nothrow_move_assignable<T23>,
+                                    std::is_nothrow_move_assignable<T24>, std::is_nothrow_move_assignable<T25>, std::is_nothrow_move_assignable<T26>,
+                                    std::is_nothrow_move_assignable<T27>, std::is_nothrow_move_assignable<T28>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        _24 = static_cast<decltype(other)>(other)._24;
+        _25 = static_cast<decltype(other)>(other)._25;
+        _26 = static_cast<decltype(other)>(other)._26;
+        _27 = static_cast<decltype(other)>(other)._27;
+        _28 = static_cast<decltype(other)>(other)._28;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
@@ -4363,6 +5617,84 @@ public:
           _24(static_cast<decltype(other)>(other)._24), _25(static_cast<decltype(other)>(other)._25), _26(static_cast<decltype(other)>(other)._26),
           _27(static_cast<decltype(other)>(other)._27), _28(static_cast<decltype(other)>(other)._28), _29(static_cast<decltype(other)>(other)._29)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        _24 = other._24;
+        _25 = other._25;
+        _26 = other._26;
+        _27 = other._27;
+        _28 = other._28;
+        _29 = other._29;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
+                                    std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
+                                    std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>, std::is_nothrow_move_assignable<T23>,
+                                    std::is_nothrow_move_assignable<T24>, std::is_nothrow_move_assignable<T25>, std::is_nothrow_move_assignable<T26>,
+                                    std::is_nothrow_move_assignable<T27>, std::is_nothrow_move_assignable<T28>, std::is_nothrow_move_assignable<T29>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        _24 = static_cast<decltype(other)>(other)._24;
+        _25 = static_cast<decltype(other)>(other)._25;
+        _26 = static_cast<decltype(other)>(other)._26;
+        _27 = static_cast<decltype(other)>(other)._27;
+        _28 = static_cast<decltype(other)>(other)._28;
+        _29 = static_cast<decltype(other)>(other)._29;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
@@ -4624,6 +5956,87 @@ public:
           _27(static_cast<decltype(other)>(other)._27), _28(static_cast<decltype(other)>(other)._28), _29(static_cast<decltype(other)>(other)._29),
           _30(static_cast<decltype(other)>(other)._30)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        _24 = other._24;
+        _25 = other._25;
+        _26 = other._26;
+        _27 = other._27;
+        _28 = other._28;
+        _29 = other._29;
+        _30 = other._30;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
+                                    std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
+                                    std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>, std::is_nothrow_move_assignable<T23>,
+                                    std::is_nothrow_move_assignable<T24>, std::is_nothrow_move_assignable<T25>, std::is_nothrow_move_assignable<T26>,
+                                    std::is_nothrow_move_assignable<T27>, std::is_nothrow_move_assignable<T28>, std::is_nothrow_move_assignable<T29>,
+                                    std::is_nothrow_move_assignable<T30>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        _24 = static_cast<decltype(other)>(other)._24;
+        _25 = static_cast<decltype(other)>(other)._25;
+        _26 = static_cast<decltype(other)>(other)._26;
+        _27 = static_cast<decltype(other)>(other)._27;
+        _28 = static_cast<decltype(other)>(other)._28;
+        _29 = static_cast<decltype(other)>(other)._29;
+        _30 = static_cast<decltype(other)>(other)._30;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
@@ -4894,6 +6307,91 @@ public:
           _27(static_cast<decltype(other)>(other)._27), _28(static_cast<decltype(other)>(other)._28), _29(static_cast<decltype(other)>(other)._29),
           _30(static_cast<decltype(other)>(other)._30), _31(static_cast<decltype(other)>(other)._31), rest(static_cast<decltype(other)>(other).rest)
     {
+    }
+    constexpr tuple_impl& operator=(tuple_impl const& other)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        _24 = other._24;
+        _25 = other._25;
+        _26 = other._26;
+        _27 = other._27;
+        _28 = other._28;
+        _29 = other._29;
+        _30 = other._30;
+        _31 = other._31;
+        rest = other.rest;
+        return *this;
+    }
+    constexpr tuple_impl& operator=(tuple_impl&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
+                                    std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
+                                    std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
+                                    std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
+                                    std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
+                                    std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
+                                    std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
+                                    std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>, std::is_nothrow_move_assignable<T23>,
+                                    std::is_nothrow_move_assignable<T24>, std::is_nothrow_move_assignable<T25>, std::is_nothrow_move_assignable<T26>,
+                                    std::is_nothrow_move_assignable<T27>, std::is_nothrow_move_assignable<T28>, std::is_nothrow_move_assignable<T29>,
+                                    std::is_nothrow_move_assignable<T30>, std::is_nothrow_move_assignable<T31>, std::is_nothrow_move_assignable<Ts>...>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        _24 = static_cast<decltype(other)>(other)._24;
+        _25 = static_cast<decltype(other)>(other)._25;
+        _26 = static_cast<decltype(other)>(other)._26;
+        _27 = static_cast<decltype(other)>(other)._27;
+        _28 = static_cast<decltype(other)>(other)._28;
+        _29 = static_cast<decltype(other)>(other)._29;
+        _30 = static_cast<decltype(other)>(other)._30;
+        _31 = static_cast<decltype(other)>(other)._31;
+        rest = static_cast<decltype(other)>(other).rest;
+        return *this;
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
