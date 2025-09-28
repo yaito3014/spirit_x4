@@ -236,6 +236,11 @@ class tuple : public detail::tuple_impl<Ts...>
         return *this;
     }
 
+    constexpr void swap(tuple& other) noexcept(std::conjunction_v<std::is_nothrow_swappable<Ts>...>)
+    {
+        base_type::swap(other);
+    }
+
     template<std::size_t I, class Self>
     constexpr detail::combine_cvref_t<Self&&, detail::type_pack_indexing_t<I, Ts...>> get(this Self&& self) noexcept
     {
@@ -270,6 +275,13 @@ constexpr detail::type_pack_indexing_t<I, Ts...> const&& get(tuple<Ts...> const&
 {
     static_assert(I < sizeof...(Ts));
     return static_cast<tuple<Ts...> const&&>(t).template get<I>();
+}
+
+template<class... Ts>
+    requires std::conjunction_v<std::is_nothrow_swappable<Ts>...>
+constexpr void swap(tuple<Ts...>& a, tuple<Ts...>& b) noexcept(noexcept(a.swap(b)))
+{
+    a.swap(b);
 }
 
 namespace detail {

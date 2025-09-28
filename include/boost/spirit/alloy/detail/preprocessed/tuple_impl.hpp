@@ -94,6 +94,12 @@ public:
         _0 = alloy::get<0>(static_cast<decltype(other)>(other));
         return *this;
     }
+    constexpr void swap(tuple_impl& other) noexcept(std::conjunction_v<std::is_nothrow_swappable<T0>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>>);
+        using std::swap;
+        swap(_0, other._0);
+    }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0>> get(this Self&& self) noexcept
     {
@@ -182,6 +188,13 @@ public:
         _0 = alloy::get<0>(static_cast<decltype(other)>(other));
         _1 = alloy::get<1>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1>> get(this Self&& self) noexcept
@@ -283,6 +296,15 @@ public:
         _1 = alloy::get<1>(static_cast<decltype(other)>(other));
         _2 = alloy::get<2>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other)
+        noexcept(std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2>> get(this Self&& self) noexcept
@@ -401,6 +423,16 @@ public:
         _2 = alloy::get<2>(static_cast<decltype(other)>(other));
         _3 = alloy::get<3>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other)
+        noexcept(std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3>> get(this Self&& self) noexcept
@@ -530,6 +562,18 @@ public:
         _3 = alloy::get<3>(static_cast<decltype(other)>(other));
         _4 = alloy::get<4>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other)
+        noexcept(std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                                    std::is_nothrow_swappable<T4>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4>> get(this Self&& self) noexcept
@@ -667,6 +711,20 @@ public:
         _4 = alloy::get<4>(static_cast<decltype(other)>(other));
         _5 = alloy::get<5>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other)
+        noexcept(std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                                    std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5>> get(this Self&& self) noexcept
@@ -825,6 +883,21 @@ public:
         _5 = alloy::get<5>(static_cast<decltype(other)>(other));
         _6 = alloy::get<6>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other)
+        noexcept(std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                                    std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6>> get(this Self&& self) noexcept
@@ -991,6 +1064,22 @@ public:
         _6 = alloy::get<6>(static_cast<decltype(other)>(other));
         _7 = alloy::get<7>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other)
+        noexcept(std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                                    std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7>> get(this Self&& self) noexcept
@@ -1165,6 +1254,24 @@ public:
         _7 = alloy::get<7>(static_cast<decltype(other)>(other));
         _8 = alloy::get<8>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other)
+        noexcept(std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                                    std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                                    std::is_nothrow_swappable<T8>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8>> get(this Self&& self) noexcept
@@ -1359,6 +1466,25 @@ public:
         _8 = alloy::get<8>(static_cast<decltype(other)>(other));
         _9 = alloy::get<9>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other)
+        noexcept(std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                                    std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                                    std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>> get(this Self&& self) noexcept
@@ -1563,6 +1689,27 @@ public:
         _9 = alloy::get<9>(static_cast<decltype(other)>(other));
         _10 = alloy::get<10>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other)
+        noexcept(std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                                    std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                                    std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> get(this Self&& self) noexcept
@@ -1777,6 +1924,28 @@ public:
         _10 = alloy::get<10>(static_cast<decltype(other)>(other));
         _11 = alloy::get<11>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> get(this Self&& self) noexcept
@@ -2010,6 +2179,30 @@ public:
         _11 = alloy::get<11>(static_cast<decltype(other)>(other));
         _12 = alloy::get<12>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other)
+        noexcept(std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                                    std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                                    std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>,
+                                    std::is_nothrow_swappable<T11>, std::is_nothrow_swappable<T12>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> get(this Self&& self) noexcept
@@ -2253,6 +2446,31 @@ public:
         _12 = alloy::get<12>(static_cast<decltype(other)>(other));
         _13 = alloy::get<13>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other)
+        noexcept(std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                                    std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                                    std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>,
+                                    std::is_nothrow_swappable<T11>, std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> get(this Self&& self) noexcept
@@ -2512,6 +2730,33 @@ public:
         _13 = alloy::get<13>(static_cast<decltype(other)>(other));
         _14 = alloy::get<14>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>>)
+    {
+        static_assert(
+            std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                               std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                               std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> get(this Self&& self) noexcept
@@ -2791,6 +3036,34 @@ public:
         _14 = alloy::get<14>(static_cast<decltype(other)>(other));
         _15 = alloy::get<15>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                                         std::is_swappable<T15>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>>
@@ -3080,6 +3353,36 @@ public:
         _15 = alloy::get<15>(static_cast<decltype(other)>(other));
         _16 = alloy::get<16>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other)
+        noexcept(std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                                    std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                                    std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>,
+                                    std::is_nothrow_swappable<T11>, std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>,
+                                    std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>, std::is_nothrow_swappable<T16>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                                         std::is_swappable<T15>, std::is_swappable<T16>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
+        swap(_16, other._16);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>>
@@ -3377,6 +3680,37 @@ public:
         _16 = alloy::get<16>(static_cast<decltype(other)>(other));
         _17 = alloy::get<17>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>,
+                           std::is_nothrow_swappable<T16>, std::is_nothrow_swappable<T17>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                                         std::is_swappable<T15>, std::is_swappable<T16>, std::is_swappable<T17>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
+        swap(_16, other._16);
+        swap(_17, other._17);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>>
@@ -3694,6 +4028,38 @@ public:
         _17 = alloy::get<17>(static_cast<decltype(other)>(other));
         _18 = alloy::get<18>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>,
+                           std::is_nothrow_swappable<T16>, std::is_nothrow_swappable<T17>, std::is_nothrow_swappable<T18>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                                         std::is_swappable<T15>, std::is_swappable<T16>, std::is_swappable<T17>, std::is_swappable<T18>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
+        swap(_16, other._16);
+        swap(_17, other._17);
+        swap(_18, other._18);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>>
@@ -4021,6 +4387,40 @@ public:
         _18 = alloy::get<18>(static_cast<decltype(other)>(other));
         _19 = alloy::get<19>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>,
+                           std::is_nothrow_swappable<T16>, std::is_nothrow_swappable<T17>, std::is_nothrow_swappable<T18>, std::is_nothrow_swappable<T19>>)
+    {
+        static_assert(
+            std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                               std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                               std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                               std::is_swappable<T15>, std::is_swappable<T16>, std::is_swappable<T17>, std::is_swappable<T18>, std::is_swappable<T19>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
+        swap(_16, other._16);
+        swap(_17, other._17);
+        swap(_18, other._18);
+        swap(_19, other._19);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>>
@@ -4359,6 +4759,42 @@ public:
         _19 = alloy::get<19>(static_cast<decltype(other)>(other));
         _20 = alloy::get<20>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>,
+                           std::is_nothrow_swappable<T16>, std::is_nothrow_swappable<T17>, std::is_nothrow_swappable<T18>, std::is_nothrow_swappable<T19>,
+                           std::is_nothrow_swappable<T20>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                                         std::is_swappable<T15>, std::is_swappable<T16>, std::is_swappable<T17>, std::is_swappable<T18>, std::is_swappable<T19>,
+                                         std::is_swappable<T20>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
+        swap(_16, other._16);
+        swap(_17, other._17);
+        swap(_18, other._18);
+        swap(_19, other._19);
+        swap(_20, other._20);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>>
@@ -4719,6 +5155,43 @@ public:
         _20 = alloy::get<20>(static_cast<decltype(other)>(other));
         _21 = alloy::get<21>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>,
+                           std::is_nothrow_swappable<T16>, std::is_nothrow_swappable<T17>, std::is_nothrow_swappable<T18>, std::is_nothrow_swappable<T19>,
+                           std::is_nothrow_swappable<T20>, std::is_nothrow_swappable<T21>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                                         std::is_swappable<T15>, std::is_swappable<T16>, std::is_swappable<T17>, std::is_swappable<T18>, std::is_swappable<T19>,
+                                         std::is_swappable<T20>, std::is_swappable<T21>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
+        swap(_16, other._16);
+        swap(_17, other._17);
+        swap(_18, other._18);
+        swap(_19, other._19);
+        swap(_20, other._20);
+        swap(_21, other._21);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&,
@@ -5091,6 +5564,44 @@ public:
         _21 = alloy::get<21>(static_cast<decltype(other)>(other));
         _22 = alloy::get<22>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>,
+                           std::is_nothrow_swappable<T16>, std::is_nothrow_swappable<T17>, std::is_nothrow_swappable<T18>, std::is_nothrow_swappable<T19>,
+                           std::is_nothrow_swappable<T20>, std::is_nothrow_swappable<T21>, std::is_nothrow_swappable<T22>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                                         std::is_swappable<T15>, std::is_swappable<T16>, std::is_swappable<T17>, std::is_swappable<T18>, std::is_swappable<T19>,
+                                         std::is_swappable<T20>, std::is_swappable<T21>, std::is_swappable<T22>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
+        swap(_16, other._16);
+        swap(_17, other._17);
+        swap(_18, other._18);
+        swap(_19, other._19);
+        swap(_20, other._20);
+        swap(_21, other._21);
+        swap(_22, other._22);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&,
@@ -5477,6 +5988,45 @@ public:
         _22 = alloy::get<22>(static_cast<decltype(other)>(other));
         _23 = alloy::get<23>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>,
+                           std::is_nothrow_swappable<T16>, std::is_nothrow_swappable<T17>, std::is_nothrow_swappable<T18>, std::is_nothrow_swappable<T19>,
+                           std::is_nothrow_swappable<T20>, std::is_nothrow_swappable<T21>, std::is_nothrow_swappable<T22>, std::is_nothrow_swappable<T23>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                                         std::is_swappable<T15>, std::is_swappable<T16>, std::is_swappable<T17>, std::is_swappable<T18>, std::is_swappable<T19>,
+                                         std::is_swappable<T20>, std::is_swappable<T21>, std::is_swappable<T22>, std::is_swappable<T23>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
+        swap(_16, other._16);
+        swap(_17, other._17);
+        swap(_18, other._18);
+        swap(_19, other._19);
+        swap(_20, other._20);
+        swap(_21, other._21);
+        swap(_22, other._22);
+        swap(_23, other._23);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<
@@ -5882,6 +6432,48 @@ public:
         _23 = alloy::get<23>(static_cast<decltype(other)>(other));
         _24 = alloy::get<24>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>,
+                           std::is_nothrow_swappable<T16>, std::is_nothrow_swappable<T17>, std::is_nothrow_swappable<T18>, std::is_nothrow_swappable<T19>,
+                           std::is_nothrow_swappable<T20>, std::is_nothrow_swappable<T21>, std::is_nothrow_swappable<T22>, std::is_nothrow_swappable<T23>,
+                           std::is_nothrow_swappable<T24>>)
+    {
+        static_assert(
+            std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                               std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                               std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                               std::is_swappable<T15>, std::is_swappable<T16>, std::is_swappable<T17>, std::is_swappable<T18>, std::is_swappable<T19>,
+                               std::is_swappable<T20>, std::is_swappable<T21>, std::is_swappable<T22>, std::is_swappable<T23>, std::is_swappable<T24>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
+        swap(_16, other._16);
+        swap(_17, other._17);
+        swap(_18, other._18);
+        swap(_19, other._19);
+        swap(_20, other._20);
+        swap(_21, other._21);
+        swap(_22, other._22);
+        swap(_23, other._23);
+        swap(_24, other._24);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<
@@ -6296,6 +6888,49 @@ public:
         _24 = alloy::get<24>(static_cast<decltype(other)>(other));
         _25 = alloy::get<25>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>,
+                           std::is_nothrow_swappable<T16>, std::is_nothrow_swappable<T17>, std::is_nothrow_swappable<T18>, std::is_nothrow_swappable<T19>,
+                           std::is_nothrow_swappable<T20>, std::is_nothrow_swappable<T21>, std::is_nothrow_swappable<T22>, std::is_nothrow_swappable<T23>,
+                           std::is_nothrow_swappable<T24>, std::is_nothrow_swappable<T25>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                                         std::is_swappable<T15>, std::is_swappable<T16>, std::is_swappable<T17>, std::is_swappable<T18>, std::is_swappable<T19>,
+                                         std::is_swappable<T20>, std::is_swappable<T21>, std::is_swappable<T22>, std::is_swappable<T23>, std::is_swappable<T24>,
+                                         std::is_swappable<T25>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
+        swap(_16, other._16);
+        swap(_17, other._17);
+        swap(_18, other._18);
+        swap(_19, other._19);
+        swap(_20, other._20);
+        swap(_21, other._21);
+        swap(_22, other._22);
+        swap(_23, other._23);
+        swap(_24, other._24);
+        swap(_25, other._25);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<
@@ -6720,6 +7355,50 @@ public:
         _25 = alloy::get<25>(static_cast<decltype(other)>(other));
         _26 = alloy::get<26>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>,
+                           std::is_nothrow_swappable<T16>, std::is_nothrow_swappable<T17>, std::is_nothrow_swappable<T18>, std::is_nothrow_swappable<T19>,
+                           std::is_nothrow_swappable<T20>, std::is_nothrow_swappable<T21>, std::is_nothrow_swappable<T22>, std::is_nothrow_swappable<T23>,
+                           std::is_nothrow_swappable<T24>, std::is_nothrow_swappable<T25>, std::is_nothrow_swappable<T26>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                                         std::is_swappable<T15>, std::is_swappable<T16>, std::is_swappable<T17>, std::is_swappable<T18>, std::is_swappable<T19>,
+                                         std::is_swappable<T20>, std::is_swappable<T21>, std::is_swappable<T22>, std::is_swappable<T23>, std::is_swappable<T24>,
+                                         std::is_swappable<T25>, std::is_swappable<T26>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
+        swap(_16, other._16);
+        swap(_17, other._17);
+        swap(_18, other._18);
+        swap(_19, other._19);
+        swap(_20, other._20);
+        swap(_21, other._21);
+        swap(_22, other._22);
+        swap(_23, other._23);
+        swap(_24, other._24);
+        swap(_25, other._25);
+        swap(_26, other._26);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
@@ -7171,6 +7850,51 @@ public:
         _26 = alloy::get<26>(static_cast<decltype(other)>(other));
         _27 = alloy::get<27>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>,
+                           std::is_nothrow_swappable<T16>, std::is_nothrow_swappable<T17>, std::is_nothrow_swappable<T18>, std::is_nothrow_swappable<T19>,
+                           std::is_nothrow_swappable<T20>, std::is_nothrow_swappable<T21>, std::is_nothrow_swappable<T22>, std::is_nothrow_swappable<T23>,
+                           std::is_nothrow_swappable<T24>, std::is_nothrow_swappable<T25>, std::is_nothrow_swappable<T26>, std::is_nothrow_swappable<T27>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                                         std::is_swappable<T15>, std::is_swappable<T16>, std::is_swappable<T17>, std::is_swappable<T18>, std::is_swappable<T19>,
+                                         std::is_swappable<T20>, std::is_swappable<T21>, std::is_swappable<T22>, std::is_swappable<T23>, std::is_swappable<T24>,
+                                         std::is_swappable<T25>, std::is_swappable<T26>, std::is_swappable<T27>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
+        swap(_16, other._16);
+        swap(_17, other._17);
+        swap(_18, other._18);
+        swap(_19, other._19);
+        swap(_20, other._20);
+        swap(_21, other._21);
+        swap(_22, other._22);
+        swap(_23, other._23);
+        swap(_24, other._24);
+        swap(_25, other._25);
+        swap(_26, other._26);
+        swap(_27, other._27);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
@@ -7632,6 +8356,53 @@ public:
         _27 = alloy::get<27>(static_cast<decltype(other)>(other));
         _28 = alloy::get<28>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>,
+                           std::is_nothrow_swappable<T16>, std::is_nothrow_swappable<T17>, std::is_nothrow_swappable<T18>, std::is_nothrow_swappable<T19>,
+                           std::is_nothrow_swappable<T20>, std::is_nothrow_swappable<T21>, std::is_nothrow_swappable<T22>, std::is_nothrow_swappable<T23>,
+                           std::is_nothrow_swappable<T24>, std::is_nothrow_swappable<T25>, std::is_nothrow_swappable<T26>, std::is_nothrow_swappable<T27>,
+                           std::is_nothrow_swappable<T28>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                                         std::is_swappable<T15>, std::is_swappable<T16>, std::is_swappable<T17>, std::is_swappable<T18>, std::is_swappable<T19>,
+                                         std::is_swappable<T20>, std::is_swappable<T21>, std::is_swappable<T22>, std::is_swappable<T23>, std::is_swappable<T24>,
+                                         std::is_swappable<T25>, std::is_swappable<T26>, std::is_swappable<T27>, std::is_swappable<T28>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
+        swap(_16, other._16);
+        swap(_17, other._17);
+        swap(_18, other._18);
+        swap(_19, other._19);
+        swap(_20, other._20);
+        swap(_21, other._21);
+        swap(_22, other._22);
+        swap(_23, other._23);
+        swap(_24, other._24);
+        swap(_25, other._25);
+        swap(_26, other._26);
+        swap(_27, other._27);
+        swap(_28, other._28);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
@@ -8103,6 +8874,55 @@ public:
         _28 = alloy::get<28>(static_cast<decltype(other)>(other));
         _29 = alloy::get<29>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>,
+                           std::is_nothrow_swappable<T16>, std::is_nothrow_swappable<T17>, std::is_nothrow_swappable<T18>, std::is_nothrow_swappable<T19>,
+                           std::is_nothrow_swappable<T20>, std::is_nothrow_swappable<T21>, std::is_nothrow_swappable<T22>, std::is_nothrow_swappable<T23>,
+                           std::is_nothrow_swappable<T24>, std::is_nothrow_swappable<T25>, std::is_nothrow_swappable<T26>, std::is_nothrow_swappable<T27>,
+                           std::is_nothrow_swappable<T28>, std::is_nothrow_swappable<T29>>)
+    {
+        static_assert(
+            std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                               std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                               std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                               std::is_swappable<T15>, std::is_swappable<T16>, std::is_swappable<T17>, std::is_swappable<T18>, std::is_swappable<T19>,
+                               std::is_swappable<T20>, std::is_swappable<T21>, std::is_swappable<T22>, std::is_swappable<T23>, std::is_swappable<T24>,
+                               std::is_swappable<T25>, std::is_swappable<T26>, std::is_swappable<T27>, std::is_swappable<T28>, std::is_swappable<T29>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
+        swap(_16, other._16);
+        swap(_17, other._17);
+        swap(_18, other._18);
+        swap(_19, other._19);
+        swap(_20, other._20);
+        swap(_21, other._21);
+        swap(_22, other._22);
+        swap(_23, other._23);
+        swap(_24, other._24);
+        swap(_25, other._25);
+        swap(_26, other._26);
+        swap(_27, other._27);
+        swap(_28, other._28);
+        swap(_29, other._29);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
@@ -8593,6 +9413,56 @@ public:
         _29 = alloy::get<29>(static_cast<decltype(other)>(other));
         _30 = alloy::get<30>(static_cast<decltype(other)>(other));
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>,
+                           std::is_nothrow_swappable<T16>, std::is_nothrow_swappable<T17>, std::is_nothrow_swappable<T18>, std::is_nothrow_swappable<T19>,
+                           std::is_nothrow_swappable<T20>, std::is_nothrow_swappable<T21>, std::is_nothrow_swappable<T22>, std::is_nothrow_swappable<T23>,
+                           std::is_nothrow_swappable<T24>, std::is_nothrow_swappable<T25>, std::is_nothrow_swappable<T26>, std::is_nothrow_swappable<T27>,
+                           std::is_nothrow_swappable<T28>, std::is_nothrow_swappable<T29>, std::is_nothrow_swappable<T30>>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                                         std::is_swappable<T15>, std::is_swappable<T16>, std::is_swappable<T17>, std::is_swappable<T18>, std::is_swappable<T19>,
+                                         std::is_swappable<T20>, std::is_swappable<T21>, std::is_swappable<T22>, std::is_swappable<T23>, std::is_swappable<T24>,
+                                         std::is_swappable<T25>, std::is_swappable<T26>, std::is_swappable<T27>, std::is_swappable<T28>, std::is_swappable<T29>,
+                                         std::is_swappable<T30>>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
+        swap(_16, other._16);
+        swap(_17, other._17);
+        swap(_18, other._18);
+        swap(_19, other._19);
+        swap(_20, other._20);
+        swap(_21, other._21);
+        swap(_22, other._22);
+        swap(_23, other._23);
+        swap(_24, other._24);
+        swap(_25, other._25);
+        swap(_26, other._26);
+        swap(_27, other._27);
+        swap(_28, other._28);
+        swap(_29, other._29);
+        swap(_30, other._30);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
@@ -9113,6 +9983,59 @@ public:
     {
         [&, this]<std::size_t... Is>(std::index_sequence<Is...>) { assign(alloy::get<Is>(static_cast<UTuple>(other))...); }(std::index_sequence_for<Ts...>{});
         return *this;
+    }
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<std::is_nothrow_swappable<T0>, std::is_nothrow_swappable<T1>, std::is_nothrow_swappable<T2>, std::is_nothrow_swappable<T3>,
+                           std::is_nothrow_swappable<T4>, std::is_nothrow_swappable<T5>, std::is_nothrow_swappable<T6>, std::is_nothrow_swappable<T7>,
+                           std::is_nothrow_swappable<T8>, std::is_nothrow_swappable<T9>, std::is_nothrow_swappable<T10>, std::is_nothrow_swappable<T11>,
+                           std::is_nothrow_swappable<T12>, std::is_nothrow_swappable<T13>, std::is_nothrow_swappable<T14>, std::is_nothrow_swappable<T15>,
+                           std::is_nothrow_swappable<T16>, std::is_nothrow_swappable<T17>, std::is_nothrow_swappable<T18>, std::is_nothrow_swappable<T19>,
+                           std::is_nothrow_swappable<T20>, std::is_nothrow_swappable<T21>, std::is_nothrow_swappable<T22>, std::is_nothrow_swappable<T23>,
+                           std::is_nothrow_swappable<T24>, std::is_nothrow_swappable<T25>, std::is_nothrow_swappable<T26>, std::is_nothrow_swappable<T27>,
+                           std::is_nothrow_swappable<T28>, std::is_nothrow_swappable<T29>, std::is_nothrow_swappable<T30>, std::is_nothrow_swappable<T31>,
+                           std::is_nothrow_swappable<Ts>...>)
+    {
+        static_assert(std::conjunction_v<std::is_swappable<T0>, std::is_swappable<T1>, std::is_swappable<T2>, std::is_swappable<T3>, std::is_swappable<T4>,
+                                         std::is_swappable<T5>, std::is_swappable<T6>, std::is_swappable<T7>, std::is_swappable<T8>, std::is_swappable<T9>,
+                                         std::is_swappable<T10>, std::is_swappable<T11>, std::is_swappable<T12>, std::is_swappable<T13>, std::is_swappable<T14>,
+                                         std::is_swappable<T15>, std::is_swappable<T16>, std::is_swappable<T17>, std::is_swappable<T18>, std::is_swappable<T19>,
+                                         std::is_swappable<T20>, std::is_swappable<T21>, std::is_swappable<T22>, std::is_swappable<T23>, std::is_swappable<T24>,
+                                         std::is_swappable<T25>, std::is_swappable<T26>, std::is_swappable<T27>, std::is_swappable<T28>, std::is_swappable<T29>,
+                                         std::is_swappable<T30>, std::is_swappable<T31>, std::is_swappable<Ts>...>);
+        using std::swap;
+        swap(_0, other._0);
+        swap(_1, other._1);
+        swap(_2, other._2);
+        swap(_3, other._3);
+        swap(_4, other._4);
+        swap(_5, other._5);
+        swap(_6, other._6);
+        swap(_7, other._7);
+        swap(_8, other._8);
+        swap(_9, other._9);
+        swap(_10, other._10);
+        swap(_11, other._11);
+        swap(_12, other._12);
+        swap(_13, other._13);
+        swap(_14, other._14);
+        swap(_15, other._15);
+        swap(_16, other._16);
+        swap(_17, other._17);
+        swap(_18, other._18);
+        swap(_19, other._19);
+        swap(_20, other._20);
+        swap(_21, other._21);
+        swap(_22, other._22);
+        swap(_23, other._23);
+        swap(_24, other._24);
+        swap(_25, other._25);
+        swap(_26, other._26);
+        swap(_27, other._27);
+        swap(_28, other._28);
+        swap(_29, other._29);
+        swap(_30, other._30);
+        swap(_31, other._31);
+        rest.swap(other.rest);
     }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,

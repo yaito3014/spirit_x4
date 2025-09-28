@@ -33,6 +33,8 @@ struct boost::spirit::alloy::adaptor<AdaptedStruct>
     using getters = non_type_list<&AdaptedStruct::x, &AdaptedStruct::y>;
 };
 
+void swap(); // poison-pill
+
 TEST_CASE("tuple")
 {
     namespace alloy = boost::spirit::alloy;
@@ -318,6 +320,14 @@ TEST_CASE("tuple")
         a = std::move(b);
         CHECK(alloy::get<0>(a) == 4);
         CHECK(alloy::get<1>(a) == 2.18);
+    }
+
+    {
+        alloy::tuple<int> a(33), b(4);
+        a.swap(b);
+        swap(a, b);
+        CHECK(alloy::get<0>(a) == 33);
+        CHECK(alloy::get<0>(b) == 4);
     }
 
     {
