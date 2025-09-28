@@ -35,6 +35,17 @@ namespace boost::spirit::alloy {
 template<class... Ts>
 class tuple;
 
+template<std::size_t I, class Tuple>
+struct tuple_element {};
+
+template<std::size_t I, class... Ts>
+struct tuple_element<I, tuple<Ts...>> {
+    using type = detail::type_pack_indexing_t<I, Ts...>;
+};
+
+template<std::size_t I, class Tuple>
+using tuple_element_t = typename tuple_element<I, Tuple>::type;
+
 namespace detail {
 
 template<class... Ts>
@@ -241,37 +252,58 @@ class tuple : public detail::tuple_impl<Ts...>
         base_type::swap(other);
     }
 
-    template<std::size_t I, class Self>
-    constexpr detail::combine_cvref_t<Self&&, detail::type_pack_indexing_t<I, Ts...>> get(this Self&& self) noexcept
+    template<std::size_t I>
+    [[nodiscard]] constexpr tuple_element_t<I, tuple>& get() & noexcept
     {
         static_assert(I < sizeof...(Ts));
-        return ((detail::forward_like_t<Self, tuple>)self).base_type::template get<I>();
+        return base_type::template get<I>();
+    }
+
+    template<std::size_t I>
+    [[nodiscard]] constexpr tuple_element_t<I, tuple> const& get() const& noexcept
+    {
+        static_assert(I < sizeof...(Ts));
+        return base_type::template get<I>();
+    }
+
+    template<std::size_t I>
+    [[nodiscard]] constexpr tuple_element_t<I, tuple>&& get() && noexcept
+    {
+        static_assert(I < sizeof...(Ts));
+        return base_type::template get<I>();
+    }
+
+    template<std::size_t I>
+    [[nodiscard]] constexpr tuple_element_t<I, tuple> const&& get() const&& noexcept
+    {
+        static_assert(I < sizeof...(Ts));
+        return base_type::template get<I>();
     }
 };
 
 template<std::size_t I, class... Ts>
-constexpr detail::type_pack_indexing_t<I, Ts...>& get(tuple<Ts...>& t) noexcept
+[[nodiscard]] constexpr tuple_element_t<I, tuple<Ts...>>& get(tuple<Ts...>& t) noexcept
 {
     static_assert(I < sizeof...(Ts));
     return t.template get<I>();
 }
 
 template<std::size_t I, class... Ts>
-constexpr detail::type_pack_indexing_t<I, Ts...> const& get(tuple<Ts...> const& t) noexcept
+[[nodiscard]] constexpr tuple_element_t<I, tuple<Ts...>> const& get(tuple<Ts...> const& t) noexcept
 {
     static_assert(I < sizeof...(Ts));
     return t.template get<I>();
 }
 
 template<std::size_t I, class... Ts>
-constexpr detail::type_pack_indexing_t<I, Ts...>&& get(tuple<Ts...>&& t) noexcept
+[[nodiscard]] constexpr tuple_element_t<I, tuple<Ts...>>&& get(tuple<Ts...>&& t) noexcept
 {
     static_assert(I < sizeof...(Ts));
     return static_cast<tuple<Ts...>&&>(t).template get<I>();
 }
 
 template<std::size_t I, class... Ts>
-constexpr detail::type_pack_indexing_t<I, Ts...> const&& get(tuple<Ts...> const&& t) noexcept
+[[nodiscard]] constexpr tuple_element_t<I, tuple<Ts...>> const&& get(tuple<Ts...> const&& t) noexcept
 {
     static_assert(I < sizeof...(Ts));
     return static_cast<tuple<Ts...> const&&>(t).template get<I>();
