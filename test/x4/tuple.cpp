@@ -309,6 +309,18 @@ TEST_CASE("tuple")
     }
 
     {
+        STATIC_CHECK(std::is_assignable_v<alloy::tuple<int, double>&, AdaptedStruct const&>);
+        STATIC_CHECK(std::is_assignable_v<alloy::tuple<int, double>&, AdaptedStruct&&>);
+
+        alloy::tuple<int, double> a(33, 3.14);
+        AdaptedStruct b{4, 2.18};
+        a = b;
+        a = std::move(b);
+        CHECK(alloy::get<0>(a) == 4);
+        CHECK(alloy::get<1>(a) == 2.18);
+    }
+
+    {
         struct Empty {};
         struct OnlyChar { char c; };
         [[maybe_unused]] constexpr alloy::tuple<Empty, OnlyChar> a = {{}, {'A'}};

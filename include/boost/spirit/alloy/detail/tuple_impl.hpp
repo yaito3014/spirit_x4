@@ -100,6 +100,13 @@ public:
 #define BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN(z, n, other)                                                                                                          \
     BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_MEMBER_PREFIX, n) = other.BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_MEMBER_PREFIX, n);
 
+#define BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN_ASSIGN(z, n, data)                                                                                                    \
+    BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_MEMBER_PREFIX, n) =                                                                                                 \
+        static_cast<BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2, n)>(BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_FUNCTION_PARAM_2, n));
+
+#define BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN_GET(z, n, other)                                                                                                      \
+    BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_MEMBER_PREFIX, n) = alloy::get<n>(static_cast<decltype(other)>(other));
+
 #define BOOST_SPIRIT_ALLOY_DETAIL_GET(z, n, data)                                                                                                              \
     BOOST_PP_EXPR_IF(n, else) if constexpr (I == n) return ((forward_like_t<Self, tuple_impl>)self).BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_MEMBER_PREFIX, n);
 
@@ -192,6 +199,13 @@ public:
             return *this;                                                                                                                                      \
         }                                                                                                                                                      \
                                                                                                                                                                \
+        template<class UTuple>                                                                                                                                 \
+        constexpr tuple_impl& operator=(UTuple&& other)                                                                                                        \
+        {                                                                                                                                                      \
+            BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN_GET, other)                                                                                    \
+            return *this;                                                                                                                                      \
+        }                                                                                                                                                      \
+                                                                                                                                                               \
         template<std::size_t I, class Self>                                                                                                                    \
         constexpr combine_cvref_t<Self&&,                                                                                                                      \
                                   type_pack_indexing_t<I, BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1)>>     \
@@ -208,6 +222,15 @@ class tuple_impl<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_AL
 {
     template<class... Us>
     friend class tuple_impl;
+
+private:
+    template<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2),
+             class... Us>
+    constexpr void assign(BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_FWD_PARAMS, ), Us&&... us)
+    {
+        BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN_ASSIGN, )
+        rest.assign(static_cast<Us>(us)...);
+    }
 
 public:
     BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_MEM_DEFS, )
@@ -279,6 +302,8 @@ public:
     }
 
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_COPY_ASSIGNABLE, ),
+                                    std::is_nothrow_copy_assignable<Ts>...>)
     {
         BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN, other)
         rest = other.rest;
@@ -318,6 +343,13 @@ public:
         return *this;
     }
 
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        [&, this]<std::size_t... Is>(std::index_sequence<Is...>) { assign(alloy::get<Is>(static_cast<UTuple>(other))...); }(std::index_sequence_for<Ts...>{});
+        return *this;
+    }
+
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<
         Self&&, type_pack_indexing_t<
@@ -341,6 +373,7 @@ public:
 #undef BOOST_SPIRIT_ALLOY_DETAIL_FWD_INITS
 #undef BOOST_SPIRIT_ALLOY_DETAIL_INITS
 #undef BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN
+#undef BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN_GET
 #undef BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_DEFAULT_CONSTRUCTIBLE
 #undef BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_CONSTRUCTIBLE
 #undef BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_COPY_ASSIGNABLE
