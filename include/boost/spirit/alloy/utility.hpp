@@ -264,9 +264,19 @@ struct tuple_assign_impl<std::index_sequence<Is...>>
 
 } // detail
 
+namespace result_of {
+
+template<class... Tuples>
+using tuple_cat = detail::tuple_cat_result_t<Tuples...>;
+
+template<class Tuple, std::size_t... Sizes>
+using tuple_split = detail::tuple_split_result_t<Tuple, Sizes...>;
+
+} // result_of
+
 template<class... Tuples>
     requires (TupleLike<std::remove_cvref_t<Tuples>> && ...)
-constexpr detail::tuple_cat_result_t<Tuples...> tuple_cat(Tuples&&... tuples)
+constexpr result_of::tuple_cat<Tuples...> tuple_cat(Tuples&&... tuples)
 {
     using Impl = detail::tuple_cat_impl<detail::tuple_cat_result_t<Tuples...>, detail::type_list<std::make_index_sequence<result_of::size<Tuples>>...>, Tuples...>;
     return Impl::apply(std::forward<Tuples>(tuples)...);
@@ -274,7 +284,7 @@ constexpr detail::tuple_cat_result_t<Tuples...> tuple_cat(Tuples&&... tuples)
 
 template<std::size_t... Sizes, class Tuple>
     requires TupleLike<std::remove_cvref_t<Tuple>>
-constexpr detail::tuple_split_result_t<Tuple, Sizes...> tuple_split(Tuple&& t)
+constexpr result_of::tuple_split<Tuple, Sizes...> tuple_split(Tuple&& t)
 {
     static_assert((0 + ... + Sizes) == result_of::size<Tuple>);
     using Impl = detail::tuple_split_impl<detail::tuple_split_result_t<Tuple, Sizes...>, Tuple, Sizes...>;
