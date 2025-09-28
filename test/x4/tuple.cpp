@@ -272,6 +272,15 @@ TEST_CASE("tuple")
     }
 
     {
+        STATIC_CHECK(std::is_copy_assignable_v<alloy::tuple<int>>);
+        STATIC_CHECK(std::is_nothrow_move_assignable_v<alloy::tuple<int>>);
+
+        alloy::tuple<int> a(33), b(4);
+        a = b;
+        a = std::move(b);
+    }
+
+    {
         struct Empty {};
         struct OnlyChar { char c; };
         [[maybe_unused]] constexpr alloy::tuple<Empty, OnlyChar> a = { {}, { 'A' } };

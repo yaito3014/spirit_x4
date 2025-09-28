@@ -182,6 +182,20 @@ class tuple : public detail::tuple_impl<Ts...>
         : tuple(construct, std::make_index_sequence<result_of::size<UTuple>>{}, static_cast<UTuple>(other))
     {}
 
+    constexpr tuple& operator=(tuple const& other)
+    {
+        base_type::operator=(other);
+        return *this;
+    
+    }
+    constexpr tuple& operator=(tuple&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_move_assignable<Ts>...>)
+        requires (std::conjunction_v<std::is_move_assignable<Ts>...>)
+    {
+        base_type::operator=(static_cast<tuple&&>(other));
+        return *this;
+    }
+
     template<std::size_t I, class Self>
     constexpr detail::combine_cvref_t<Self&&, detail::type_pack_indexing_t<I, Ts...>> get(this Self&& self) noexcept
     {
