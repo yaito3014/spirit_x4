@@ -14,6 +14,7 @@
 #include <boost/spirit/alloy/detail/forward_like_t.hpp>
 #include <boost/spirit/alloy/detail/pack_indexing.hpp>
 
+#include <boost/spirit/alloy/access.hpp>
 #include <boost/spirit/alloy/value_initialize.hpp>
 
 #include <type_traits>
