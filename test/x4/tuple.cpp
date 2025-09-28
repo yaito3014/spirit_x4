@@ -278,6 +278,19 @@ TEST_CASE("tuple")
         alloy::tuple<int> a(33), b(4);
         a = b;
         a = std::move(b);
+        CHECK(alloy::get<0>(a) == 4);
+    }
+    
+    {
+        STATIC_CHECK(std::is_copy_assignable_v<alloy::tuple<int&>>);
+        STATIC_CHECK(std::is_nothrow_move_assignable_v<alloy::tuple<int&>>);
+
+        int x = 33, y = 4;
+        alloy::tuple<int&> a(x);
+        alloy::tuple<int&> b(y);
+        a = b;
+        a = std::move(b);
+        CHECK(alloy::get<0>(a) == 4);
     }
 
     {
