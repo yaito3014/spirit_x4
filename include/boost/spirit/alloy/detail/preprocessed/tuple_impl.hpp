@@ -66,12 +66,24 @@ public:
         : _0(static_cast<decltype(other)>(other)._0)
     {
     }
-    constexpr tuple_impl& operator=(tuple_impl const& other)
+    constexpr tuple_impl& operator=(tuple_impl const& other) noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>>)
     {
         _0 = other._0;
         return *this;
     }
     constexpr tuple_impl& operator=(tuple_impl&& other) noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        return *this;
+    }
+    template<class U0>
+    constexpr tuple_impl& operator=(tuple_impl<U0> const& other) noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0 const&>>)
+    {
+        _0 = other._0;
+        return *this;
+    }
+    template<class U0>
+    constexpr tuple_impl& operator=(tuple_impl<U0>&& other) noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         return *this;
@@ -130,12 +142,29 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>>)
     {
         _0 = other._0;
         _1 = other._1;
         return *this;
     }
     constexpr tuple_impl& operator=(tuple_impl&& other) noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        return *this;
+    }
+    template<class U0, class U1>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1> const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        return *this;
+    }
+    template<class U0, class U1>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -201,6 +230,7 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -209,6 +239,24 @@ public:
     }
     constexpr tuple_impl& operator=(tuple_impl&& other)
         noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        return *this;
+    }
+    template<class U0, class U1, class U2>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2> const& other) noexcept(
+        std::conjunction_v<std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        return *this;
+    }
+    template<class U0, class U1, class U2>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -284,6 +332,8 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -293,6 +343,28 @@ public:
     }
     constexpr tuple_impl& operator=(tuple_impl&& other) noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>,
                                                                                     std::is_nothrow_move_assignable<T2>, std::is_nothrow_move_assignable<T3>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3> const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>,
+                                    std::is_nothrow_assignable<T2&, U2 const&>, std::is_nothrow_assignable<T3&, U3 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -374,6 +446,8 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -385,6 +459,30 @@ public:
     constexpr tuple_impl& operator=(tuple_impl&& other)
         noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
                                     std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4> const& other) noexcept(
+        std::conjunction_v<std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                           std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -470,6 +568,8 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -482,6 +582,32 @@ public:
     constexpr tuple_impl& operator=(tuple_impl&& other)
         noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
                                     std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5> const& other) noexcept(
+        std::conjunction_v<std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                           std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -580,6 +706,9 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -594,6 +723,36 @@ public:
         noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
                                     std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
                                     std::is_nothrow_move_assignable<T6>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6> const& other) noexcept(
+        std::conjunction_v<std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                           std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                           std::is_nothrow_assignable<T6&, U6 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -696,6 +855,9 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -711,6 +873,38 @@ public:
         noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
                                     std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
                                     std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7> const& other) noexcept(
+        std::conjunction_v<std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                           std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                           std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -817,6 +1011,9 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -833,6 +1030,40 @@ public:
         noexcept(std::conjunction_v<std::is_nothrow_move_assignable<T0>, std::is_nothrow_move_assignable<T1>, std::is_nothrow_move_assignable<T2>,
                                     std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
                                     std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8> const& other) noexcept(
+        std::conjunction_v<std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                           std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                           std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -951,6 +1182,10 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -969,6 +1204,44 @@ public:
                                     std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
                                     std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
                                     std::is_nothrow_move_assignable<T9>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9> const& other) noexcept(
+        std::conjunction_v<std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                           std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                           std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                           std::is_nothrow_assignable<T9&, U9 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -1093,6 +1366,10 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -1112,6 +1389,46 @@ public:
                                     std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
                                     std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
                                     std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10> const& other) noexcept(
+        std::conjunction_v<std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                           std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                           std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                           std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -1241,6 +1558,10 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -1261,6 +1582,49 @@ public:
                                     std::is_nothrow_move_assignable<T3>, std::is_nothrow_move_assignable<T4>, std::is_nothrow_move_assignable<T5>,
                                     std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
                                     std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -1402,6 +1766,11 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -1424,6 +1793,52 @@ public:
                                     std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
                                     std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
                                     std::is_nothrow_move_assignable<T12>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12> const& other) noexcept(
+        std::conjunction_v<std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                           std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                           std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                           std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>,
+                           std::is_nothrow_assignable<T11&, U11 const&>, std::is_nothrow_assignable<T12&, U12 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -1570,6 +1985,11 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -1593,6 +2013,55 @@ public:
                                     std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
                                     std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
                                     std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -1749,6 +2218,11 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -1773,6 +2247,59 @@ public:
                                     std::is_nothrow_move_assignable<T6>, std::is_nothrow_move_assignable<T7>, std::is_nothrow_move_assignable<T8>,
                                     std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
                                     std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -1941,6 +2468,12 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -1967,6 +2500,63 @@ public:
                                     std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
                                     std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
                                     std::is_nothrow_move_assignable<T15>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>,
+                 std::is_nothrow_assignable<T15&, U15 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -2141,6 +2731,12 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>, std::is_nothrow_copy_assignable<T16>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -2168,6 +2764,65 @@ public:
                                     std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
                                     std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
                                     std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>,
+                 std::is_nothrow_assignable<T15&, U15 const&>, std::is_nothrow_assignable<T16&, U16 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -2346,6 +3001,12 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>, std::is_nothrow_copy_assignable<T16>, std::is_nothrow_copy_assignable<T17>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -2374,6 +3035,67 @@ public:
                                     std::is_nothrow_move_assignable<T9>, std::is_nothrow_move_assignable<T10>, std::is_nothrow_move_assignable<T11>,
                                     std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
                                     std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>,
+                 std::is_nothrow_assignable<T15&, U15 const&>, std::is_nothrow_assignable<T16&, U16 const&>, std::is_nothrow_assignable<T17&, U17 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>, std::is_nothrow_assignable<T17&, U17&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -2564,6 +3286,13 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>, std::is_nothrow_copy_assignable<T16>, std::is_nothrow_copy_assignable<T17>,
+                                    std::is_nothrow_copy_assignable<T18>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -2594,6 +3323,71 @@ public:
                                     std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
                                     std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
                                     std::is_nothrow_move_assignable<T18>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>,
+                 std::is_nothrow_assignable<T15&, U15 const&>, std::is_nothrow_assignable<T16&, U16 const&>, std::is_nothrow_assignable<T17&, U17 const&>,
+                 std::is_nothrow_assignable<T18&, U18 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>, std::is_nothrow_assignable<T17&, U17&&>,
+                                    std::is_nothrow_assignable<T18&, U18&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -2790,6 +3584,13 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>, std::is_nothrow_copy_assignable<T16>, std::is_nothrow_copy_assignable<T17>,
+                                    std::is_nothrow_copy_assignable<T18>, std::is_nothrow_copy_assignable<T19>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -2821,6 +3622,73 @@ public:
                                     std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
                                     std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
                                     std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>,
+                 std::is_nothrow_assignable<T15&, U15 const&>, std::is_nothrow_assignable<T16&, U16 const&>, std::is_nothrow_assignable<T17&, U17 const&>,
+                 std::is_nothrow_assignable<T18&, U18 const&>, std::is_nothrow_assignable<T19&, U19 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>, std::is_nothrow_assignable<T17&, U17&&>,
+                                    std::is_nothrow_assignable<T18&, U18&&>, std::is_nothrow_assignable<T19&, U19&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -3024,6 +3892,13 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>, std::is_nothrow_copy_assignable<T16>, std::is_nothrow_copy_assignable<T17>,
+                                    std::is_nothrow_copy_assignable<T18>, std::is_nothrow_copy_assignable<T19>, std::is_nothrow_copy_assignable<T20>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -3056,6 +3931,75 @@ public:
                                     std::is_nothrow_move_assignable<T12>, std::is_nothrow_move_assignable<T13>, std::is_nothrow_move_assignable<T14>,
                                     std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
                                     std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>,
+                 std::is_nothrow_assignable<T15&, U15 const&>, std::is_nothrow_assignable<T16&, U16 const&>, std::is_nothrow_assignable<T17&, U17 const&>,
+                 std::is_nothrow_assignable<T18&, U18 const&>, std::is_nothrow_assignable<T19&, U19 const&>, std::is_nothrow_assignable<T20&, U20 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>, std::is_nothrow_assignable<T17&, U17&&>,
+                                    std::is_nothrow_assignable<T18&, U18&&>, std::is_nothrow_assignable<T19&, U19&&>, std::is_nothrow_assignable<T20&, U20&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -3273,6 +4217,14 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>, std::is_nothrow_copy_assignable<T16>, std::is_nothrow_copy_assignable<T17>,
+                                    std::is_nothrow_copy_assignable<T18>, std::is_nothrow_copy_assignable<T19>, std::is_nothrow_copy_assignable<T20>,
+                                    std::is_nothrow_copy_assignable<T21>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -3307,6 +4259,79 @@ public:
                                     std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
                                     std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
                                     std::is_nothrow_move_assignable<T21>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>,
+                 std::is_nothrow_assignable<T15&, U15 const&>, std::is_nothrow_assignable<T16&, U16 const&>, std::is_nothrow_assignable<T17&, U17 const&>,
+                 std::is_nothrow_assignable<T18&, U18 const&>, std::is_nothrow_assignable<T19&, U19 const&>, std::is_nothrow_assignable<T20&, U20 const&>,
+                 std::is_nothrow_assignable<T21&, U21 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>, std::is_nothrow_assignable<T17&, U17&&>,
+                                    std::is_nothrow_assignable<T18&, U18&&>, std::is_nothrow_assignable<T19&, U19&&>, std::is_nothrow_assignable<T20&, U20&&>,
+                                    std::is_nothrow_assignable<T21&, U21&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -3531,6 +4556,14 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>, std::is_nothrow_copy_assignable<T16>, std::is_nothrow_copy_assignable<T17>,
+                                    std::is_nothrow_copy_assignable<T18>, std::is_nothrow_copy_assignable<T19>, std::is_nothrow_copy_assignable<T20>,
+                                    std::is_nothrow_copy_assignable<T21>, std::is_nothrow_copy_assignable<T22>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -3566,6 +4599,82 @@ public:
                                     std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
                                     std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
                                     std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22>
+    constexpr tuple_impl&
+    operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>,
+                 std::is_nothrow_assignable<T15&, U15 const&>, std::is_nothrow_assignable<T16&, U16 const&>, std::is_nothrow_assignable<T17&, U17 const&>,
+                 std::is_nothrow_assignable<T18&, U18 const&>, std::is_nothrow_assignable<T19&, U19 const&>, std::is_nothrow_assignable<T20&, U20 const&>,
+                 std::is_nothrow_assignable<T21&, U21 const&>, std::is_nothrow_assignable<T22&, U22 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>, std::is_nothrow_assignable<T17&, U17&&>,
+                                    std::is_nothrow_assignable<T18&, U18&&>, std::is_nothrow_assignable<T19&, U19&&>, std::is_nothrow_assignable<T20&, U20&&>,
+                                    std::is_nothrow_assignable<T21&, U21&&>, std::is_nothrow_assignable<T22&, U22&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -3799,6 +4908,14 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>, std::is_nothrow_copy_assignable<T16>, std::is_nothrow_copy_assignable<T17>,
+                                    std::is_nothrow_copy_assignable<T18>, std::is_nothrow_copy_assignable<T19>, std::is_nothrow_copy_assignable<T20>,
+                                    std::is_nothrow_copy_assignable<T21>, std::is_nothrow_copy_assignable<T22>, std::is_nothrow_copy_assignable<T23>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -3835,6 +4952,85 @@ public:
                                     std::is_nothrow_move_assignable<T15>, std::is_nothrow_move_assignable<T16>, std::is_nothrow_move_assignable<T17>,
                                     std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
                                     std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>, std::is_nothrow_move_assignable<T23>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23>
+    constexpr tuple_impl&
+    operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>,
+                 std::is_nothrow_assignable<T15&, U15 const&>, std::is_nothrow_assignable<T16&, U16 const&>, std::is_nothrow_assignable<T17&, U17 const&>,
+                 std::is_nothrow_assignable<T18&, U18 const&>, std::is_nothrow_assignable<T19&, U19 const&>, std::is_nothrow_assignable<T20&, U20 const&>,
+                 std::is_nothrow_assignable<T21&, U21 const&>, std::is_nothrow_assignable<T22&, U22 const&>, std::is_nothrow_assignable<T23&, U23 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23>
+    constexpr tuple_impl&
+    operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>, std::is_nothrow_assignable<T17&, U17&&>,
+                                    std::is_nothrow_assignable<T18&, U18&&>, std::is_nothrow_assignable<T19&, U19&&>, std::is_nothrow_assignable<T20&, U20&&>,
+                                    std::is_nothrow_assignable<T21&, U21&&>, std::is_nothrow_assignable<T22&, U22&&>, std::is_nothrow_assignable<T23&, U23&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -4079,6 +5275,15 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>, std::is_nothrow_copy_assignable<T16>, std::is_nothrow_copy_assignable<T17>,
+                                    std::is_nothrow_copy_assignable<T18>, std::is_nothrow_copy_assignable<T19>, std::is_nothrow_copy_assignable<T20>,
+                                    std::is_nothrow_copy_assignable<T21>, std::is_nothrow_copy_assignable<T22>, std::is_nothrow_copy_assignable<T23>,
+                                    std::is_nothrow_copy_assignable<T24>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -4117,6 +5322,89 @@ public:
                                     std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
                                     std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>, std::is_nothrow_move_assignable<T23>,
                                     std::is_nothrow_move_assignable<T24>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        _24 = static_cast<decltype(other)>(other)._24;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24>
+    constexpr tuple_impl&
+    operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>,
+                 std::is_nothrow_assignable<T15&, U15 const&>, std::is_nothrow_assignable<T16&, U16 const&>, std::is_nothrow_assignable<T17&, U17 const&>,
+                 std::is_nothrow_assignable<T18&, U18 const&>, std::is_nothrow_assignable<T19&, U19 const&>, std::is_nothrow_assignable<T20&, U20 const&>,
+                 std::is_nothrow_assignable<T21&, U21 const&>, std::is_nothrow_assignable<T22&, U22 const&>, std::is_nothrow_assignable<T23&, U23 const&>,
+                 std::is_nothrow_assignable<T24&, U24 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        _24 = other._24;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24>
+    constexpr tuple_impl&
+    operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>, std::is_nothrow_assignable<T17&, U17&&>,
+                                    std::is_nothrow_assignable<T18&, U18&&>, std::is_nothrow_assignable<T19&, U19&&>, std::is_nothrow_assignable<T20&, U20&&>,
+                                    std::is_nothrow_assignable<T21&, U21&&>, std::is_nothrow_assignable<T22&, U22&&>, std::is_nothrow_assignable<T23&, U23&&>,
+                                    std::is_nothrow_assignable<T24&, U24&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -4366,6 +5654,15 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>, std::is_nothrow_copy_assignable<T16>, std::is_nothrow_copy_assignable<T17>,
+                                    std::is_nothrow_copy_assignable<T18>, std::is_nothrow_copy_assignable<T19>, std::is_nothrow_copy_assignable<T20>,
+                                    std::is_nothrow_copy_assignable<T21>, std::is_nothrow_copy_assignable<T22>, std::is_nothrow_copy_assignable<T23>,
+                                    std::is_nothrow_copy_assignable<T24>, std::is_nothrow_copy_assignable<T25>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -4405,6 +5702,91 @@ public:
                                     std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
                                     std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>, std::is_nothrow_move_assignable<T23>,
                                     std::is_nothrow_move_assignable<T24>, std::is_nothrow_move_assignable<T25>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        _24 = static_cast<decltype(other)>(other)._24;
+        _25 = static_cast<decltype(other)>(other)._25;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25>
+    constexpr tuple_impl&
+    operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>,
+                 std::is_nothrow_assignable<T15&, U15 const&>, std::is_nothrow_assignable<T16&, U16 const&>, std::is_nothrow_assignable<T17&, U17 const&>,
+                 std::is_nothrow_assignable<T18&, U18 const&>, std::is_nothrow_assignable<T19&, U19 const&>, std::is_nothrow_assignable<T20&, U20 const&>,
+                 std::is_nothrow_assignable<T21&, U21 const&>, std::is_nothrow_assignable<T22&, U22 const&>, std::is_nothrow_assignable<T23&, U23 const&>,
+                 std::is_nothrow_assignable<T24&, U24 const&>, std::is_nothrow_assignable<T25&, U25 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        _24 = other._24;
+        _25 = other._25;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25>
+    constexpr tuple_impl&
+    operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>, std::is_nothrow_assignable<T17&, U17&&>,
+                                    std::is_nothrow_assignable<T18&, U18&&>, std::is_nothrow_assignable<T19&, U19&&>, std::is_nothrow_assignable<T20&, U20&&>,
+                                    std::is_nothrow_assignable<T21&, U21&&>, std::is_nothrow_assignable<T22&, U22&&>, std::is_nothrow_assignable<T23&, U23&&>,
+                                    std::is_nothrow_assignable<T24&, U24&&>, std::is_nothrow_assignable<T25&, U25&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -4660,6 +6042,15 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>, std::is_nothrow_copy_assignable<T16>, std::is_nothrow_copy_assignable<T17>,
+                                    std::is_nothrow_copy_assignable<T18>, std::is_nothrow_copy_assignable<T19>, std::is_nothrow_copy_assignable<T20>,
+                                    std::is_nothrow_copy_assignable<T21>, std::is_nothrow_copy_assignable<T22>, std::is_nothrow_copy_assignable<T23>,
+                                    std::is_nothrow_copy_assignable<T24>, std::is_nothrow_copy_assignable<T25>, std::is_nothrow_copy_assignable<T26>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -4700,6 +6091,93 @@ public:
                                     std::is_nothrow_move_assignable<T18>, std::is_nothrow_move_assignable<T19>, std::is_nothrow_move_assignable<T20>,
                                     std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>, std::is_nothrow_move_assignable<T23>,
                                     std::is_nothrow_move_assignable<T24>, std::is_nothrow_move_assignable<T25>, std::is_nothrow_move_assignable<T26>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        _24 = static_cast<decltype(other)>(other)._24;
+        _25 = static_cast<decltype(other)>(other)._25;
+        _26 = static_cast<decltype(other)>(other)._26;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26>
+    constexpr tuple_impl& operator=(
+        tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>,
+                 std::is_nothrow_assignable<T15&, U15 const&>, std::is_nothrow_assignable<T16&, U16 const&>, std::is_nothrow_assignable<T17&, U17 const&>,
+                 std::is_nothrow_assignable<T18&, U18 const&>, std::is_nothrow_assignable<T19&, U19 const&>, std::is_nothrow_assignable<T20&, U20 const&>,
+                 std::is_nothrow_assignable<T21&, U21 const&>, std::is_nothrow_assignable<T22&, U22 const&>, std::is_nothrow_assignable<T23&, U23 const&>,
+                 std::is_nothrow_assignable<T24&, U24 const&>, std::is_nothrow_assignable<T25&, U25 const&>, std::is_nothrow_assignable<T26&, U26 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        _24 = other._24;
+        _25 = other._25;
+        _26 = other._26;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26>
+    constexpr tuple_impl&
+    operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>, std::is_nothrow_assignable<T17&, U17&&>,
+                                    std::is_nothrow_assignable<T18&, U18&&>, std::is_nothrow_assignable<T19&, U19&&>, std::is_nothrow_assignable<T20&, U20&&>,
+                                    std::is_nothrow_assignable<T21&, U21&&>, std::is_nothrow_assignable<T22&, U22&&>, std::is_nothrow_assignable<T23&, U23&&>,
+                                    std::is_nothrow_assignable<T24&, U24&&>, std::is_nothrow_assignable<T25&, U25&&>, std::is_nothrow_assignable<T26&, U26&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -4972,6 +6450,16 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>, std::is_nothrow_copy_assignable<T16>, std::is_nothrow_copy_assignable<T17>,
+                                    std::is_nothrow_copy_assignable<T18>, std::is_nothrow_copy_assignable<T19>, std::is_nothrow_copy_assignable<T20>,
+                                    std::is_nothrow_copy_assignable<T21>, std::is_nothrow_copy_assignable<T22>, std::is_nothrow_copy_assignable<T23>,
+                                    std::is_nothrow_copy_assignable<T24>, std::is_nothrow_copy_assignable<T25>, std::is_nothrow_copy_assignable<T26>,
+                                    std::is_nothrow_copy_assignable<T27>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -5014,6 +6502,99 @@ public:
                                     std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>, std::is_nothrow_move_assignable<T23>,
                                     std::is_nothrow_move_assignable<T24>, std::is_nothrow_move_assignable<T25>, std::is_nothrow_move_assignable<T26>,
                                     std::is_nothrow_move_assignable<T27>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        _24 = static_cast<decltype(other)>(other)._24;
+        _25 = static_cast<decltype(other)>(other)._25;
+        _26 = static_cast<decltype(other)>(other)._26;
+        _27 = static_cast<decltype(other)>(other)._27;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26,
+             class U27>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23,
+                                               U24, U25, U26, U27> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>,
+                 std::is_nothrow_assignable<T15&, U15 const&>, std::is_nothrow_assignable<T16&, U16 const&>, std::is_nothrow_assignable<T17&, U17 const&>,
+                 std::is_nothrow_assignable<T18&, U18 const&>, std::is_nothrow_assignable<T19&, U19 const&>, std::is_nothrow_assignable<T20&, U20 const&>,
+                 std::is_nothrow_assignable<T21&, U21 const&>, std::is_nothrow_assignable<T22&, U22 const&>, std::is_nothrow_assignable<T23&, U23 const&>,
+                 std::is_nothrow_assignable<T24&, U24 const&>, std::is_nothrow_assignable<T25&, U25 const&>, std::is_nothrow_assignable<T26&, U26 const&>,
+                 std::is_nothrow_assignable<T27&, U27 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        _24 = other._24;
+        _25 = other._25;
+        _26 = other._26;
+        _27 = other._27;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26,
+             class U27>
+    constexpr tuple_impl& operator=(
+        tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>, std::is_nothrow_assignable<T17&, U17&&>,
+                                    std::is_nothrow_assignable<T18&, U18&&>, std::is_nothrow_assignable<T19&, U19&&>, std::is_nothrow_assignable<T20&, U20&&>,
+                                    std::is_nothrow_assignable<T21&, U21&&>, std::is_nothrow_assignable<T22&, U22&&>, std::is_nothrow_assignable<T23&, U23&&>,
+                                    std::is_nothrow_assignable<T24&, U24&&>, std::is_nothrow_assignable<T25&, U25&&>, std::is_nothrow_assignable<T26&, U26&&>,
+                                    std::is_nothrow_assignable<T27&, U27&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -5292,6 +6873,16 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>, std::is_nothrow_copy_assignable<T16>, std::is_nothrow_copy_assignable<T17>,
+                                    std::is_nothrow_copy_assignable<T18>, std::is_nothrow_copy_assignable<T19>, std::is_nothrow_copy_assignable<T20>,
+                                    std::is_nothrow_copy_assignable<T21>, std::is_nothrow_copy_assignable<T22>, std::is_nothrow_copy_assignable<T23>,
+                                    std::is_nothrow_copy_assignable<T24>, std::is_nothrow_copy_assignable<T25>, std::is_nothrow_copy_assignable<T26>,
+                                    std::is_nothrow_copy_assignable<T27>, std::is_nothrow_copy_assignable<T28>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -5335,6 +6926,101 @@ public:
                                     std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>, std::is_nothrow_move_assignable<T23>,
                                     std::is_nothrow_move_assignable<T24>, std::is_nothrow_move_assignable<T25>, std::is_nothrow_move_assignable<T26>,
                                     std::is_nothrow_move_assignable<T27>, std::is_nothrow_move_assignable<T28>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        _24 = static_cast<decltype(other)>(other)._24;
+        _25 = static_cast<decltype(other)>(other)._25;
+        _26 = static_cast<decltype(other)>(other)._26;
+        _27 = static_cast<decltype(other)>(other)._27;
+        _28 = static_cast<decltype(other)>(other)._28;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26,
+             class U27, class U28>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23,
+                                               U24, U25, U26, U27, U28> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>,
+                 std::is_nothrow_assignable<T15&, U15 const&>, std::is_nothrow_assignable<T16&, U16 const&>, std::is_nothrow_assignable<T17&, U17 const&>,
+                 std::is_nothrow_assignable<T18&, U18 const&>, std::is_nothrow_assignable<T19&, U19 const&>, std::is_nothrow_assignable<T20&, U20 const&>,
+                 std::is_nothrow_assignable<T21&, U21 const&>, std::is_nothrow_assignable<T22&, U22 const&>, std::is_nothrow_assignable<T23&, U23 const&>,
+                 std::is_nothrow_assignable<T24&, U24 const&>, std::is_nothrow_assignable<T25&, U25 const&>, std::is_nothrow_assignable<T26&, U26 const&>,
+                 std::is_nothrow_assignable<T27&, U27 const&>, std::is_nothrow_assignable<T28&, U28 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        _24 = other._24;
+        _25 = other._25;
+        _26 = other._26;
+        _27 = other._27;
+        _28 = other._28;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26,
+             class U27, class U28>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23,
+                                               U24, U25, U26, U27, U28>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>, std::is_nothrow_assignable<T17&, U17&&>,
+                                    std::is_nothrow_assignable<T18&, U18&&>, std::is_nothrow_assignable<T19&, U19&&>, std::is_nothrow_assignable<T20&, U20&&>,
+                                    std::is_nothrow_assignable<T21&, U21&&>, std::is_nothrow_assignable<T22&, U22&&>, std::is_nothrow_assignable<T23&, U23&&>,
+                                    std::is_nothrow_assignable<T24&, U24&&>, std::is_nothrow_assignable<T25&, U25&&>, std::is_nothrow_assignable<T26&, U26&&>,
+                                    std::is_nothrow_assignable<T27&, U27&&>, std::is_nothrow_assignable<T28&, U28&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -5619,6 +7305,16 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>, std::is_nothrow_copy_assignable<T16>, std::is_nothrow_copy_assignable<T17>,
+                                    std::is_nothrow_copy_assignable<T18>, std::is_nothrow_copy_assignable<T19>, std::is_nothrow_copy_assignable<T20>,
+                                    std::is_nothrow_copy_assignable<T21>, std::is_nothrow_copy_assignable<T22>, std::is_nothrow_copy_assignable<T23>,
+                                    std::is_nothrow_copy_assignable<T24>, std::is_nothrow_copy_assignable<T25>, std::is_nothrow_copy_assignable<T26>,
+                                    std::is_nothrow_copy_assignable<T27>, std::is_nothrow_copy_assignable<T28>, std::is_nothrow_copy_assignable<T29>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -5663,6 +7359,103 @@ public:
                                     std::is_nothrow_move_assignable<T21>, std::is_nothrow_move_assignable<T22>, std::is_nothrow_move_assignable<T23>,
                                     std::is_nothrow_move_assignable<T24>, std::is_nothrow_move_assignable<T25>, std::is_nothrow_move_assignable<T26>,
                                     std::is_nothrow_move_assignable<T27>, std::is_nothrow_move_assignable<T28>, std::is_nothrow_move_assignable<T29>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        _24 = static_cast<decltype(other)>(other)._24;
+        _25 = static_cast<decltype(other)>(other)._25;
+        _26 = static_cast<decltype(other)>(other)._26;
+        _27 = static_cast<decltype(other)>(other)._27;
+        _28 = static_cast<decltype(other)>(other)._28;
+        _29 = static_cast<decltype(other)>(other)._29;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26,
+             class U27, class U28, class U29>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23,
+                                               U24, U25, U26, U27, U28, U29> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>,
+                 std::is_nothrow_assignable<T15&, U15 const&>, std::is_nothrow_assignable<T16&, U16 const&>, std::is_nothrow_assignable<T17&, U17 const&>,
+                 std::is_nothrow_assignable<T18&, U18 const&>, std::is_nothrow_assignable<T19&, U19 const&>, std::is_nothrow_assignable<T20&, U20 const&>,
+                 std::is_nothrow_assignable<T21&, U21 const&>, std::is_nothrow_assignable<T22&, U22 const&>, std::is_nothrow_assignable<T23&, U23 const&>,
+                 std::is_nothrow_assignable<T24&, U24 const&>, std::is_nothrow_assignable<T25&, U25 const&>, std::is_nothrow_assignable<T26&, U26 const&>,
+                 std::is_nothrow_assignable<T27&, U27 const&>, std::is_nothrow_assignable<T28&, U28 const&>, std::is_nothrow_assignable<T29&, U29 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        _24 = other._24;
+        _25 = other._25;
+        _26 = other._26;
+        _27 = other._27;
+        _28 = other._28;
+        _29 = other._29;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26,
+             class U27, class U28, class U29>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23,
+                                               U24, U25, U26, U27, U28, U29>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>, std::is_nothrow_assignable<T17&, U17&&>,
+                                    std::is_nothrow_assignable<T18&, U18&&>, std::is_nothrow_assignable<T19&, U19&&>, std::is_nothrow_assignable<T20&, U20&&>,
+                                    std::is_nothrow_assignable<T21&, U21&&>, std::is_nothrow_assignable<T22&, U22&&>, std::is_nothrow_assignable<T23&, U23&&>,
+                                    std::is_nothrow_assignable<T24&, U24&&>, std::is_nothrow_assignable<T25&, U25&&>, std::is_nothrow_assignable<T26&, U26&&>,
+                                    std::is_nothrow_assignable<T27&, U27&&>, std::is_nothrow_assignable<T28&, U28&&>, std::is_nothrow_assignable<T29&, U29&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -5958,6 +7751,17 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>, std::is_nothrow_copy_assignable<T16>, std::is_nothrow_copy_assignable<T17>,
+                                    std::is_nothrow_copy_assignable<T18>, std::is_nothrow_copy_assignable<T19>, std::is_nothrow_copy_assignable<T20>,
+                                    std::is_nothrow_copy_assignable<T21>, std::is_nothrow_copy_assignable<T22>, std::is_nothrow_copy_assignable<T23>,
+                                    std::is_nothrow_copy_assignable<T24>, std::is_nothrow_copy_assignable<T25>, std::is_nothrow_copy_assignable<T26>,
+                                    std::is_nothrow_copy_assignable<T27>, std::is_nothrow_copy_assignable<T28>, std::is_nothrow_copy_assignable<T29>,
+                                    std::is_nothrow_copy_assignable<T30>>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -6004,6 +7808,107 @@ public:
                                     std::is_nothrow_move_assignable<T24>, std::is_nothrow_move_assignable<T25>, std::is_nothrow_move_assignable<T26>,
                                     std::is_nothrow_move_assignable<T27>, std::is_nothrow_move_assignable<T28>, std::is_nothrow_move_assignable<T29>,
                                     std::is_nothrow_move_assignable<T30>>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        _24 = static_cast<decltype(other)>(other)._24;
+        _25 = static_cast<decltype(other)>(other)._25;
+        _26 = static_cast<decltype(other)>(other)._26;
+        _27 = static_cast<decltype(other)>(other)._27;
+        _28 = static_cast<decltype(other)>(other)._28;
+        _29 = static_cast<decltype(other)>(other)._29;
+        _30 = static_cast<decltype(other)>(other)._30;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26,
+             class U27, class U28, class U29, class U30>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23,
+                                               U24, U25, U26, U27, U28, U29, U30> const& other)
+        noexcept(std::conjunction_v<
+                 std::is_nothrow_assignable<T0&, U0 const&>, std::is_nothrow_assignable<T1&, U1 const&>, std::is_nothrow_assignable<T2&, U2 const&>,
+                 std::is_nothrow_assignable<T3&, U3 const&>, std::is_nothrow_assignable<T4&, U4 const&>, std::is_nothrow_assignable<T5&, U5 const&>,
+                 std::is_nothrow_assignable<T6&, U6 const&>, std::is_nothrow_assignable<T7&, U7 const&>, std::is_nothrow_assignable<T8&, U8 const&>,
+                 std::is_nothrow_assignable<T9&, U9 const&>, std::is_nothrow_assignable<T10&, U10 const&>, std::is_nothrow_assignable<T11&, U11 const&>,
+                 std::is_nothrow_assignable<T12&, U12 const&>, std::is_nothrow_assignable<T13&, U13 const&>, std::is_nothrow_assignable<T14&, U14 const&>,
+                 std::is_nothrow_assignable<T15&, U15 const&>, std::is_nothrow_assignable<T16&, U16 const&>, std::is_nothrow_assignable<T17&, U17 const&>,
+                 std::is_nothrow_assignable<T18&, U18 const&>, std::is_nothrow_assignable<T19&, U19 const&>, std::is_nothrow_assignable<T20&, U20 const&>,
+                 std::is_nothrow_assignable<T21&, U21 const&>, std::is_nothrow_assignable<T22&, U22 const&>, std::is_nothrow_assignable<T23&, U23 const&>,
+                 std::is_nothrow_assignable<T24&, U24 const&>, std::is_nothrow_assignable<T25&, U25 const&>, std::is_nothrow_assignable<T26&, U26 const&>,
+                 std::is_nothrow_assignable<T27&, U27 const&>, std::is_nothrow_assignable<T28&, U28 const&>, std::is_nothrow_assignable<T29&, U29 const&>,
+                 std::is_nothrow_assignable<T30&, U30 const&>>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        _24 = other._24;
+        _25 = other._25;
+        _26 = other._26;
+        _27 = other._27;
+        _28 = other._28;
+        _29 = other._29;
+        _30 = other._30;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26,
+             class U27, class U28, class U29, class U30>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23,
+                                               U24, U25, U26, U27, U28, U29, U30>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>, std::is_nothrow_assignable<T17&, U17&&>,
+                                    std::is_nothrow_assignable<T18&, U18&&>, std::is_nothrow_assignable<T19&, U19&&>, std::is_nothrow_assignable<T20&, U20&&>,
+                                    std::is_nothrow_assignable<T21&, U21&&>, std::is_nothrow_assignable<T22&, U22&&>, std::is_nothrow_assignable<T23&, U23&&>,
+                                    std::is_nothrow_assignable<T24&, U24&&>, std::is_nothrow_assignable<T25&, U25&&>, std::is_nothrow_assignable<T26&, U26&&>,
+                                    std::is_nothrow_assignable<T27&, U27&&>, std::is_nothrow_assignable<T28&, U28&&>, std::is_nothrow_assignable<T29&, U29&&>,
+                                    std::is_nothrow_assignable<T30&, U30&&>>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
@@ -6357,6 +8262,111 @@ public:
                                     std::is_nothrow_move_assignable<T24>, std::is_nothrow_move_assignable<T25>, std::is_nothrow_move_assignable<T26>,
                                     std::is_nothrow_move_assignable<T27>, std::is_nothrow_move_assignable<T28>, std::is_nothrow_move_assignable<T29>,
                                     std::is_nothrow_move_assignable<T30>, std::is_nothrow_move_assignable<T31>, std::is_nothrow_move_assignable<Ts>...>)
+    {
+        _0 = static_cast<decltype(other)>(other)._0;
+        _1 = static_cast<decltype(other)>(other)._1;
+        _2 = static_cast<decltype(other)>(other)._2;
+        _3 = static_cast<decltype(other)>(other)._3;
+        _4 = static_cast<decltype(other)>(other)._4;
+        _5 = static_cast<decltype(other)>(other)._5;
+        _6 = static_cast<decltype(other)>(other)._6;
+        _7 = static_cast<decltype(other)>(other)._7;
+        _8 = static_cast<decltype(other)>(other)._8;
+        _9 = static_cast<decltype(other)>(other)._9;
+        _10 = static_cast<decltype(other)>(other)._10;
+        _11 = static_cast<decltype(other)>(other)._11;
+        _12 = static_cast<decltype(other)>(other)._12;
+        _13 = static_cast<decltype(other)>(other)._13;
+        _14 = static_cast<decltype(other)>(other)._14;
+        _15 = static_cast<decltype(other)>(other)._15;
+        _16 = static_cast<decltype(other)>(other)._16;
+        _17 = static_cast<decltype(other)>(other)._17;
+        _18 = static_cast<decltype(other)>(other)._18;
+        _19 = static_cast<decltype(other)>(other)._19;
+        _20 = static_cast<decltype(other)>(other)._20;
+        _21 = static_cast<decltype(other)>(other)._21;
+        _22 = static_cast<decltype(other)>(other)._22;
+        _23 = static_cast<decltype(other)>(other)._23;
+        _24 = static_cast<decltype(other)>(other)._24;
+        _25 = static_cast<decltype(other)>(other)._25;
+        _26 = static_cast<decltype(other)>(other)._26;
+        _27 = static_cast<decltype(other)>(other)._27;
+        _28 = static_cast<decltype(other)>(other)._28;
+        _29 = static_cast<decltype(other)>(other)._29;
+        _30 = static_cast<decltype(other)>(other)._30;
+        _31 = static_cast<decltype(other)>(other)._31;
+        rest = static_cast<decltype(other)>(other).rest;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26,
+             class U27, class U28, class U29, class U30, class U31, class... Us>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23,
+                                               U24, U25, U26, U27, U28, U29, U30, U31> const& other)
+        noexcept(
+            std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                               std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                               std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                               std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                               std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                               std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>, std::is_nothrow_assignable<T17&, U17&&>,
+                               std::is_nothrow_assignable<T18&, U18&&>, std::is_nothrow_assignable<T19&, U19&&>, std::is_nothrow_assignable<T20&, U20&&>,
+                               std::is_nothrow_assignable<T21&, U21&&>, std::is_nothrow_assignable<T22&, U22&&>, std::is_nothrow_assignable<T23&, U23&&>,
+                               std::is_nothrow_assignable<T24&, U24&&>, std::is_nothrow_assignable<T25&, U25&&>, std::is_nothrow_assignable<T26&, U26&&>,
+                               std::is_nothrow_assignable<T27&, U27&&>, std::is_nothrow_assignable<T28&, U28&&>, std::is_nothrow_assignable<T29&, U29&&>,
+                               std::is_nothrow_assignable<T30&, U30&&>, std::is_nothrow_assignable<T31&, U31&&>, std::is_nothrow_assignable<Ts&, Us const&>...>)
+    {
+        _0 = other._0;
+        _1 = other._1;
+        _2 = other._2;
+        _3 = other._3;
+        _4 = other._4;
+        _5 = other._5;
+        _6 = other._6;
+        _7 = other._7;
+        _8 = other._8;
+        _9 = other._9;
+        _10 = other._10;
+        _11 = other._11;
+        _12 = other._12;
+        _13 = other._13;
+        _14 = other._14;
+        _15 = other._15;
+        _16 = other._16;
+        _17 = other._17;
+        _18 = other._18;
+        _19 = other._19;
+        _20 = other._20;
+        _21 = other._21;
+        _22 = other._22;
+        _23 = other._23;
+        _24 = other._24;
+        _25 = other._25;
+        _26 = other._26;
+        _27 = other._27;
+        _28 = other._28;
+        _29 = other._29;
+        _30 = other._30;
+        _31 = other._31;
+        rest = other.rest;
+        return *this;
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26,
+             class U27, class U28, class U29, class U30, class U31, class... Us>
+    constexpr tuple_impl& operator=(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23,
+                                               U24, U25, U26, U27, U28, U29, U30, U31>&& other)
+        noexcept(std::conjunction_v<std::is_nothrow_assignable<T0&, U0&&>, std::is_nothrow_assignable<T1&, U1&&>, std::is_nothrow_assignable<T2&, U2&&>,
+                                    std::is_nothrow_assignable<T3&, U3&&>, std::is_nothrow_assignable<T4&, U4&&>, std::is_nothrow_assignable<T5&, U5&&>,
+                                    std::is_nothrow_assignable<T6&, U6&&>, std::is_nothrow_assignable<T7&, U7&&>, std::is_nothrow_assignable<T8&, U8&&>,
+                                    std::is_nothrow_assignable<T9&, U9&&>, std::is_nothrow_assignable<T10&, U10&&>, std::is_nothrow_assignable<T11&, U11&&>,
+                                    std::is_nothrow_assignable<T12&, U12&&>, std::is_nothrow_assignable<T13&, U13&&>, std::is_nothrow_assignable<T14&, U14&&>,
+                                    std::is_nothrow_assignable<T15&, U15&&>, std::is_nothrow_assignable<T16&, U16&&>, std::is_nothrow_assignable<T17&, U17&&>,
+                                    std::is_nothrow_assignable<T18&, U18&&>, std::is_nothrow_assignable<T19&, U19&&>, std::is_nothrow_assignable<T20&, U20&&>,
+                                    std::is_nothrow_assignable<T21&, U21&&>, std::is_nothrow_assignable<T22&, U22&&>, std::is_nothrow_assignable<T23&, U23&&>,
+                                    std::is_nothrow_assignable<T24&, U24&&>, std::is_nothrow_assignable<T25&, U25&&>, std::is_nothrow_assignable<T26&, U26&&>,
+                                    std::is_nothrow_assignable<T27&, U27&&>, std::is_nothrow_assignable<T28&, U28&&>, std::is_nothrow_assignable<T29&, U29&&>,
+                                    std::is_nothrow_assignable<T30&, U30&&>, std::is_nothrow_assignable<T31&, U31&&>, std::is_nothrow_assignable<Ts&, Us&&>...>)
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;

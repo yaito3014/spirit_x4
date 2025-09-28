@@ -50,6 +50,8 @@ struct tuple_traits_impl<std::index_sequence<Is...>, UTuple, Ts...>
     static constexpr bool all_convertible = std::conjunction_v<std::is_convertible<result_of::get<Is, UTuple>, Ts>...>;
     static constexpr bool all_constructible = std::conjunction_v<std::is_constructible<Ts, result_of::get<Is, UTuple>>...>;
     static constexpr bool all_nothrow_constructible = std::conjunction_v<std::is_nothrow_constructible<Ts, result_of::get<Is, UTuple>>...>;
+    static constexpr bool all_assignable = std::conjunction_v<std::is_assignable<Ts&, result_of::get<Is, UTuple>>...>;
+    static constexpr bool all_nothrow_assignable = std::conjunction_v<std::is_nothrow_assignable<Ts&, result_of::get<Is, UTuple>>...>;
 };
 
 template<class UTuple, class... Ts>
@@ -195,6 +197,44 @@ class tuple : public detail::tuple_impl<Ts...>
         base_type::operator=(static_cast<tuple&&>(other));
         return *this;
     }
+
+    template<class... Us>
+        requires requires {
+            requires sizeof...(Ts) == sizeof...(Us);
+            requires detail::tuple_traits<tuple<Us...> const&, Ts...>::all_assignable;
+        }
+    constexpr tuple& operator=(tuple<Us...> const& other)
+        noexcept(detail::tuple_traits<tuple<Us...> const&, Ts...>::all_nothrow_assignable)
+    {
+        base_type::operator=(other);
+        return *this;
+    }
+    
+    template<class... Us>
+        requires requires {
+            requires sizeof...(Ts) == sizeof...(Us);
+            requires detail::tuple_traits<tuple<Us...>&&, Ts...>::all_assignable;
+        }
+    constexpr tuple& operator=(tuple<Us...>&& other)
+        noexcept(detail::tuple_traits<tuple<Us...>&&, Ts...>::all_nothrow_assignable)
+    {
+        base_type::operator=(other);
+        return *this;
+    }
+
+    // template<class UTuple>
+    //     requires requires {
+    //         requires TupleLike<std::remove_cvref_t<UTuple>>;
+    //         requires (!std::is_same_v<std::remove_cvref_t<UTuple>, tuple>);
+    //         requires sizeof...(Ts) == result_of::size<UTuple>;
+    //         requires detail::tuple_traits<UTuple, Ts...>::all_assignable;
+    //     }
+    // constexpr tuple& operator=(UTuple&& other)
+    //     noexcept(detail::tuple_traits<UTuple, Ts...>::all_nothrow_assignable)
+    // {
+    //     base_type::operator=(static_cast<UTuple>(other));
+    //     return *this;
+    // }
 
     template<std::size_t I, class Self>
     constexpr detail::combine_cvref_t<Self&&, detail::type_pack_indexing_t<I, Ts...>> get(this Self&& self) noexcept
