@@ -100,11 +100,29 @@ public:
         using std::swap;
         swap(_0, other._0);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0>> get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
     }
 };
 template<class T0, class T1>
@@ -196,13 +214,37 @@ public:
         swap(_0, other._0);
         swap(_1, other._1);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1>> get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
     }
 };
 template<class T0, class T1, class T2>
@@ -306,15 +348,45 @@ public:
         swap(_1, other._1);
         swap(_2, other._2);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2>> get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
     }
 };
 template<class T0, class T1, class T2, class T3>
@@ -434,17 +506,53 @@ public:
         swap(_2, other._2);
         swap(_3, other._3);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3>> get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4>
@@ -575,19 +683,61 @@ public:
         swap(_3, other._3);
         swap(_4, other._4);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4>> get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5>
@@ -726,21 +876,69 @@ public:
         swap(_4, other._4);
         swap(_5, other._5);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5>> get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6>
@@ -899,23 +1097,77 @@ public:
         swap(_5, other._5);
         swap(_6, other._6);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6>> get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7>
@@ -1081,25 +1333,85 @@ public:
         swap(_6, other._6);
         swap(_7, other._7);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7>> get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8>
@@ -1273,27 +1585,93 @@ public:
         swap(_7, other._7);
         swap(_8, other._8);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8>> get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9>
@@ -1486,29 +1864,101 @@ public:
         swap(_8, other._8);
         swap(_9, other._9);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>> get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10>
@@ -1711,31 +2161,109 @@ public:
         swap(_9, other._9);
         swap(_10, other._10);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11>
@@ -1947,33 +2475,117 @@ public:
         swap(_10, other._10);
         swap(_11, other._11);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12>
@@ -2204,35 +2816,125 @@ public:
         swap(_11, other._11);
         swap(_12, other._12);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13>
@@ -2472,37 +3174,133 @@ public:
         swap(_12, other._12);
         swap(_13, other._13);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -2758,39 +3556,141 @@ public:
         swap(_13, other._13);
         swap(_14, other._14);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -3065,42 +3965,149 @@ public:
         swap(_14, other._14);
         swap(_15, other._15);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -3384,44 +4391,157 @@ public:
         swap(_15, other._15);
         swap(_16, other._16);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
         else if constexpr (I == 16)
-            return ((forward_like_t<Self, tuple_impl>)self)._16;
+            return _16;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+        else if constexpr (I == 16)
+            return _16;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16)&&>(_16);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16) const&&>(_16);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -3712,46 +4832,165 @@ public:
         swap(_16, other._16);
         swap(_17, other._17);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
         else if constexpr (I == 16)
-            return ((forward_like_t<Self, tuple_impl>)self)._16;
+            return _16;
         else if constexpr (I == 17)
-            return ((forward_like_t<Self, tuple_impl>)self)._17;
+            return _17;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+        else if constexpr (I == 16)
+            return _16;
+        else if constexpr (I == 17)
+            return _17;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16)&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17)&&>(_17);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16) const&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17) const&&>(_17);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -4061,48 +5300,173 @@ public:
         swap(_17, other._17);
         swap(_18, other._18);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
         else if constexpr (I == 16)
-            return ((forward_like_t<Self, tuple_impl>)self)._16;
+            return _16;
         else if constexpr (I == 17)
-            return ((forward_like_t<Self, tuple_impl>)self)._17;
+            return _17;
         else if constexpr (I == 18)
-            return ((forward_like_t<Self, tuple_impl>)self)._18;
+            return _18;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+        else if constexpr (I == 16)
+            return _16;
+        else if constexpr (I == 17)
+            return _17;
+        else if constexpr (I == 18)
+            return _18;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16)&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17)&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18)&&>(_18);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16) const&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17) const&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18) const&&>(_18);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -4422,50 +5786,181 @@ public:
         swap(_18, other._18);
         swap(_19, other._19);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
         else if constexpr (I == 16)
-            return ((forward_like_t<Self, tuple_impl>)self)._16;
+            return _16;
         else if constexpr (I == 17)
-            return ((forward_like_t<Self, tuple_impl>)self)._17;
+            return _17;
         else if constexpr (I == 18)
-            return ((forward_like_t<Self, tuple_impl>)self)._18;
+            return _18;
         else if constexpr (I == 19)
-            return ((forward_like_t<Self, tuple_impl>)self)._19;
+            return _19;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> const& get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+        else if constexpr (I == 16)
+            return _16;
+        else if constexpr (I == 17)
+            return _17;
+        else if constexpr (I == 18)
+            return _18;
+        else if constexpr (I == 19)
+            return _19;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16)&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17)&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18)&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19)&&>(_19);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> const&& get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16) const&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17) const&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18) const&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19) const&&>(_19);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -4796,52 +6291,191 @@ public:
         swap(_19, other._19);
         swap(_20, other._20);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
         else if constexpr (I == 16)
-            return ((forward_like_t<Self, tuple_impl>)self)._16;
+            return _16;
         else if constexpr (I == 17)
-            return ((forward_like_t<Self, tuple_impl>)self)._17;
+            return _17;
         else if constexpr (I == 18)
-            return ((forward_like_t<Self, tuple_impl>)self)._18;
+            return _18;
         else if constexpr (I == 19)
-            return ((forward_like_t<Self, tuple_impl>)self)._19;
+            return _19;
         else if constexpr (I == 20)
-            return ((forward_like_t<Self, tuple_impl>)self)._20;
+            return _20;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20> const&
+    get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+        else if constexpr (I == 16)
+            return _16;
+        else if constexpr (I == 17)
+            return _17;
+        else if constexpr (I == 18)
+            return _18;
+        else if constexpr (I == 19)
+            return _19;
+        else if constexpr (I == 20)
+            return _20;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16)&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17)&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18)&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19)&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20)&&>(_20);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20> const&&
+    get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16) const&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17) const&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18) const&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19) const&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20) const&&>(_20);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -5193,55 +6827,199 @@ public:
         swap(_20, other._20);
         swap(_21, other._21);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&,
-                              type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
         else if constexpr (I == 16)
-            return ((forward_like_t<Self, tuple_impl>)self)._16;
+            return _16;
         else if constexpr (I == 17)
-            return ((forward_like_t<Self, tuple_impl>)self)._17;
+            return _17;
         else if constexpr (I == 18)
-            return ((forward_like_t<Self, tuple_impl>)self)._18;
+            return _18;
         else if constexpr (I == 19)
-            return ((forward_like_t<Self, tuple_impl>)self)._19;
+            return _19;
         else if constexpr (I == 20)
-            return ((forward_like_t<Self, tuple_impl>)self)._20;
+            return _20;
         else if constexpr (I == 21)
-            return ((forward_like_t<Self, tuple_impl>)self)._21;
+            return _21;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21> const&
+    get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+        else if constexpr (I == 16)
+            return _16;
+        else if constexpr (I == 17)
+            return _17;
+        else if constexpr (I == 18)
+            return _18;
+        else if constexpr (I == 19)
+            return _19;
+        else if constexpr (I == 20)
+            return _20;
+        else if constexpr (I == 21)
+            return _21;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21>&& get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16)&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17)&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18)&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19)&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20)&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21)&&>(_21);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21> const&&
+    get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16) const&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17) const&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18) const&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19) const&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20) const&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21) const&&>(_21);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -5603,57 +7381,208 @@ public:
         swap(_21, other._21);
         swap(_22, other._22);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&,
-                              type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22>& get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
         else if constexpr (I == 16)
-            return ((forward_like_t<Self, tuple_impl>)self)._16;
+            return _16;
         else if constexpr (I == 17)
-            return ((forward_like_t<Self, tuple_impl>)self)._17;
+            return _17;
         else if constexpr (I == 18)
-            return ((forward_like_t<Self, tuple_impl>)self)._18;
+            return _18;
         else if constexpr (I == 19)
-            return ((forward_like_t<Self, tuple_impl>)self)._19;
+            return _19;
         else if constexpr (I == 20)
-            return ((forward_like_t<Self, tuple_impl>)self)._20;
+            return _20;
         else if constexpr (I == 21)
-            return ((forward_like_t<Self, tuple_impl>)self)._21;
+            return _21;
         else if constexpr (I == 22)
-            return ((forward_like_t<Self, tuple_impl>)self)._22;
+            return _22;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22> const&
+    get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+        else if constexpr (I == 16)
+            return _16;
+        else if constexpr (I == 17)
+            return _17;
+        else if constexpr (I == 18)
+            return _18;
+        else if constexpr (I == 19)
+            return _19;
+        else if constexpr (I == 20)
+            return _20;
+        else if constexpr (I == 21)
+            return _21;
+        else if constexpr (I == 22)
+            return _22;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22>&&
+    get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16)&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17)&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18)&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19)&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20)&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21)&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22)&&>(_22);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22> const&&
+    get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16) const&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17) const&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18) const&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19) const&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20) const&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21) const&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22) const&&>(_22);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -6028,59 +7957,217 @@ public:
         swap(_22, other._22);
         swap(_23, other._23);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<
-        Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23>&
+    get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
         else if constexpr (I == 16)
-            return ((forward_like_t<Self, tuple_impl>)self)._16;
+            return _16;
         else if constexpr (I == 17)
-            return ((forward_like_t<Self, tuple_impl>)self)._17;
+            return _17;
         else if constexpr (I == 18)
-            return ((forward_like_t<Self, tuple_impl>)self)._18;
+            return _18;
         else if constexpr (I == 19)
-            return ((forward_like_t<Self, tuple_impl>)self)._19;
+            return _19;
         else if constexpr (I == 20)
-            return ((forward_like_t<Self, tuple_impl>)self)._20;
+            return _20;
         else if constexpr (I == 21)
-            return ((forward_like_t<Self, tuple_impl>)self)._21;
+            return _21;
         else if constexpr (I == 22)
-            return ((forward_like_t<Self, tuple_impl>)self)._22;
+            return _22;
         else if constexpr (I == 23)
-            return ((forward_like_t<Self, tuple_impl>)self)._23;
+            return _23;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23> const&
+    get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+        else if constexpr (I == 16)
+            return _16;
+        else if constexpr (I == 17)
+            return _17;
+        else if constexpr (I == 18)
+            return _18;
+        else if constexpr (I == 19)
+            return _19;
+        else if constexpr (I == 20)
+            return _20;
+        else if constexpr (I == 21)
+            return _21;
+        else if constexpr (I == 22)
+            return _22;
+        else if constexpr (I == 23)
+            return _23;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23>&&
+    get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16)&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17)&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18)&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19)&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20)&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21)&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22)&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23)&&>(_23);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23> const&&
+    get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16) const&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17) const&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18) const&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19) const&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20) const&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21) const&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22) const&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23) const&&>(_23);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -6475,61 +8562,225 @@ public:
         swap(_23, other._23);
         swap(_24, other._24);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<
-        Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24>&
+    get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
         else if constexpr (I == 16)
-            return ((forward_like_t<Self, tuple_impl>)self)._16;
+            return _16;
         else if constexpr (I == 17)
-            return ((forward_like_t<Self, tuple_impl>)self)._17;
+            return _17;
         else if constexpr (I == 18)
-            return ((forward_like_t<Self, tuple_impl>)self)._18;
+            return _18;
         else if constexpr (I == 19)
-            return ((forward_like_t<Self, tuple_impl>)self)._19;
+            return _19;
         else if constexpr (I == 20)
-            return ((forward_like_t<Self, tuple_impl>)self)._20;
+            return _20;
         else if constexpr (I == 21)
-            return ((forward_like_t<Self, tuple_impl>)self)._21;
+            return _21;
         else if constexpr (I == 22)
-            return ((forward_like_t<Self, tuple_impl>)self)._22;
+            return _22;
         else if constexpr (I == 23)
-            return ((forward_like_t<Self, tuple_impl>)self)._23;
+            return _23;
         else if constexpr (I == 24)
-            return ((forward_like_t<Self, tuple_impl>)self)._24;
+            return _24;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24> const&
+    get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+        else if constexpr (I == 16)
+            return _16;
+        else if constexpr (I == 17)
+            return _17;
+        else if constexpr (I == 18)
+            return _18;
+        else if constexpr (I == 19)
+            return _19;
+        else if constexpr (I == 20)
+            return _20;
+        else if constexpr (I == 21)
+            return _21;
+        else if constexpr (I == 22)
+            return _22;
+        else if constexpr (I == 23)
+            return _23;
+        else if constexpr (I == 24)
+            return _24;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24>&&
+    get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16)&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17)&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18)&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19)&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20)&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21)&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22)&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23)&&>(_23);
+        else if constexpr (I == 24)
+            return static_cast<decltype(_24)&&>(_24);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24> const&&
+    get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16) const&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17) const&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18) const&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19) const&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20) const&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21) const&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22) const&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23) const&&>(_23);
+        else if constexpr (I == 24)
+            return static_cast<decltype(_24) const&&>(_24);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -6932,63 +9183,235 @@ public:
         swap(_24, other._24);
         swap(_25, other._25);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<
-        Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25>&
+    get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
         else if constexpr (I == 16)
-            return ((forward_like_t<Self, tuple_impl>)self)._16;
+            return _16;
         else if constexpr (I == 17)
-            return ((forward_like_t<Self, tuple_impl>)self)._17;
+            return _17;
         else if constexpr (I == 18)
-            return ((forward_like_t<Self, tuple_impl>)self)._18;
+            return _18;
         else if constexpr (I == 19)
-            return ((forward_like_t<Self, tuple_impl>)self)._19;
+            return _19;
         else if constexpr (I == 20)
-            return ((forward_like_t<Self, tuple_impl>)self)._20;
+            return _20;
         else if constexpr (I == 21)
-            return ((forward_like_t<Self, tuple_impl>)self)._21;
+            return _21;
         else if constexpr (I == 22)
-            return ((forward_like_t<Self, tuple_impl>)self)._22;
+            return _22;
         else if constexpr (I == 23)
-            return ((forward_like_t<Self, tuple_impl>)self)._23;
+            return _23;
         else if constexpr (I == 24)
-            return ((forward_like_t<Self, tuple_impl>)self)._24;
+            return _24;
         else if constexpr (I == 25)
-            return ((forward_like_t<Self, tuple_impl>)self)._25;
+            return _25;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24,
+                                   T25> const&
+    get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+        else if constexpr (I == 16)
+            return _16;
+        else if constexpr (I == 17)
+            return _17;
+        else if constexpr (I == 18)
+            return _18;
+        else if constexpr (I == 19)
+            return _19;
+        else if constexpr (I == 20)
+            return _20;
+        else if constexpr (I == 21)
+            return _21;
+        else if constexpr (I == 22)
+            return _22;
+        else if constexpr (I == 23)
+            return _23;
+        else if constexpr (I == 24)
+            return _24;
+        else if constexpr (I == 25)
+            return _25;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25>&&
+    get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16)&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17)&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18)&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19)&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20)&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21)&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22)&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23)&&>(_23);
+        else if constexpr (I == 24)
+            return static_cast<decltype(_24)&&>(_24);
+        else if constexpr (I == 25)
+            return static_cast<decltype(_25)&&>(_25);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24,
+                                   T25> const&&
+    get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16) const&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17) const&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18) const&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19) const&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20) const&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21) const&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22) const&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23) const&&>(_23);
+        else if constexpr (I == 24)
+            return static_cast<decltype(_24) const&&>(_24);
+        else if constexpr (I == 25)
+            return static_cast<decltype(_25) const&&>(_25);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -7400,65 +9823,245 @@ public:
         swap(_25, other._25);
         swap(_26, other._26);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
-                                                           T21, T22, T23, T24, T25, T26>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26>&
+    get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
         else if constexpr (I == 16)
-            return ((forward_like_t<Self, tuple_impl>)self)._16;
+            return _16;
         else if constexpr (I == 17)
-            return ((forward_like_t<Self, tuple_impl>)self)._17;
+            return _17;
         else if constexpr (I == 18)
-            return ((forward_like_t<Self, tuple_impl>)self)._18;
+            return _18;
         else if constexpr (I == 19)
-            return ((forward_like_t<Self, tuple_impl>)self)._19;
+            return _19;
         else if constexpr (I == 20)
-            return ((forward_like_t<Self, tuple_impl>)self)._20;
+            return _20;
         else if constexpr (I == 21)
-            return ((forward_like_t<Self, tuple_impl>)self)._21;
+            return _21;
         else if constexpr (I == 22)
-            return ((forward_like_t<Self, tuple_impl>)self)._22;
+            return _22;
         else if constexpr (I == 23)
-            return ((forward_like_t<Self, tuple_impl>)self)._23;
+            return _23;
         else if constexpr (I == 24)
-            return ((forward_like_t<Self, tuple_impl>)self)._24;
+            return _24;
         else if constexpr (I == 25)
-            return ((forward_like_t<Self, tuple_impl>)self)._25;
+            return _25;
         else if constexpr (I == 26)
-            return ((forward_like_t<Self, tuple_impl>)self)._26;
+            return _26;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26> const&
+    get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+        else if constexpr (I == 16)
+            return _16;
+        else if constexpr (I == 17)
+            return _17;
+        else if constexpr (I == 18)
+            return _18;
+        else if constexpr (I == 19)
+            return _19;
+        else if constexpr (I == 20)
+            return _20;
+        else if constexpr (I == 21)
+            return _21;
+        else if constexpr (I == 22)
+            return _22;
+        else if constexpr (I == 23)
+            return _23;
+        else if constexpr (I == 24)
+            return _24;
+        else if constexpr (I == 25)
+            return _25;
+        else if constexpr (I == 26)
+            return _26;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26>&&
+    get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16)&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17)&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18)&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19)&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20)&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21)&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22)&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23)&&>(_23);
+        else if constexpr (I == 24)
+            return static_cast<decltype(_24)&&>(_24);
+        else if constexpr (I == 25)
+            return static_cast<decltype(_25)&&>(_25);
+        else if constexpr (I == 26)
+            return static_cast<decltype(_26)&&>(_26);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26> const&&
+    get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16) const&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17) const&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18) const&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19) const&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20) const&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21) const&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22) const&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23) const&&>(_23);
+        else if constexpr (I == 24)
+            return static_cast<decltype(_24) const&&>(_24);
+        else if constexpr (I == 25)
+            return static_cast<decltype(_25) const&&>(_25);
+        else if constexpr (I == 26)
+            return static_cast<decltype(_26) const&&>(_26);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -7896,67 +10499,253 @@ public:
         swap(_26, other._26);
         swap(_27, other._27);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
-                                                           T21, T22, T23, T24, T25, T26, T27>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27>&
+    get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
         else if constexpr (I == 16)
-            return ((forward_like_t<Self, tuple_impl>)self)._16;
+            return _16;
         else if constexpr (I == 17)
-            return ((forward_like_t<Self, tuple_impl>)self)._17;
+            return _17;
         else if constexpr (I == 18)
-            return ((forward_like_t<Self, tuple_impl>)self)._18;
+            return _18;
         else if constexpr (I == 19)
-            return ((forward_like_t<Self, tuple_impl>)self)._19;
+            return _19;
         else if constexpr (I == 20)
-            return ((forward_like_t<Self, tuple_impl>)self)._20;
+            return _20;
         else if constexpr (I == 21)
-            return ((forward_like_t<Self, tuple_impl>)self)._21;
+            return _21;
         else if constexpr (I == 22)
-            return ((forward_like_t<Self, tuple_impl>)self)._22;
+            return _22;
         else if constexpr (I == 23)
-            return ((forward_like_t<Self, tuple_impl>)self)._23;
+            return _23;
         else if constexpr (I == 24)
-            return ((forward_like_t<Self, tuple_impl>)self)._24;
+            return _24;
         else if constexpr (I == 25)
-            return ((forward_like_t<Self, tuple_impl>)self)._25;
+            return _25;
         else if constexpr (I == 26)
-            return ((forward_like_t<Self, tuple_impl>)self)._26;
+            return _26;
         else if constexpr (I == 27)
-            return ((forward_like_t<Self, tuple_impl>)self)._27;
+            return _27;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27> const&
+    get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+        else if constexpr (I == 16)
+            return _16;
+        else if constexpr (I == 17)
+            return _17;
+        else if constexpr (I == 18)
+            return _18;
+        else if constexpr (I == 19)
+            return _19;
+        else if constexpr (I == 20)
+            return _20;
+        else if constexpr (I == 21)
+            return _21;
+        else if constexpr (I == 22)
+            return _22;
+        else if constexpr (I == 23)
+            return _23;
+        else if constexpr (I == 24)
+            return _24;
+        else if constexpr (I == 25)
+            return _25;
+        else if constexpr (I == 26)
+            return _26;
+        else if constexpr (I == 27)
+            return _27;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27>&&
+    get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16)&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17)&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18)&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19)&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20)&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21)&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22)&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23)&&>(_23);
+        else if constexpr (I == 24)
+            return static_cast<decltype(_24)&&>(_24);
+        else if constexpr (I == 25)
+            return static_cast<decltype(_25)&&>(_25);
+        else if constexpr (I == 26)
+            return static_cast<decltype(_26)&&>(_26);
+        else if constexpr (I == 27)
+            return static_cast<decltype(_27)&&>(_27);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27> const&&
+    get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16) const&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17) const&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18) const&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19) const&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20) const&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21) const&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22) const&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23) const&&>(_23);
+        else if constexpr (I == 24)
+            return static_cast<decltype(_24) const&&>(_24);
+        else if constexpr (I == 25)
+            return static_cast<decltype(_25) const&&>(_25);
+        else if constexpr (I == 26)
+            return static_cast<decltype(_26) const&&>(_26);
+        else if constexpr (I == 27)
+            return static_cast<decltype(_27) const&&>(_27);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -8404,69 +11193,261 @@ public:
         swap(_27, other._27);
         swap(_28, other._28);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
-                                                           T21, T22, T23, T24, T25, T26, T27, T28>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27, T28>&
+    get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
         else if constexpr (I == 16)
-            return ((forward_like_t<Self, tuple_impl>)self)._16;
+            return _16;
         else if constexpr (I == 17)
-            return ((forward_like_t<Self, tuple_impl>)self)._17;
+            return _17;
         else if constexpr (I == 18)
-            return ((forward_like_t<Self, tuple_impl>)self)._18;
+            return _18;
         else if constexpr (I == 19)
-            return ((forward_like_t<Self, tuple_impl>)self)._19;
+            return _19;
         else if constexpr (I == 20)
-            return ((forward_like_t<Self, tuple_impl>)self)._20;
+            return _20;
         else if constexpr (I == 21)
-            return ((forward_like_t<Self, tuple_impl>)self)._21;
+            return _21;
         else if constexpr (I == 22)
-            return ((forward_like_t<Self, tuple_impl>)self)._22;
+            return _22;
         else if constexpr (I == 23)
-            return ((forward_like_t<Self, tuple_impl>)self)._23;
+            return _23;
         else if constexpr (I == 24)
-            return ((forward_like_t<Self, tuple_impl>)self)._24;
+            return _24;
         else if constexpr (I == 25)
-            return ((forward_like_t<Self, tuple_impl>)self)._25;
+            return _25;
         else if constexpr (I == 26)
-            return ((forward_like_t<Self, tuple_impl>)self)._26;
+            return _26;
         else if constexpr (I == 27)
-            return ((forward_like_t<Self, tuple_impl>)self)._27;
+            return _27;
         else if constexpr (I == 28)
-            return ((forward_like_t<Self, tuple_impl>)self)._28;
+            return _28;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27, T28> const&
+    get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+        else if constexpr (I == 16)
+            return _16;
+        else if constexpr (I == 17)
+            return _17;
+        else if constexpr (I == 18)
+            return _18;
+        else if constexpr (I == 19)
+            return _19;
+        else if constexpr (I == 20)
+            return _20;
+        else if constexpr (I == 21)
+            return _21;
+        else if constexpr (I == 22)
+            return _22;
+        else if constexpr (I == 23)
+            return _23;
+        else if constexpr (I == 24)
+            return _24;
+        else if constexpr (I == 25)
+            return _25;
+        else if constexpr (I == 26)
+            return _26;
+        else if constexpr (I == 27)
+            return _27;
+        else if constexpr (I == 28)
+            return _28;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27, T28>&&
+    get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16)&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17)&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18)&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19)&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20)&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21)&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22)&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23)&&>(_23);
+        else if constexpr (I == 24)
+            return static_cast<decltype(_24)&&>(_24);
+        else if constexpr (I == 25)
+            return static_cast<decltype(_25)&&>(_25);
+        else if constexpr (I == 26)
+            return static_cast<decltype(_26)&&>(_26);
+        else if constexpr (I == 27)
+            return static_cast<decltype(_27)&&>(_27);
+        else if constexpr (I == 28)
+            return static_cast<decltype(_28)&&>(_28);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27, T28> const&&
+    get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16) const&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17) const&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18) const&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19) const&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20) const&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21) const&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22) const&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23) const&&>(_23);
+        else if constexpr (I == 24)
+            return static_cast<decltype(_24) const&&>(_24);
+        else if constexpr (I == 25)
+            return static_cast<decltype(_25) const&&>(_25);
+        else if constexpr (I == 26)
+            return static_cast<decltype(_26) const&&>(_26);
+        else if constexpr (I == 27)
+            return static_cast<decltype(_27) const&&>(_27);
+        else if constexpr (I == 28)
+            return static_cast<decltype(_28) const&&>(_28);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -8924,71 +11905,269 @@ public:
         swap(_28, other._28);
         swap(_29, other._29);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
-                                                           T21, T22, T23, T24, T25, T26, T27, T28, T29>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27, T28, T29>&
+    get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
         else if constexpr (I == 16)
-            return ((forward_like_t<Self, tuple_impl>)self)._16;
+            return _16;
         else if constexpr (I == 17)
-            return ((forward_like_t<Self, tuple_impl>)self)._17;
+            return _17;
         else if constexpr (I == 18)
-            return ((forward_like_t<Self, tuple_impl>)self)._18;
+            return _18;
         else if constexpr (I == 19)
-            return ((forward_like_t<Self, tuple_impl>)self)._19;
+            return _19;
         else if constexpr (I == 20)
-            return ((forward_like_t<Self, tuple_impl>)self)._20;
+            return _20;
         else if constexpr (I == 21)
-            return ((forward_like_t<Self, tuple_impl>)self)._21;
+            return _21;
         else if constexpr (I == 22)
-            return ((forward_like_t<Self, tuple_impl>)self)._22;
+            return _22;
         else if constexpr (I == 23)
-            return ((forward_like_t<Self, tuple_impl>)self)._23;
+            return _23;
         else if constexpr (I == 24)
-            return ((forward_like_t<Self, tuple_impl>)self)._24;
+            return _24;
         else if constexpr (I == 25)
-            return ((forward_like_t<Self, tuple_impl>)self)._25;
+            return _25;
         else if constexpr (I == 26)
-            return ((forward_like_t<Self, tuple_impl>)self)._26;
+            return _26;
         else if constexpr (I == 27)
-            return ((forward_like_t<Self, tuple_impl>)self)._27;
+            return _27;
         else if constexpr (I == 28)
-            return ((forward_like_t<Self, tuple_impl>)self)._28;
+            return _28;
         else if constexpr (I == 29)
-            return ((forward_like_t<Self, tuple_impl>)self)._29;
+            return _29;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27, T28, T29> const&
+    get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+        else if constexpr (I == 16)
+            return _16;
+        else if constexpr (I == 17)
+            return _17;
+        else if constexpr (I == 18)
+            return _18;
+        else if constexpr (I == 19)
+            return _19;
+        else if constexpr (I == 20)
+            return _20;
+        else if constexpr (I == 21)
+            return _21;
+        else if constexpr (I == 22)
+            return _22;
+        else if constexpr (I == 23)
+            return _23;
+        else if constexpr (I == 24)
+            return _24;
+        else if constexpr (I == 25)
+            return _25;
+        else if constexpr (I == 26)
+            return _26;
+        else if constexpr (I == 27)
+            return _27;
+        else if constexpr (I == 28)
+            return _28;
+        else if constexpr (I == 29)
+            return _29;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27, T28, T29>&&
+    get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16)&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17)&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18)&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19)&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20)&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21)&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22)&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23)&&>(_23);
+        else if constexpr (I == 24)
+            return static_cast<decltype(_24)&&>(_24);
+        else if constexpr (I == 25)
+            return static_cast<decltype(_25)&&>(_25);
+        else if constexpr (I == 26)
+            return static_cast<decltype(_26)&&>(_26);
+        else if constexpr (I == 27)
+            return static_cast<decltype(_27)&&>(_27);
+        else if constexpr (I == 28)
+            return static_cast<decltype(_28)&&>(_28);
+        else if constexpr (I == 29)
+            return static_cast<decltype(_29)&&>(_29);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27, T28, T29> const&&
+    get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16) const&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17) const&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18) const&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19) const&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20) const&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21) const&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22) const&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23) const&&>(_23);
+        else if constexpr (I == 24)
+            return static_cast<decltype(_24) const&&>(_24);
+        else if constexpr (I == 25)
+            return static_cast<decltype(_25) const&&>(_25);
+        else if constexpr (I == 26)
+            return static_cast<decltype(_26) const&&>(_26);
+        else if constexpr (I == 27)
+            return static_cast<decltype(_27) const&&>(_27);
+        else if constexpr (I == 28)
+            return static_cast<decltype(_28) const&&>(_28);
+        else if constexpr (I == 29)
+            return static_cast<decltype(_29) const&&>(_29);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -9464,73 +12643,277 @@ public:
         swap(_29, other._29);
         swap(_30, other._30);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
-                                                           T21, T22, T23, T24, T25, T26, T27, T28, T29, T30>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27, T28, T29, T30>&
+    get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
         else if constexpr (I == 16)
-            return ((forward_like_t<Self, tuple_impl>)self)._16;
+            return _16;
         else if constexpr (I == 17)
-            return ((forward_like_t<Self, tuple_impl>)self)._17;
+            return _17;
         else if constexpr (I == 18)
-            return ((forward_like_t<Self, tuple_impl>)self)._18;
+            return _18;
         else if constexpr (I == 19)
-            return ((forward_like_t<Self, tuple_impl>)self)._19;
+            return _19;
         else if constexpr (I == 20)
-            return ((forward_like_t<Self, tuple_impl>)self)._20;
+            return _20;
         else if constexpr (I == 21)
-            return ((forward_like_t<Self, tuple_impl>)self)._21;
+            return _21;
         else if constexpr (I == 22)
-            return ((forward_like_t<Self, tuple_impl>)self)._22;
+            return _22;
         else if constexpr (I == 23)
-            return ((forward_like_t<Self, tuple_impl>)self)._23;
+            return _23;
         else if constexpr (I == 24)
-            return ((forward_like_t<Self, tuple_impl>)self)._24;
+            return _24;
         else if constexpr (I == 25)
-            return ((forward_like_t<Self, tuple_impl>)self)._25;
+            return _25;
         else if constexpr (I == 26)
-            return ((forward_like_t<Self, tuple_impl>)self)._26;
+            return _26;
         else if constexpr (I == 27)
-            return ((forward_like_t<Self, tuple_impl>)self)._27;
+            return _27;
         else if constexpr (I == 28)
-            return ((forward_like_t<Self, tuple_impl>)self)._28;
+            return _28;
         else if constexpr (I == 29)
-            return ((forward_like_t<Self, tuple_impl>)self)._29;
+            return _29;
         else if constexpr (I == 30)
-            return ((forward_like_t<Self, tuple_impl>)self)._30;
+            return _30;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27, T28, T29, T30> const&
+    get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+        else if constexpr (I == 16)
+            return _16;
+        else if constexpr (I == 17)
+            return _17;
+        else if constexpr (I == 18)
+            return _18;
+        else if constexpr (I == 19)
+            return _19;
+        else if constexpr (I == 20)
+            return _20;
+        else if constexpr (I == 21)
+            return _21;
+        else if constexpr (I == 22)
+            return _22;
+        else if constexpr (I == 23)
+            return _23;
+        else if constexpr (I == 24)
+            return _24;
+        else if constexpr (I == 25)
+            return _25;
+        else if constexpr (I == 26)
+            return _26;
+        else if constexpr (I == 27)
+            return _27;
+        else if constexpr (I == 28)
+            return _28;
+        else if constexpr (I == 29)
+            return _29;
+        else if constexpr (I == 30)
+            return _30;
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27, T28, T29, T30>&&
+    get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16)&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17)&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18)&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19)&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20)&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21)&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22)&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23)&&>(_23);
+        else if constexpr (I == 24)
+            return static_cast<decltype(_24)&&>(_24);
+        else if constexpr (I == 25)
+            return static_cast<decltype(_25)&&>(_25);
+        else if constexpr (I == 26)
+            return static_cast<decltype(_26)&&>(_26);
+        else if constexpr (I == 27)
+            return static_cast<decltype(_27)&&>(_27);
+        else if constexpr (I == 28)
+            return static_cast<decltype(_28)&&>(_28);
+        else if constexpr (I == 29)
+            return static_cast<decltype(_29)&&>(_29);
+        else if constexpr (I == 30)
+            return static_cast<decltype(_30)&&>(_30);
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27, T28, T29, T30> const&&
+    get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16) const&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17) const&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18) const&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19) const&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20) const&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21) const&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22) const&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23) const&&>(_23);
+        else if constexpr (I == 24)
+            return static_cast<decltype(_24) const&&>(_24);
+        else if constexpr (I == 25)
+            return static_cast<decltype(_25) const&&>(_25);
+        else if constexpr (I == 26)
+            return static_cast<decltype(_26) const&&>(_26);
+        else if constexpr (I == 27)
+            return static_cast<decltype(_27) const&&>(_27);
+        else if constexpr (I == 28)
+            return static_cast<decltype(_28) const&&>(_28);
+        else if constexpr (I == 29)
+            return static_cast<decltype(_29) const&&>(_29);
+        else if constexpr (I == 30)
+            return static_cast<decltype(_30) const&&>(_30);
     }
 };
 template<class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10, class T11, class T12, class T13,
@@ -10037,77 +13420,293 @@ public:
         swap(_31, other._31);
         rest.swap(other.rest);
     }
-    template<std::size_t I, class Self>
-    constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
-                                                           T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, Ts...>>
-    get(this Self&& self) noexcept
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27, T28, T29, T30, T31, Ts...>&
+    get() & noexcept
     {
         if constexpr (I == 0)
-            return ((forward_like_t<Self, tuple_impl>)self)._0;
+            return _0;
         else if constexpr (I == 1)
-            return ((forward_like_t<Self, tuple_impl>)self)._1;
+            return _1;
         else if constexpr (I == 2)
-            return ((forward_like_t<Self, tuple_impl>)self)._2;
+            return _2;
         else if constexpr (I == 3)
-            return ((forward_like_t<Self, tuple_impl>)self)._3;
+            return _3;
         else if constexpr (I == 4)
-            return ((forward_like_t<Self, tuple_impl>)self)._4;
+            return _4;
         else if constexpr (I == 5)
-            return ((forward_like_t<Self, tuple_impl>)self)._5;
+            return _5;
         else if constexpr (I == 6)
-            return ((forward_like_t<Self, tuple_impl>)self)._6;
+            return _6;
         else if constexpr (I == 7)
-            return ((forward_like_t<Self, tuple_impl>)self)._7;
+            return _7;
         else if constexpr (I == 8)
-            return ((forward_like_t<Self, tuple_impl>)self)._8;
+            return _8;
         else if constexpr (I == 9)
-            return ((forward_like_t<Self, tuple_impl>)self)._9;
+            return _9;
         else if constexpr (I == 10)
-            return ((forward_like_t<Self, tuple_impl>)self)._10;
+            return _10;
         else if constexpr (I == 11)
-            return ((forward_like_t<Self, tuple_impl>)self)._11;
+            return _11;
         else if constexpr (I == 12)
-            return ((forward_like_t<Self, tuple_impl>)self)._12;
+            return _12;
         else if constexpr (I == 13)
-            return ((forward_like_t<Self, tuple_impl>)self)._13;
+            return _13;
         else if constexpr (I == 14)
-            return ((forward_like_t<Self, tuple_impl>)self)._14;
+            return _14;
         else if constexpr (I == 15)
-            return ((forward_like_t<Self, tuple_impl>)self)._15;
+            return _15;
         else if constexpr (I == 16)
-            return ((forward_like_t<Self, tuple_impl>)self)._16;
+            return _16;
         else if constexpr (I == 17)
-            return ((forward_like_t<Self, tuple_impl>)self)._17;
+            return _17;
         else if constexpr (I == 18)
-            return ((forward_like_t<Self, tuple_impl>)self)._18;
+            return _18;
         else if constexpr (I == 19)
-            return ((forward_like_t<Self, tuple_impl>)self)._19;
+            return _19;
         else if constexpr (I == 20)
-            return ((forward_like_t<Self, tuple_impl>)self)._20;
+            return _20;
         else if constexpr (I == 21)
-            return ((forward_like_t<Self, tuple_impl>)self)._21;
+            return _21;
         else if constexpr (I == 22)
-            return ((forward_like_t<Self, tuple_impl>)self)._22;
+            return _22;
         else if constexpr (I == 23)
-            return ((forward_like_t<Self, tuple_impl>)self)._23;
+            return _23;
         else if constexpr (I == 24)
-            return ((forward_like_t<Self, tuple_impl>)self)._24;
+            return _24;
         else if constexpr (I == 25)
-            return ((forward_like_t<Self, tuple_impl>)self)._25;
+            return _25;
         else if constexpr (I == 26)
-            return ((forward_like_t<Self, tuple_impl>)self)._26;
+            return _26;
         else if constexpr (I == 27)
-            return ((forward_like_t<Self, tuple_impl>)self)._27;
+            return _27;
         else if constexpr (I == 28)
-            return ((forward_like_t<Self, tuple_impl>)self)._28;
+            return _28;
         else if constexpr (I == 29)
-            return ((forward_like_t<Self, tuple_impl>)self)._29;
+            return _29;
         else if constexpr (I == 30)
-            return ((forward_like_t<Self, tuple_impl>)self)._30;
+            return _30;
         else if constexpr (I == 31)
-            return ((forward_like_t<Self, tuple_impl>)self)._31;
+            return _31;
         else
-            return ((forward_like_t<Self, tuple_impl>)self).rest.template get<I - 32>();
+            return rest.template get<I - 32>();
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27, T28, T29, T30, T31, Ts...> const&
+    get() const& noexcept
+    {
+        if constexpr (I == 0)
+            return _0;
+        else if constexpr (I == 1)
+            return _1;
+        else if constexpr (I == 2)
+            return _2;
+        else if constexpr (I == 3)
+            return _3;
+        else if constexpr (I == 4)
+            return _4;
+        else if constexpr (I == 5)
+            return _5;
+        else if constexpr (I == 6)
+            return _6;
+        else if constexpr (I == 7)
+            return _7;
+        else if constexpr (I == 8)
+            return _8;
+        else if constexpr (I == 9)
+            return _9;
+        else if constexpr (I == 10)
+            return _10;
+        else if constexpr (I == 11)
+            return _11;
+        else if constexpr (I == 12)
+            return _12;
+        else if constexpr (I == 13)
+            return _13;
+        else if constexpr (I == 14)
+            return _14;
+        else if constexpr (I == 15)
+            return _15;
+        else if constexpr (I == 16)
+            return _16;
+        else if constexpr (I == 17)
+            return _17;
+        else if constexpr (I == 18)
+            return _18;
+        else if constexpr (I == 19)
+            return _19;
+        else if constexpr (I == 20)
+            return _20;
+        else if constexpr (I == 21)
+            return _21;
+        else if constexpr (I == 22)
+            return _22;
+        else if constexpr (I == 23)
+            return _23;
+        else if constexpr (I == 24)
+            return _24;
+        else if constexpr (I == 25)
+            return _25;
+        else if constexpr (I == 26)
+            return _26;
+        else if constexpr (I == 27)
+            return _27;
+        else if constexpr (I == 28)
+            return _28;
+        else if constexpr (I == 29)
+            return _29;
+        else if constexpr (I == 30)
+            return _30;
+        else if constexpr (I == 31)
+            return _31;
+        else
+            return rest.template get<I - 32>();
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27, T28, T29, T30, T31, Ts...>&&
+    get() && noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0)&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1)&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2)&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3)&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4)&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5)&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6)&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7)&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8)&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9)&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10)&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11)&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12)&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13)&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14)&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15)&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16)&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17)&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18)&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19)&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20)&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21)&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22)&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23)&&>(_23);
+        else if constexpr (I == 24)
+            return static_cast<decltype(_24)&&>(_24);
+        else if constexpr (I == 25)
+            return static_cast<decltype(_25)&&>(_25);
+        else if constexpr (I == 26)
+            return static_cast<decltype(_26)&&>(_26);
+        else if constexpr (I == 27)
+            return static_cast<decltype(_27)&&>(_27);
+        else if constexpr (I == 28)
+            return static_cast<decltype(_28)&&>(_28);
+        else if constexpr (I == 29)
+            return static_cast<decltype(_29)&&>(_29);
+        else if constexpr (I == 30)
+            return static_cast<decltype(_30)&&>(_30);
+        else if constexpr (I == 31)
+            return static_cast<decltype(_31)&&>(_31);
+        else
+            return std::move(rest).template get<I - 32>();
+    }
+    template<std::size_t I>
+    constexpr type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25,
+                                   T26, T27, T28, T29, T30, T31, Ts...> const&&
+    get() const&& noexcept
+    {
+        if constexpr (I == 0)
+            return static_cast<decltype(_0) const&&>(_0);
+        else if constexpr (I == 1)
+            return static_cast<decltype(_1) const&&>(_1);
+        else if constexpr (I == 2)
+            return static_cast<decltype(_2) const&&>(_2);
+        else if constexpr (I == 3)
+            return static_cast<decltype(_3) const&&>(_3);
+        else if constexpr (I == 4)
+            return static_cast<decltype(_4) const&&>(_4);
+        else if constexpr (I == 5)
+            return static_cast<decltype(_5) const&&>(_5);
+        else if constexpr (I == 6)
+            return static_cast<decltype(_6) const&&>(_6);
+        else if constexpr (I == 7)
+            return static_cast<decltype(_7) const&&>(_7);
+        else if constexpr (I == 8)
+            return static_cast<decltype(_8) const&&>(_8);
+        else if constexpr (I == 9)
+            return static_cast<decltype(_9) const&&>(_9);
+        else if constexpr (I == 10)
+            return static_cast<decltype(_10) const&&>(_10);
+        else if constexpr (I == 11)
+            return static_cast<decltype(_11) const&&>(_11);
+        else if constexpr (I == 12)
+            return static_cast<decltype(_12) const&&>(_12);
+        else if constexpr (I == 13)
+            return static_cast<decltype(_13) const&&>(_13);
+        else if constexpr (I == 14)
+            return static_cast<decltype(_14) const&&>(_14);
+        else if constexpr (I == 15)
+            return static_cast<decltype(_15) const&&>(_15);
+        else if constexpr (I == 16)
+            return static_cast<decltype(_16) const&&>(_16);
+        else if constexpr (I == 17)
+            return static_cast<decltype(_17) const&&>(_17);
+        else if constexpr (I == 18)
+            return static_cast<decltype(_18) const&&>(_18);
+        else if constexpr (I == 19)
+            return static_cast<decltype(_19) const&&>(_19);
+        else if constexpr (I == 20)
+            return static_cast<decltype(_20) const&&>(_20);
+        else if constexpr (I == 21)
+            return static_cast<decltype(_21) const&&>(_21);
+        else if constexpr (I == 22)
+            return static_cast<decltype(_22) const&&>(_22);
+        else if constexpr (I == 23)
+            return static_cast<decltype(_23) const&&>(_23);
+        else if constexpr (I == 24)
+            return static_cast<decltype(_24) const&&>(_24);
+        else if constexpr (I == 25)
+            return static_cast<decltype(_25) const&&>(_25);
+        else if constexpr (I == 26)
+            return static_cast<decltype(_26) const&&>(_26);
+        else if constexpr (I == 27)
+            return static_cast<decltype(_27) const&&>(_27);
+        else if constexpr (I == 28)
+            return static_cast<decltype(_28) const&&>(_28);
+        else if constexpr (I == 29)
+            return static_cast<decltype(_29) const&&>(_29);
+        else if constexpr (I == 30)
+            return static_cast<decltype(_30) const&&>(_30);
+        else if constexpr (I == 31)
+            return static_cast<decltype(_31) const&&>(_31);
+        else
+            return std::move(rest).template get<I - 32>();
     }
 };
 }

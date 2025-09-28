@@ -8,6 +8,7 @@ NamespaceIndentation: None
 PointerAlignment: Left
 QualifierAlignment: Right
 UseTab: Never
+AlignEscapedNewlines: DontAlign
 BreakBeforeBraces: Mozilla
 SpaceAfterTemplateKeyword: false
 SpaceBeforeParens: Custom

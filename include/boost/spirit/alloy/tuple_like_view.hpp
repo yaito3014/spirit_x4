@@ -23,7 +23,7 @@ template<TupleLike T, class IndexSeq = std::make_index_sequence<result_of::size<
 struct is_view;
 
 template<TupleLike T, std::size_t... Is>
-struct is_view<T, std::index_sequence<Is...>> : std::conjunction<std::is_lvalue_reference<tuple_deduce_t<Is, T>>...> {};
+struct is_view<T, std::index_sequence<Is...>> : std::conjunction<std::is_lvalue_reference<tuple_like_element_t<Is, T>>...> {};
 
 } // detail
 
