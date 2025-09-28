@@ -221,19 +221,19 @@ constexpr detail::type_pack_indexing_t<I, Ts...> const&& get(tuple<Ts...> const&
 namespace detail {
 
 template<std::size_t I>
-struct call_alloy_get
+struct call_member_get
 {
     template<typename Tuple>
     static constexpr decltype(auto) operator()(Tuple&& t) noexcept
     {
-        return alloy::get<I>(static_cast<Tuple&&>(t));
+        return static_cast<Tuple&&>(t).template get<I>();
     }
 };
 
 template<std::size_t I>
-struct make_call_alloy_get
+struct make_call_member_get
 {
-    static constexpr auto value = call_alloy_get<I>{};
+    static constexpr auto value = call_member_get<I>{};
 };
 
 } // detail
@@ -244,7 +244,7 @@ struct adaptor;
 template<class... Ts>
 struct adaptor<tuple<Ts...>>
 {
-    using getters = detail::integer_seq_transform_t<std::make_index_sequence<sizeof...(Ts)>, detail::make_call_alloy_get>;
+    using getters = detail::integer_seq_transform_t<std::make_index_sequence<sizeof...(Ts)>, detail::make_call_member_get>;
 };
 
 } // boost::spirit::alloy
