@@ -8,11 +8,20 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
+#ifndef BOOST_SPIRIT_USE_PREPROCESSED
+#define BOOST_SPIRIT_USE_PREPROCESSED 1
+#endif
+
+#if BOOST_SPIRIT_USE_PREPROCESSED
+#include <boost/spirit/alloy/detail/preprocessed/tuple_impl.hpp>
+#else
+#include <boost/spirit/alloy/detail/tuple_impl.hpp>
+#endif
+
 #include <boost/spirit/alloy/detail/combine_cvref.hpp>
 #include <boost/spirit/alloy/detail/forward_like_t.hpp>
 #include <boost/spirit/alloy/detail/integer_seq_transform.hpp>
 #include <boost/spirit/alloy/detail/pack_indexing.hpp>
-#include <boost/spirit/alloy/detail/tuple_impl.hpp>
 
 #include <boost/spirit/alloy/value_initialize.hpp>
 
