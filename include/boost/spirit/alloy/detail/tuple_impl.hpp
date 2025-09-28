@@ -107,6 +107,14 @@ public:
 #define BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN_GET(z, n, other)                                                                                                      \
     BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_MEMBER_PREFIX, n) = alloy::get<n>(static_cast<decltype(other)>(other));
 
+#define BOOST_SPIRIT_ALLOY_DETAIL_SWAP(z, n, other)                                                                                                            \
+    swap(BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_MEMBER_PREFIX, n), other.BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_MEMBER_PREFIX, n));
+
+#define BOOST_SPIRIT_ALLOY_DETAIL_SWAPPABLE(z, n, data) BOOST_PP_COMMA_IF(n) std::is_swappable<BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1, n)>
+
+#define BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_SWAPPABLE(z, n, data)                                                                                                \
+    BOOST_PP_COMMA_IF(n) std::is_nothrow_swappable<BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1, n)>
+
 #define BOOST_SPIRIT_ALLOY_DETAIL_GET(z, n, data)                                                                                                              \
     BOOST_PP_EXPR_IF(n, else) if constexpr (I == n) return ((forward_like_t<Self, tuple_impl>)self).BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_MEMBER_PREFIX, n);
 
@@ -204,6 +212,13 @@ public:
         {                                                                                                                                                      \
             BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN_GET, other)                                                                                    \
             return *this;                                                                                                                                      \
+        }                                                                                                                                                      \
+                                                                                                                                                               \
+        constexpr void swap(tuple_impl& other) noexcept(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_SWAPPABLE, )>)                 \
+        {                                                                                                                                                      \
+            static_assert(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_SWAPPABLE, )>);                                                      \
+            using std::swap;                                                                                                                                   \
+            BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_SWAP, other)                                                                                          \
         }                                                                                                                                                      \
                                                                                                                                                                \
         template<std::size_t I, class Self>                                                                                                                    \
@@ -348,6 +363,15 @@ public:
     {
         [&, this]<std::size_t... Is>(std::index_sequence<Is...>) { assign(alloy::get<Is>(static_cast<UTuple>(other))...); }(std::index_sequence_for<Ts...>{});
         return *this;
+    }
+
+    constexpr void swap(tuple_impl& other) noexcept(
+        std::conjunction_v<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_SWAPPABLE, ), std::is_nothrow_swappable<Ts>...>)
+    {
+        static_assert(std::conjunction_v<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_SWAPPABLE, ), std::is_swappable<Ts>...>);
+        using std::swap;
+        BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_SWAP, other)
+        rest.swap(other.rest);
     }
 
     template<std::size_t I, class Self>
