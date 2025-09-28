@@ -262,6 +262,21 @@ struct tuple_assign_impl<std::index_sequence<Is...>>
     }
 };
 
+template<class Tuple, class IndexSeq>
+struct make_tuple_view_result_impl;
+
+template<class Tuple, std::size_t... Is>
+struct make_tuple_view_result_impl<Tuple, std::index_sequence<Is...>>
+{
+    using type = tuple<tuple_like_element_t<Is, Tuple>&...>;
+};
+
+template<class Tuple>
+struct make_tuple_view_result : make_tuple_view_result_impl<Tuple, std::make_index_sequence<result_of::size<Tuple>>> {};
+
+template<class Tuple>
+using make_tuple_view_result_t = typename make_tuple_view_result<Tuple>::type;
+
 } // detail
 
 namespace result_of {
@@ -271,6 +286,9 @@ using tuple_cat = detail::tuple_cat_result_t<Tuples...>;
 
 template<class Tuple, std::size_t... Sizes>
 using tuple_split = detail::tuple_split_result_t<Tuple, Sizes...>;
+
+template<class Tuple>
+using make_tuple_view = detail::make_tuple_view_result_t<Tuple>;
 
 } // result_of
 
@@ -298,6 +316,13 @@ constexpr void tuple_assign(From&& from, To&& to) noexcept(detail::tuple_assign_
     static_assert(result_of::size<From> == result_of::size<To>);
     using Impl = detail::tuple_assign_impl<std::make_index_sequence<result_of::size<From>>>;
     Impl::apply(std::forward<From>(from), std::forward<To>(to));
+}
+
+template<class Tuple>
+    requires TupleLike<std::remove_cvref_t<Tuple>>
+constexpr result_of::make_tuple_view<Tuple> make_tuple_view(Tuple& t) noexcept
+{
+    return result_of::make_tuple_view<Tuple>(t);
 }
 
 } // boost::spirit::alloy

@@ -293,6 +293,13 @@ TEST_CASE("tuple")
     }
 
     {
+        alloy::tuple<int, double> tuple(42, 3.14);
+        auto view = alloy::make_tuple_view(tuple);
+        CHECK(alloy::get<0>(view) == 42);
+        CHECK(alloy::get<1>(view) == 3.14);
+    }
+
+    {
         STATIC_CHECK(std::is_copy_assignable_v<alloy::tuple<int>>);
         STATIC_CHECK(std::is_nothrow_move_assignable_v<alloy::tuple<int>>);
 
