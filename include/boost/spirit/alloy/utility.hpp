@@ -228,6 +228,40 @@ struct tuple_split_make_outer<tuple<ResultInnerTuples...>, type_list<SegmentedIn
 template<class ResultTuple, class Tuple, std::size_t... Sizes>
 struct tuple_split_impl : tuple_split_make_outer<ResultTuple, index_sequence_segment_t<std::make_index_sequence<result_of::size<Tuple>>, Sizes...>> {};
 
+template<class FromTypeList, class ToTypeList>
+struct are_all_nothrow_assignable;
+
+template<class... Froms, class... Tos>
+struct are_all_nothrow_assignable<type_list<Froms...>, type_list<Tos...>>
+    : std::conjunction<std::is_nothrow_assignable<Tos, Froms>...> {};
+
+template<class From, class To, class IndexSeq>
+struct tuple_assign_noexcept_impl;
+
+template<class From, class To, std::size_t... Is>
+struct tuple_assign_noexcept_impl<From, To, std::index_sequence<Is...>>
+    : are_all_nothrow_assignable<type_list<tuple_deduce_t<Is, From>...>, type_list<tuple_deduce_t<Is, To>...>> {};
+
+template<class From, class To>
+struct tuple_assign_noexcept
+    : tuple_assign_noexcept_impl<From, To, std::make_index_sequence<result_of::size<From>>> {};
+
+template<class From, class To>
+inline constexpr bool tuple_assign_noexcept_v = tuple_assign_noexcept<From, To>::value;
+
+template<class IndexSeq>
+struct tuple_assign_impl;
+
+template<std::size_t... Is>
+struct tuple_assign_impl<std::index_sequence<Is...>>
+{
+    template<class From, class To>
+    static constexpr void apply(From&& from, To&& to)
+    {
+        ((void)(alloy::get<Is>(std::forward<To>(to)) = alloy::get<Is>(std::forward<From>(from))), ...);
+    }
+};
+
 } // detail
 
 template<class... Tuples>
@@ -245,6 +279,15 @@ constexpr detail::tuple_split_result_t<Tuple, Sizes...> tuple_split(Tuple&& t)
     static_assert((0 + ... + Sizes) == result_of::size<Tuple>);
     using Impl = detail::tuple_split_impl<detail::tuple_split_result_t<Tuple, Sizes...>, Tuple, Sizes...>;
     return Impl::apply(std::forward<Tuple>(t));
+}
+
+template<class From, class To>
+    requires TupleLike<std::remove_cvref_t<From>> && TupleLike<std::remove_cvref_t<To>>
+constexpr void tuple_assign(From&& from, To&& to) noexcept(detail::tuple_assign_noexcept_v<From, To>)
+{
+    static_assert(result_of::size<From> == result_of::size<To>);
+    using Impl = detail::tuple_assign_impl<std::make_index_sequence<result_of::size<From>>>;
+    Impl::apply(std::forward<From>(from), std::forward<To>(to));
 }
 
 } // boost::spirit::alloy

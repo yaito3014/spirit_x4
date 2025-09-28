@@ -267,12 +267,29 @@ TEST_CASE("tuple")
         STATIC_CHECK(alloy::get<0>(c) == 42);
         STATIC_CHECK(alloy::get<1>(c) == 3.14);
     }
+
     {
         constexpr alloy::tuple<int, float, double> a(42, 3.14f, 2.18);
         constexpr auto b = alloy::tuple_split<1, 2>(a);
         STATIC_CHECK(alloy::get<0>(alloy::get<0>(b)) == 42);
         STATIC_CHECK(alloy::get<0>(alloy::get<1>(b)) == 3.14f);
         STATIC_CHECK(alloy::get<1>(alloy::get<1>(b)) == 2.18);
+    }
+
+    {
+        alloy::tuple<int, double> const from(33, 3.14);
+        alloy::tuple<int, double> to(4, 2.18);
+        alloy::tuple_assign(from, to);
+        CHECK(alloy::get<0>(to) == 33);
+        CHECK(alloy::get<1>(to) == 3.14);
+    }
+    
+    {
+        alloy::tuple<int, double> from(33, 3.14);
+        alloy::tuple<int, double> to(4, 2.18);
+        alloy::tuple_assign(std::move(from), to);
+        CHECK(alloy::get<0>(to) == 33);
+        CHECK(alloy::get<1>(to) == 3.14);
     }
 
     {
