@@ -270,14 +270,14 @@ class tuple : public detail::tuple_impl<Ts...>
     [[nodiscard]] constexpr tuple_element_t<I, tuple>&& get() && noexcept
     {
         static_assert(I < sizeof...(Ts));
-        return base_type::template get<I>();
+        return std::move(*this).base_type::template get<I>();
     }
 
     template<std::size_t I>
     [[nodiscard]] constexpr tuple_element_t<I, tuple> const&& get() const&& noexcept
     {
         static_assert(I < sizeof...(Ts));
-        return base_type::template get<I>();
+        return std::move(*this).base_type::template get<I>();
     }
 };
 
