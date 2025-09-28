@@ -21,7 +21,8 @@
 
 struct NonAdaptedStruct {};
 
-struct AdaptedStruct {
+struct AdaptedStruct
+{
     int x;
     double y;
 };
@@ -42,7 +43,7 @@ TEST_CASE("tuple")
 
     {
         STATIC_CHECK(alloy::TupleLike<AdaptedStruct>);
-        
+
         STATIC_CHECK(alloy::result_of::size<AdaptedStruct> == 2);
 
         STATIC_CHECK(std::is_same_v<alloy::result_of::get<0, AdaptedStruct&>, int&>);
@@ -55,7 +56,7 @@ TEST_CASE("tuple")
         STATIC_CHECK(std::is_same_v<alloy::result_of::get<1, AdaptedStruct&&>, double&&>);
         STATIC_CHECK(std::is_same_v<alloy::result_of::get<1, AdaptedStruct const&&>, double const&&>);
 
-        constexpr AdaptedStruct a{ 42, 3.14 };
+        constexpr AdaptedStruct a{42, 3.14};
 
         STATIC_CHECK(alloy::size(a) == 2);
 
@@ -227,19 +228,20 @@ TEST_CASE("tuple")
         STATIC_CHECK(std::is_convertible_v<alloy::tuple<float, int>&&, alloy::tuple<int, float>>);
         STATIC_CHECK(std::is_convertible_v<alloy::tuple<float, int> const&&, alloy::tuple<int, float>>);
 
-        struct NeedExplicitConversion {
+        struct NeedExplicitConversion
+        {
             explicit NeedExplicitConversion(int) {}
         };
 
         STATIC_CHECK(std::is_constructible_v<alloy::tuple<NeedExplicitConversion>, alloy::tuple<int>&>);
         STATIC_CHECK(std::is_constructible_v<alloy::tuple<NeedExplicitConversion>, alloy::tuple<int> const&>);
         STATIC_CHECK(std::is_constructible_v<alloy::tuple<NeedExplicitConversion>, alloy::tuple<int>&&>);
-        STATIC_CHECK(std::is_constructible_v<alloy::tuple<NeedExplicitConversion>, alloy::tuple<int>const &&>);
-        
+        STATIC_CHECK(std::is_constructible_v<alloy::tuple<NeedExplicitConversion>, alloy::tuple<int> const&&>);
+
         STATIC_CHECK(!std::is_convertible_v<alloy::tuple<int>&, alloy::tuple<NeedExplicitConversion>>);
         STATIC_CHECK(!std::is_convertible_v<alloy::tuple<int> const&, alloy::tuple<NeedExplicitConversion>>);
         STATIC_CHECK(!std::is_convertible_v<alloy::tuple<int>&&, alloy::tuple<NeedExplicitConversion>>);
-        STATIC_CHECK(!std::is_convertible_v<alloy::tuple<int>const &&, alloy::tuple<NeedExplicitConversion>>);
+        STATIC_CHECK(!std::is_convertible_v<alloy::tuple<int> const&&, alloy::tuple<NeedExplicitConversion>>);
 
         alloy::tuple<int, float> a(42, 3.14f);
         alloy::tuple<float, int> b(a);
@@ -280,7 +282,7 @@ TEST_CASE("tuple")
         a = std::move(b);
         CHECK(alloy::get<0>(a) == 4);
     }
-    
+
     {
         STATIC_CHECK(std::is_copy_assignable_v<alloy::tuple<int&>>);
         STATIC_CHECK(std::is_nothrow_move_assignable_v<alloy::tuple<int&>>);
@@ -294,9 +296,24 @@ TEST_CASE("tuple")
     }
 
     {
+        STATIC_CHECK(std::is_assignable_v<alloy::tuple<int>&, alloy::tuple<float> const&>);
+        STATIC_CHECK(std::is_assignable_v<alloy::tuple<int>&, alloy::tuple<float>&&>);
+        STATIC_CHECK(std::is_nothrow_assignable_v<alloy::tuple<int>&, alloy::tuple<float> const&>);
+        STATIC_CHECK(std::is_nothrow_assignable_v<alloy::tuple<int>&, alloy::tuple<float>&&>);
+
+        alloy::tuple<int> a(33);
+        alloy::tuple<float> b(4.f);
+        a = b;
+        a = std::move(b);
+        CHECK(alloy::get<0>(a) == 4);
+    }
+
+    {
         struct Empty {};
         struct OnlyChar { char c; };
-        [[maybe_unused]] constexpr alloy::tuple<Empty, OnlyChar> a = { {}, { 'A' } };
-        [[maybe_unused]] constexpr alloy::tuple<OnlyChar, Empty> b = { { 'A' }, {} };
+        [[maybe_unused]] constexpr alloy::tuple<Empty, OnlyChar> a = {{}, {'A'}};
+        [[maybe_unused]] constexpr alloy::tuple<OnlyChar, Empty> b = {{'A'}, {}};
+        STATIC_CHECK(sizeof(a) == sizeof(OnlyChar));
+        STATIC_CHECK(sizeof(b) == sizeof(OnlyChar));
     }
 }

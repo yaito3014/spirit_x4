@@ -83,8 +83,16 @@ public:
     std::is_nothrow_constructible<BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1, n),                                                                 \
                                   BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2, n) suffix>
 
+#define BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_COPY_ASSIGNABLE(z, n, data)                                                                                          \
+    BOOST_PP_COMMA_IF(n) std::is_nothrow_copy_assignable<BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1, n)>
+
 #define BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_MOVE_ASSIGNABLE(z, n, data)                                                                                          \
     BOOST_PP_COMMA_IF(n) std::is_nothrow_move_assignable<BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1, n)>
+
+#define BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_ASSIGNABLE(z, n, suffix)                                                                                             \
+    BOOST_PP_COMMA_IF(n)                                                                                                                                       \
+    std::is_nothrow_assignable<BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1, n) &,                                                                  \
+                               BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2, n) suffix>
 
 #define BOOST_SPIRIT_ALLOY_DETAIL_VALUE_INITS(z, n, data)                                                                                                      \
     BOOST_PP_COMMA_IF(n) BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_MEMBER_PREFIX, n) {}
@@ -154,6 +162,7 @@ public:
         }                                                                                                                                                      \
                                                                                                                                                                \
         constexpr tuple_impl& operator=(tuple_impl const& other)                                                                                               \
+            noexcept(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_COPY_ASSIGNABLE, )>)                                              \
         {                                                                                                                                                      \
             BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN, other)                                                                                        \
             return *this;                                                                                                                                      \
@@ -161,6 +170,23 @@ public:
                                                                                                                                                                \
         constexpr tuple_impl& operator=(tuple_impl&& other)                                                                                                    \
             noexcept(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_MOVE_ASSIGNABLE, )>)                                              \
+        {                                                                                                                                                      \
+            BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN, static_cast<decltype(other)>(other))                                                          \
+            return *this;                                                                                                                                      \
+        }                                                                                                                                                      \
+                                                                                                                                                               \
+        template<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)>                                    \
+        constexpr tuple_impl&                                                                                                                                  \
+        operator=(tuple_impl<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> const& other)                     \
+            noexcept(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_ASSIGNABLE, const&)>)                                             \
+        {                                                                                                                                                      \
+            BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN, other)                                                                                        \
+            return *this;                                                                                                                                      \
+        }                                                                                                                                                      \
+                                                                                                                                                               \
+        template<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)>                                    \
+        constexpr tuple_impl& operator=(tuple_impl<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)>&& other)    \
+            noexcept(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_ASSIGNABLE, &&)>)                                                 \
         {                                                                                                                                                      \
             BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN, static_cast<decltype(other)>(other))                                                          \
             return *this;                                                                                                                                      \
@@ -268,6 +294,30 @@ public:
         return *this;
     }
 
+    template<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2),
+             class... Us>
+    constexpr tuple_impl& operator=(
+        tuple_impl<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> const& other)
+        noexcept(std::conjunction_v<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_ASSIGNABLE, &&),
+                                    std::is_nothrow_assignable<Ts&, Us const&>...>)
+    {
+        BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN, other)
+        rest = other.rest;
+        return *this;
+    }
+
+    template<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2),
+             class... Us>
+    constexpr tuple_impl&
+    operator=(tuple_impl<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)>&& other)
+        noexcept(std::conjunction_v<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_ASSIGNABLE, &&),
+                                    std::is_nothrow_assignable<Ts&, Us&&>...>)
+    {
+        BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN, static_cast<decltype(other)>(other))
+        rest = static_cast<decltype(other)>(other).rest;
+        return *this;
+    }
+
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<
         Self&&, type_pack_indexing_t<
@@ -293,6 +343,9 @@ public:
 #undef BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN
 #undef BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_DEFAULT_CONSTRUCTIBLE
 #undef BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_CONSTRUCTIBLE
+#undef BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_COPY_ASSIGNABLE
+#undef BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_MOVE_ASSIGNABLE
+#undef BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_ASSIGNABLE
 #undef BOOST_SPIRIT_ALLOY_DETAIL_VALUE_INITS
 #undef BOOST_SPIRIT_ALLOY_DETAIL_GET
 #undef BOOST_SPIRIT_ALLOY_DETAIL_TUPLE_IMPL_DEF
