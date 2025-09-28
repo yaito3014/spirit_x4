@@ -88,6 +88,12 @@ public:
         _0 = static_cast<decltype(other)>(other)._0;
         return *this;
     }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        return *this;
+    }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0>> get(this Self&& self) noexcept
     {
@@ -168,6 +174,13 @@ public:
     {
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -261,6 +274,14 @@ public:
         _0 = static_cast<decltype(other)>(other)._0;
         _1 = static_cast<decltype(other)>(other)._1;
         _2 = static_cast<decltype(other)>(other)._2;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -370,6 +391,15 @@ public:
         _1 = static_cast<decltype(other)>(other)._1;
         _2 = static_cast<decltype(other)>(other)._2;
         _3 = static_cast<decltype(other)>(other)._3;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -489,6 +519,16 @@ public:
         _2 = static_cast<decltype(other)>(other)._2;
         _3 = static_cast<decltype(other)>(other)._3;
         _4 = static_cast<decltype(other)>(other)._4;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -615,6 +655,17 @@ public:
         _3 = static_cast<decltype(other)>(other)._3;
         _4 = static_cast<decltype(other)>(other)._4;
         _5 = static_cast<decltype(other)>(other)._5;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -761,6 +812,18 @@ public:
         _4 = static_cast<decltype(other)>(other)._4;
         _5 = static_cast<decltype(other)>(other)._5;
         _6 = static_cast<decltype(other)>(other)._6;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -914,6 +977,19 @@ public:
         _5 = static_cast<decltype(other)>(other)._5;
         _6 = static_cast<decltype(other)>(other)._6;
         _7 = static_cast<decltype(other)>(other)._7;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -1074,6 +1150,20 @@ public:
         _6 = static_cast<decltype(other)>(other)._6;
         _7 = static_cast<decltype(other)>(other)._7;
         _8 = static_cast<decltype(other)>(other)._8;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -1253,6 +1343,21 @@ public:
         _7 = static_cast<decltype(other)>(other)._7;
         _8 = static_cast<decltype(other)>(other)._8;
         _9 = static_cast<decltype(other)>(other)._9;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -1441,6 +1546,22 @@ public:
         _8 = static_cast<decltype(other)>(other)._8;
         _9 = static_cast<decltype(other)>(other)._9;
         _10 = static_cast<decltype(other)>(other)._10;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -1638,6 +1759,23 @@ public:
         _9 = static_cast<decltype(other)>(other)._9;
         _10 = static_cast<decltype(other)>(other)._10;
         _11 = static_cast<decltype(other)>(other)._11;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -1853,6 +1991,24 @@ public:
         _10 = static_cast<decltype(other)>(other)._10;
         _11 = static_cast<decltype(other)>(other)._11;
         _12 = static_cast<decltype(other)>(other)._12;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -2077,6 +2233,25 @@ public:
         _11 = static_cast<decltype(other)>(other)._11;
         _12 = static_cast<decltype(other)>(other)._12;
         _13 = static_cast<decltype(other)>(other)._13;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -2316,6 +2491,26 @@ public:
         _12 = static_cast<decltype(other)>(other)._12;
         _13 = static_cast<decltype(other)>(other)._13;
         _14 = static_cast<decltype(other)>(other)._14;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -2574,6 +2769,27 @@ public:
         _13 = static_cast<decltype(other)>(other)._13;
         _14 = static_cast<decltype(other)>(other)._14;
         _15 = static_cast<decltype(other)>(other)._15;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
+        _15 = alloy::get<15>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -2841,6 +3057,28 @@ public:
         _14 = static_cast<decltype(other)>(other)._14;
         _15 = static_cast<decltype(other)>(other)._15;
         _16 = static_cast<decltype(other)>(other)._16;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
+        _15 = alloy::get<15>(static_cast<decltype(other)>(other));
+        _16 = alloy::get<16>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -3115,6 +3353,29 @@ public:
         _15 = static_cast<decltype(other)>(other)._15;
         _16 = static_cast<decltype(other)>(other)._16;
         _17 = static_cast<decltype(other)>(other)._17;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
+        _15 = alloy::get<15>(static_cast<decltype(other)>(other));
+        _16 = alloy::get<16>(static_cast<decltype(other)>(other));
+        _17 = alloy::get<17>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -3408,6 +3669,30 @@ public:
         _16 = static_cast<decltype(other)>(other)._16;
         _17 = static_cast<decltype(other)>(other)._17;
         _18 = static_cast<decltype(other)>(other)._18;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
+        _15 = alloy::get<15>(static_cast<decltype(other)>(other));
+        _16 = alloy::get<16>(static_cast<decltype(other)>(other));
+        _17 = alloy::get<17>(static_cast<decltype(other)>(other));
+        _18 = alloy::get<18>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -3710,6 +3995,31 @@ public:
         _17 = static_cast<decltype(other)>(other)._17;
         _18 = static_cast<decltype(other)>(other)._18;
         _19 = static_cast<decltype(other)>(other)._19;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
+        _15 = alloy::get<15>(static_cast<decltype(other)>(other));
+        _16 = alloy::get<16>(static_cast<decltype(other)>(other));
+        _17 = alloy::get<17>(static_cast<decltype(other)>(other));
+        _18 = alloy::get<18>(static_cast<decltype(other)>(other));
+        _19 = alloy::get<19>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -4022,6 +4332,32 @@ public:
         _18 = static_cast<decltype(other)>(other)._18;
         _19 = static_cast<decltype(other)>(other)._19;
         _20 = static_cast<decltype(other)>(other)._20;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
+        _15 = alloy::get<15>(static_cast<decltype(other)>(other));
+        _16 = alloy::get<16>(static_cast<decltype(other)>(other));
+        _17 = alloy::get<17>(static_cast<decltype(other)>(other));
+        _18 = alloy::get<18>(static_cast<decltype(other)>(other));
+        _19 = alloy::get<19>(static_cast<decltype(other)>(other));
+        _20 = alloy::get<20>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -4355,6 +4691,33 @@ public:
         _19 = static_cast<decltype(other)>(other)._19;
         _20 = static_cast<decltype(other)>(other)._20;
         _21 = static_cast<decltype(other)>(other)._21;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
+        _15 = alloy::get<15>(static_cast<decltype(other)>(other));
+        _16 = alloy::get<16>(static_cast<decltype(other)>(other));
+        _17 = alloy::get<17>(static_cast<decltype(other)>(other));
+        _18 = alloy::get<18>(static_cast<decltype(other)>(other));
+        _19 = alloy::get<19>(static_cast<decltype(other)>(other));
+        _20 = alloy::get<20>(static_cast<decltype(other)>(other));
+        _21 = alloy::get<21>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -4699,6 +5062,34 @@ public:
         _20 = static_cast<decltype(other)>(other)._20;
         _21 = static_cast<decltype(other)>(other)._21;
         _22 = static_cast<decltype(other)>(other)._22;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
+        _15 = alloy::get<15>(static_cast<decltype(other)>(other));
+        _16 = alloy::get<16>(static_cast<decltype(other)>(other));
+        _17 = alloy::get<17>(static_cast<decltype(other)>(other));
+        _18 = alloy::get<18>(static_cast<decltype(other)>(other));
+        _19 = alloy::get<19>(static_cast<decltype(other)>(other));
+        _20 = alloy::get<20>(static_cast<decltype(other)>(other));
+        _21 = alloy::get<21>(static_cast<decltype(other)>(other));
+        _22 = alloy::get<22>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -5056,6 +5447,35 @@ public:
         _21 = static_cast<decltype(other)>(other)._21;
         _22 = static_cast<decltype(other)>(other)._22;
         _23 = static_cast<decltype(other)>(other)._23;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
+        _15 = alloy::get<15>(static_cast<decltype(other)>(other));
+        _16 = alloy::get<16>(static_cast<decltype(other)>(other));
+        _17 = alloy::get<17>(static_cast<decltype(other)>(other));
+        _18 = alloy::get<18>(static_cast<decltype(other)>(other));
+        _19 = alloy::get<19>(static_cast<decltype(other)>(other));
+        _20 = alloy::get<20>(static_cast<decltype(other)>(other));
+        _21 = alloy::get<21>(static_cast<decltype(other)>(other));
+        _22 = alloy::get<22>(static_cast<decltype(other)>(other));
+        _23 = alloy::get<23>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -5431,6 +5851,36 @@ public:
         _22 = static_cast<decltype(other)>(other)._22;
         _23 = static_cast<decltype(other)>(other)._23;
         _24 = static_cast<decltype(other)>(other)._24;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
+        _15 = alloy::get<15>(static_cast<decltype(other)>(other));
+        _16 = alloy::get<16>(static_cast<decltype(other)>(other));
+        _17 = alloy::get<17>(static_cast<decltype(other)>(other));
+        _18 = alloy::get<18>(static_cast<decltype(other)>(other));
+        _19 = alloy::get<19>(static_cast<decltype(other)>(other));
+        _20 = alloy::get<20>(static_cast<decltype(other)>(other));
+        _21 = alloy::get<21>(static_cast<decltype(other)>(other));
+        _22 = alloy::get<22>(static_cast<decltype(other)>(other));
+        _23 = alloy::get<23>(static_cast<decltype(other)>(other));
+        _24 = alloy::get<24>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -5814,6 +6264,37 @@ public:
         _23 = static_cast<decltype(other)>(other)._23;
         _24 = static_cast<decltype(other)>(other)._24;
         _25 = static_cast<decltype(other)>(other)._25;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
+        _15 = alloy::get<15>(static_cast<decltype(other)>(other));
+        _16 = alloy::get<16>(static_cast<decltype(other)>(other));
+        _17 = alloy::get<17>(static_cast<decltype(other)>(other));
+        _18 = alloy::get<18>(static_cast<decltype(other)>(other));
+        _19 = alloy::get<19>(static_cast<decltype(other)>(other));
+        _20 = alloy::get<20>(static_cast<decltype(other)>(other));
+        _21 = alloy::get<21>(static_cast<decltype(other)>(other));
+        _22 = alloy::get<22>(static_cast<decltype(other)>(other));
+        _23 = alloy::get<23>(static_cast<decltype(other)>(other));
+        _24 = alloy::get<24>(static_cast<decltype(other)>(other));
+        _25 = alloy::get<25>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -6206,6 +6687,38 @@ public:
         _24 = static_cast<decltype(other)>(other)._24;
         _25 = static_cast<decltype(other)>(other)._25;
         _26 = static_cast<decltype(other)>(other)._26;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
+        _15 = alloy::get<15>(static_cast<decltype(other)>(other));
+        _16 = alloy::get<16>(static_cast<decltype(other)>(other));
+        _17 = alloy::get<17>(static_cast<decltype(other)>(other));
+        _18 = alloy::get<18>(static_cast<decltype(other)>(other));
+        _19 = alloy::get<19>(static_cast<decltype(other)>(other));
+        _20 = alloy::get<20>(static_cast<decltype(other)>(other));
+        _21 = alloy::get<21>(static_cast<decltype(other)>(other));
+        _22 = alloy::get<22>(static_cast<decltype(other)>(other));
+        _23 = alloy::get<23>(static_cast<decltype(other)>(other));
+        _24 = alloy::get<24>(static_cast<decltype(other)>(other));
+        _25 = alloy::get<25>(static_cast<decltype(other)>(other));
+        _26 = alloy::get<26>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -6624,6 +7137,39 @@ public:
         _25 = static_cast<decltype(other)>(other)._25;
         _26 = static_cast<decltype(other)>(other)._26;
         _27 = static_cast<decltype(other)>(other)._27;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
+        _15 = alloy::get<15>(static_cast<decltype(other)>(other));
+        _16 = alloy::get<16>(static_cast<decltype(other)>(other));
+        _17 = alloy::get<17>(static_cast<decltype(other)>(other));
+        _18 = alloy::get<18>(static_cast<decltype(other)>(other));
+        _19 = alloy::get<19>(static_cast<decltype(other)>(other));
+        _20 = alloy::get<20>(static_cast<decltype(other)>(other));
+        _21 = alloy::get<21>(static_cast<decltype(other)>(other));
+        _22 = alloy::get<22>(static_cast<decltype(other)>(other));
+        _23 = alloy::get<23>(static_cast<decltype(other)>(other));
+        _24 = alloy::get<24>(static_cast<decltype(other)>(other));
+        _25 = alloy::get<25>(static_cast<decltype(other)>(other));
+        _26 = alloy::get<26>(static_cast<decltype(other)>(other));
+        _27 = alloy::get<27>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -7051,6 +7597,40 @@ public:
         _26 = static_cast<decltype(other)>(other)._26;
         _27 = static_cast<decltype(other)>(other)._27;
         _28 = static_cast<decltype(other)>(other)._28;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
+        _15 = alloy::get<15>(static_cast<decltype(other)>(other));
+        _16 = alloy::get<16>(static_cast<decltype(other)>(other));
+        _17 = alloy::get<17>(static_cast<decltype(other)>(other));
+        _18 = alloy::get<18>(static_cast<decltype(other)>(other));
+        _19 = alloy::get<19>(static_cast<decltype(other)>(other));
+        _20 = alloy::get<20>(static_cast<decltype(other)>(other));
+        _21 = alloy::get<21>(static_cast<decltype(other)>(other));
+        _22 = alloy::get<22>(static_cast<decltype(other)>(other));
+        _23 = alloy::get<23>(static_cast<decltype(other)>(other));
+        _24 = alloy::get<24>(static_cast<decltype(other)>(other));
+        _25 = alloy::get<25>(static_cast<decltype(other)>(other));
+        _26 = alloy::get<26>(static_cast<decltype(other)>(other));
+        _27 = alloy::get<27>(static_cast<decltype(other)>(other));
+        _28 = alloy::get<28>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -7487,6 +8067,41 @@ public:
         _27 = static_cast<decltype(other)>(other)._27;
         _28 = static_cast<decltype(other)>(other)._28;
         _29 = static_cast<decltype(other)>(other)._29;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
+        _15 = alloy::get<15>(static_cast<decltype(other)>(other));
+        _16 = alloy::get<16>(static_cast<decltype(other)>(other));
+        _17 = alloy::get<17>(static_cast<decltype(other)>(other));
+        _18 = alloy::get<18>(static_cast<decltype(other)>(other));
+        _19 = alloy::get<19>(static_cast<decltype(other)>(other));
+        _20 = alloy::get<20>(static_cast<decltype(other)>(other));
+        _21 = alloy::get<21>(static_cast<decltype(other)>(other));
+        _22 = alloy::get<22>(static_cast<decltype(other)>(other));
+        _23 = alloy::get<23>(static_cast<decltype(other)>(other));
+        _24 = alloy::get<24>(static_cast<decltype(other)>(other));
+        _25 = alloy::get<25>(static_cast<decltype(other)>(other));
+        _26 = alloy::get<26>(static_cast<decltype(other)>(other));
+        _27 = alloy::get<27>(static_cast<decltype(other)>(other));
+        _28 = alloy::get<28>(static_cast<decltype(other)>(other));
+        _29 = alloy::get<29>(static_cast<decltype(other)>(other));
         return *this;
     }
     template<std::size_t I, class Self>
@@ -7943,6 +8558,42 @@ public:
         _30 = static_cast<decltype(other)>(other)._30;
         return *this;
     }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        _0 = alloy::get<0>(static_cast<decltype(other)>(other));
+        _1 = alloy::get<1>(static_cast<decltype(other)>(other));
+        _2 = alloy::get<2>(static_cast<decltype(other)>(other));
+        _3 = alloy::get<3>(static_cast<decltype(other)>(other));
+        _4 = alloy::get<4>(static_cast<decltype(other)>(other));
+        _5 = alloy::get<5>(static_cast<decltype(other)>(other));
+        _6 = alloy::get<6>(static_cast<decltype(other)>(other));
+        _7 = alloy::get<7>(static_cast<decltype(other)>(other));
+        _8 = alloy::get<8>(static_cast<decltype(other)>(other));
+        _9 = alloy::get<9>(static_cast<decltype(other)>(other));
+        _10 = alloy::get<10>(static_cast<decltype(other)>(other));
+        _11 = alloy::get<11>(static_cast<decltype(other)>(other));
+        _12 = alloy::get<12>(static_cast<decltype(other)>(other));
+        _13 = alloy::get<13>(static_cast<decltype(other)>(other));
+        _14 = alloy::get<14>(static_cast<decltype(other)>(other));
+        _15 = alloy::get<15>(static_cast<decltype(other)>(other));
+        _16 = alloy::get<16>(static_cast<decltype(other)>(other));
+        _17 = alloy::get<17>(static_cast<decltype(other)>(other));
+        _18 = alloy::get<18>(static_cast<decltype(other)>(other));
+        _19 = alloy::get<19>(static_cast<decltype(other)>(other));
+        _20 = alloy::get<20>(static_cast<decltype(other)>(other));
+        _21 = alloy::get<21>(static_cast<decltype(other)>(other));
+        _22 = alloy::get<22>(static_cast<decltype(other)>(other));
+        _23 = alloy::get<23>(static_cast<decltype(other)>(other));
+        _24 = alloy::get<24>(static_cast<decltype(other)>(other));
+        _25 = alloy::get<25>(static_cast<decltype(other)>(other));
+        _26 = alloy::get<26>(static_cast<decltype(other)>(other));
+        _27 = alloy::get<27>(static_cast<decltype(other)>(other));
+        _28 = alloy::get<28>(static_cast<decltype(other)>(other));
+        _29 = alloy::get<29>(static_cast<decltype(other)>(other));
+        _30 = alloy::get<30>(static_cast<decltype(other)>(other));
+        return *this;
+    }
     template<std::size_t I, class Self>
     constexpr combine_cvref_t<Self&&, type_pack_indexing_t<I, T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20,
                                                            T21, T22, T23, T24, T25, T26, T27, T28, T29, T30>>
@@ -8020,6 +8671,49 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26,
+             class U27, class U28, class U29, class U30, class U31, class... Us>
+    constexpr void assign(U0&& u0, U1&& u1, U2&& u2, U3&& u3, U4&& u4, U5&& u5, U6&& u6, U7&& u7, U8&& u8, U9&& u9, U10&& u10, U11&& u11, U12&& u12, U13&& u13,
+                          U14&& u14, U15&& u15, U16&& u16, U17&& u17, U18&& u18, U19&& u19, U20&& u20, U21&& u21, U22&& u22, U23&& u23, U24&& u24, U25&& u25,
+                          U26&& u26, U27&& u27, U28&& u28, U29&& u29, U30&& u30, U31&& u31, Us&&... us)
+    {
+        _0 = static_cast<U0>(u0);
+        _1 = static_cast<U1>(u1);
+        _2 = static_cast<U2>(u2);
+        _3 = static_cast<U3>(u3);
+        _4 = static_cast<U4>(u4);
+        _5 = static_cast<U5>(u5);
+        _6 = static_cast<U6>(u6);
+        _7 = static_cast<U7>(u7);
+        _8 = static_cast<U8>(u8);
+        _9 = static_cast<U9>(u9);
+        _10 = static_cast<U10>(u10);
+        _11 = static_cast<U11>(u11);
+        _12 = static_cast<U12>(u12);
+        _13 = static_cast<U13>(u13);
+        _14 = static_cast<U14>(u14);
+        _15 = static_cast<U15>(u15);
+        _16 = static_cast<U16>(u16);
+        _17 = static_cast<U17>(u17);
+        _18 = static_cast<U18>(u18);
+        _19 = static_cast<U19>(u19);
+        _20 = static_cast<U20>(u20);
+        _21 = static_cast<U21>(u21);
+        _22 = static_cast<U22>(u22);
+        _23 = static_cast<U23>(u23);
+        _24 = static_cast<U24>(u24);
+        _25 = static_cast<U25>(u25);
+        _26 = static_cast<U26>(u26);
+        _27 = static_cast<U27>(u27);
+        _28 = static_cast<U28>(u28);
+        _29 = static_cast<U29>(u29);
+        _30 = static_cast<U30>(u30);
+        _31 = static_cast<U31>(u31);
+        rest.assign(static_cast<Us>(us)...);
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -8214,6 +8908,17 @@ public:
     {
     }
     constexpr tuple_impl& operator=(tuple_impl const& other)
+        noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<T0>, std::is_nothrow_copy_assignable<T1>, std::is_nothrow_copy_assignable<T2>,
+                                    std::is_nothrow_copy_assignable<T3>, std::is_nothrow_copy_assignable<T4>, std::is_nothrow_copy_assignable<T5>,
+                                    std::is_nothrow_copy_assignable<T6>, std::is_nothrow_copy_assignable<T7>, std::is_nothrow_copy_assignable<T8>,
+                                    std::is_nothrow_copy_assignable<T9>, std::is_nothrow_copy_assignable<T10>, std::is_nothrow_copy_assignable<T11>,
+                                    std::is_nothrow_copy_assignable<T12>, std::is_nothrow_copy_assignable<T13>, std::is_nothrow_copy_assignable<T14>,
+                                    std::is_nothrow_copy_assignable<T15>, std::is_nothrow_copy_assignable<T16>, std::is_nothrow_copy_assignable<T17>,
+                                    std::is_nothrow_copy_assignable<T18>, std::is_nothrow_copy_assignable<T19>, std::is_nothrow_copy_assignable<T20>,
+                                    std::is_nothrow_copy_assignable<T21>, std::is_nothrow_copy_assignable<T22>, std::is_nothrow_copy_assignable<T23>,
+                                    std::is_nothrow_copy_assignable<T24>, std::is_nothrow_copy_assignable<T25>, std::is_nothrow_copy_assignable<T26>,
+                                    std::is_nothrow_copy_assignable<T27>, std::is_nothrow_copy_assignable<T28>, std::is_nothrow_copy_assignable<T29>,
+                                    std::is_nothrow_copy_assignable<T30>, std::is_nothrow_copy_assignable<T31>, std::is_nothrow_copy_assignable<Ts>...>)
     {
         _0 = other._0;
         _1 = other._1;
@@ -8401,6 +9106,12 @@ public:
         _30 = static_cast<decltype(other)>(other)._30;
         _31 = static_cast<decltype(other)>(other)._31;
         rest = static_cast<decltype(other)>(other).rest;
+        return *this;
+    }
+    template<class UTuple>
+    constexpr tuple_impl& operator=(UTuple&& other)
+    {
+        [&, this]<std::size_t... Is>(std::index_sequence<Is...>) { assign(alloy::get<Is>(static_cast<UTuple>(other))...); }(std::index_sequence_for<Ts...>{});
         return *this;
     }
     template<std::size_t I, class Self>

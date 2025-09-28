@@ -222,19 +222,19 @@ class tuple : public detail::tuple_impl<Ts...>
         return *this;
     }
 
-    // template<class UTuple>
-    //     requires requires {
-    //         requires TupleLike<std::remove_cvref_t<UTuple>>;
-    //         requires (!std::is_same_v<std::remove_cvref_t<UTuple>, tuple>);
-    //         requires sizeof...(Ts) == result_of::size<UTuple>;
-    //         requires detail::tuple_traits<UTuple, Ts...>::all_assignable;
-    //     }
-    // constexpr tuple& operator=(UTuple&& other)
-    //     noexcept(detail::tuple_traits<UTuple, Ts...>::all_nothrow_assignable)
-    // {
-    //     base_type::operator=(static_cast<UTuple>(other));
-    //     return *this;
-    // }
+    template<class UTuple>
+        requires requires {
+            requires TupleLike<std::remove_cvref_t<UTuple>>;
+            requires (!std::is_same_v<std::remove_cvref_t<UTuple>, tuple>);
+            requires sizeof...(Ts) == result_of::size<UTuple>;
+            requires detail::tuple_traits<UTuple, Ts...>::all_assignable;
+        }
+    constexpr tuple& operator=(UTuple&& other)
+        noexcept(detail::tuple_traits<UTuple, Ts...>::all_nothrow_assignable)
+    {
+        base_type::operator=(static_cast<UTuple>(other));
+        return *this;
+    }
 
     template<std::size_t I, class Self>
     constexpr detail::combine_cvref_t<Self&&, detail::type_pack_indexing_t<I, Ts...>> get(this Self&& self) noexcept
