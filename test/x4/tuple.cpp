@@ -300,6 +300,13 @@ TEST_CASE("tuple")
     }
 
     {
+        alloy::tuple<int, double> tuple(42, 3.14);
+        alloy::tuple_for_each(tuple, [](auto& elem){ elem = 33 - 4; });
+        CHECK(alloy::get<0>(tuple) == 29);
+        CHECK(alloy::get<1>(tuple) == 29.);
+    }
+
+    {
         STATIC_CHECK(std::is_copy_assignable_v<alloy::tuple<int>>);
         STATIC_CHECK(std::is_nothrow_move_assignable_v<alloy::tuple<int>>);
 
