@@ -82,7 +82,7 @@ inline constexpr bool tuple_one_element_is_constructible_from_tuple_v = tuple_on
 template<class... Ts>
 class tuple : public detail::tuple_impl<Ts...>
 {
-  private:
+private:
     static_assert(!std::disjunction_v<std::is_rvalue_reference<Ts>...>, "alloy::tuple must not be instantiated with rvalue reference type");
     using base_type = detail::tuple_impl<Ts...>;
 
@@ -104,7 +104,7 @@ class tuple : public detail::tuple_impl<Ts...>
         : base_type(alloy::get<Is>(static_cast<UTuple>(other))...)
     {}
 
-  public:
+public:
     tuple() = default;
 
     tuple(tuple const&) = default;
