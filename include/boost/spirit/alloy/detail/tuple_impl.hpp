@@ -12,7 +12,6 @@
 
 #include <boost/spirit/config.hpp>
 
-#include <boost/spirit/alloy/detail/combine_cvref.hpp>
 #include <boost/spirit/alloy/detail/forward_like_t.hpp>
 #include <boost/spirit/alloy/detail/pack_indexing.hpp>
 

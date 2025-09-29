@@ -18,7 +18,6 @@
 #include <boost/spirit/alloy/detail/tuple_impl.hpp>
 #endif
 
-#include <boost/spirit/alloy/detail/combine_cvref.hpp>
 #include <boost/spirit/alloy/detail/forward_like_t.hpp>
 #include <boost/spirit/alloy/detail/integer_seq_transform.hpp>
 #include <boost/spirit/alloy/detail/pack_indexing.hpp>
