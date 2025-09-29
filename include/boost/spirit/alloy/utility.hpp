@@ -13,6 +13,7 @@
 #include <boost/spirit/alloy/access.hpp>
 #include <boost/spirit/alloy/tuple.hpp>
 
+#include <functional>
 #include <type_traits>
 #include <utility>
 
@@ -277,6 +278,18 @@ struct make_tuple_view_result : make_tuple_view_result_impl<Tuple, std::make_ind
 template<class Tuple>
 using make_tuple_view_result_t = typename make_tuple_view_result<Tuple>::type;
 
+template<class IndexSeq>
+struct tuple_for_each_impl;
+
+template<std::size_t... Is>
+struct tuple_for_each_impl<std::index_sequence<Is...>>
+{
+    template<class Tuple, class F>
+    static constexpr void apply(Tuple&& t, F&& f){
+        ((void)std::invoke(std::forward<F>(f), alloy::get<Is>(std::forward<Tuple>(t))), ...);
+    }
+};
+
 } // detail
 
 namespace result_of {
@@ -323,6 +336,13 @@ template<class Tuple>
 constexpr result_of::make_tuple_view<Tuple> make_tuple_view(Tuple& t) noexcept
 {
     return result_of::make_tuple_view<Tuple>(t);
+}
+
+template<class Tuple, class F>
+    requires TupleLike<std::remove_cvref_t<Tuple>>
+constexpr void tuple_for_each(Tuple&& t, F&& f)
+{
+    return detail::tuple_for_each_impl<std::make_index_sequence<result_of::size<Tuple>>>::apply(std::forward<Tuple>(t), std::forward<F>(f));
 }
 
 } // boost::spirit::alloy
