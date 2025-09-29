@@ -21,6 +21,7 @@
 #include <boost/spirit/alloy/detail/forward_like_t.hpp>
 #include <boost/spirit/alloy/detail/integer_seq_transform.hpp>
 #include <boost/spirit/alloy/detail/pack_indexing.hpp>
+#include <boost/spirit/alloy/detail/tuple_comparison.hpp>
 
 #include <boost/spirit/alloy/value_initialize.hpp>
 
@@ -313,6 +314,13 @@ template<class... Ts>
 constexpr void swap(tuple<Ts...>& a, tuple<Ts...>& b) noexcept(noexcept(a.swap(b)))
 {
     a.swap(b);
+}
+
+template<class... Ts, class... Us>
+    requires detail::tuple_all_elements_have_equality_operator<tuple<Ts...>, tuple<Us...>>
+constexpr bool operator==(tuple<Ts...> const& a, tuple<Us...> const& b)
+{
+    return a.equal_to(b);
 }
 
 namespace detail {

@@ -12,6 +12,7 @@
 
 #include <boost/spirit/alloy/detail/forward_like_t.hpp>
 #include <boost/spirit/alloy/detail/pack_indexing.hpp>
+#include <boost/spirit/alloy/detail/tuple_comparison.hpp>
 
 #include <boost/spirit/alloy/access.hpp>
 #include <boost/spirit/alloy/value_initialize.hpp>
@@ -20,12 +21,25 @@
 
 #include <cstddef>
 
-namespace boost::spirit::alloy::detail {
+namespace boost::spirit::alloy {
+template<class... Ts>
+class tuple;
+template<class... Us, class... Vs>
+    requires detail::tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+constexpr bool operator==(tuple<Us...> const&, tuple<Vs...> const&);
+namespace detail {
 template<class... Ts>
 class tuple_impl;
 template<>
 class tuple_impl<>
 {
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    constexpr bool equal_to(tuple_impl const&) const { return true; }
+
 public:
     tuple_impl() = default;
     tuple_impl(tuple_impl const&) = default;
@@ -37,6 +51,16 @@ class tuple_impl<T0>
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0>
+    constexpr bool equal_to(tuple_impl<U0> const& other) const
+    {
+        return _0 == other._0;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -130,6 +154,16 @@ class tuple_impl<T0, T1>
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1>
+    constexpr bool equal_to(tuple_impl<U0, U1> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -252,6 +286,16 @@ class tuple_impl<T0, T1, T2>
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -394,6 +438,16 @@ class tuple_impl<T0, T1, T2, T3>
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -560,6 +614,16 @@ class tuple_impl<T0, T1, T2, T3, T4>
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -745,6 +809,16 @@ class tuple_impl<T0, T1, T2, T3, T4, T5>
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -946,6 +1020,16 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6>
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -1175,6 +1259,16 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7>
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -1419,6 +1513,17 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8>
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -1679,6 +1784,17 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -1966,6 +2082,17 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -2271,6 +2398,17 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -2593,6 +2731,17 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -2942,6 +3091,17 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -3309,6 +3469,18 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -3699,6 +3871,19 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -4116,6 +4301,19 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15 && _16 == other._16;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -4550,6 +4748,19 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15 && _16 == other._16 && _17 == other._17;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -4999,6 +5210,19 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15 && _16 == other._16 && _17 == other._17 && _18 == other._18;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -5475,6 +5699,19 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15 && _16 == other._16 && _17 == other._17 && _18 == other._18 && _19 == other._19;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -5969,6 +6206,19 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15 && _16 == other._16 && _17 == other._17 && _18 == other._18 && _19 == other._19 && _20 == other._20;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -6484,6 +6734,19 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15 && _16 == other._16 && _17 == other._17 && _18 == other._18 && _19 == other._19 && _20 == other._20 && _21 == other._21;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -7028,6 +7291,21 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22>
+    constexpr bool
+    equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15 && _16 == other._16 && _17 == other._17 && _18 == other._18 && _19 == other._19 && _20 == other._20 && _21 == other._21 &&
+               _22 == other._22;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -7591,6 +7869,21 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23>
+    constexpr bool
+    equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15 && _16 == other._16 && _17 == other._17 && _18 == other._18 && _19 == other._19 && _20 == other._20 && _21 == other._21 &&
+               _22 == other._22 && _23 == other._23;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -8176,6 +8469,21 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24>
+    constexpr bool
+    equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15 && _16 == other._16 && _17 == other._17 && _18 == other._18 && _19 == other._19 && _20 == other._20 && _21 == other._21 &&
+               _22 == other._22 && _23 == other._23 && _24 == other._24;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -8789,6 +9097,21 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25>
+    constexpr bool equal_to(
+        tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15 && _16 == other._16 && _17 == other._17 && _18 == other._18 && _19 == other._19 && _20 == other._20 && _21 == other._21 &&
+               _22 == other._22 && _23 == other._23 && _24 == other._24 && _25 == other._25;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -9420,6 +9743,21 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25,
+                                       U26> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15 && _16 == other._16 && _17 == other._17 && _18 == other._18 && _19 == other._19 && _20 == other._20 && _21 == other._21 &&
+               _22 == other._22 && _23 == other._23 && _24 == other._24 && _25 == other._25 && _26 == other._26;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -10071,6 +10409,22 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26,
+             class U27>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25,
+                                       U26, U27> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15 && _16 == other._16 && _17 == other._17 && _18 == other._18 && _19 == other._19 && _20 == other._20 && _21 == other._21 &&
+               _22 == other._22 && _23 == other._23 && _24 == other._24 && _25 == other._25 && _26 == other._26 && _27 == other._27;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -10755,6 +11109,22 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26,
+             class U27, class U28>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25,
+                                       U26, U27, U28> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15 && _16 == other._16 && _17 == other._17 && _18 == other._18 && _19 == other._19 && _20 == other._20 && _21 == other._21 &&
+               _22 == other._22 && _23 == other._23 && _24 == other._24 && _25 == other._25 && _26 == other._26 && _27 == other._27 && _28 == other._28;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -11457,6 +11827,23 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26,
+             class U27, class U28, class U29>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25,
+                                       U26, U27, U28, U29> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15 && _16 == other._16 && _17 == other._17 && _18 == other._18 && _19 == other._19 && _20 == other._20 && _21 == other._21 &&
+               _22 == other._22 && _23 == other._23 && _24 == other._24 && _25 == other._25 && _26 == other._26 && _27 == other._27 && _28 == other._28 &&
+               _29 == other._29;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -12178,6 +12565,23 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26,
+             class U27, class U28, class U29, class U30>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25,
+                                       U26, U27, U28, U29, U30> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15 && _16 == other._16 && _17 == other._17 && _18 == other._18 && _19 == other._19 && _20 == other._20 && _21 == other._21 &&
+               _22 == other._22 && _23 == other._23 && _24 == other._24 && _25 == other._25 && _26 == other._26 && _27 == other._27 && _28 == other._28 &&
+               _29 == other._29 && _30 == other._30;
+    }
 
 public:
     BOOST_SPIRIT_NO_UNIQUE_ADDRESS T0 _0;
@@ -12924,6 +13328,9 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
 {
     template<class... Us>
     friend class tuple_impl;
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
@@ -12966,6 +13373,18 @@ private:
         _30 = static_cast<U30>(u30);
         _31 = static_cast<U31>(u31);
         rest.assign(static_cast<Us>(us)...);
+    }
+    template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
+             class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26,
+             class U27, class U28, class U29, class U30, class U31>
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25,
+                                       U26, U27, U28, U29, U30, U31> const& other) const
+    {
+        return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
+               _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
+               _15 == other._15 && _16 == other._16 && _17 == other._17 && _18 == other._18 && _19 == other._19 && _20 == other._20 && _21 == other._21 &&
+               _22 == other._22 && _23 == other._23 && _24 == other._24 && _25 == other._25 && _26 == other._26 && _27 == other._27 && _28 == other._28 &&
+               _29 == other._29 && _30 == other._30 && _31 == other._31 && rest == other.rest;
     }
 
 public:
@@ -13709,6 +14128,7 @@ public:
             return std::move(rest).template get<I - 32>();
     }
 };
+}
 }
 
 #endif
