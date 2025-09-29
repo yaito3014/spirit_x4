@@ -9,12 +9,14 @@
 
 #include <boost/spirit/alloy/access.hpp>
 #include <boost/spirit/alloy/adapted.hpp>
+#include <boost/spirit/alloy/io.hpp>
 #include <boost/spirit/alloy/non_type_list.hpp>
 #include <boost/spirit/alloy/tuple.hpp>
 #include <boost/spirit/alloy/tuple_like.hpp>
 #include <boost/spirit/alloy/tuple_like_view.hpp>
 #include <boost/spirit/alloy/utility.hpp>
 
+#include <sstream>
 #include <tuple>
 #include <type_traits>
 #include <utility>
@@ -304,6 +306,24 @@ TEST_CASE("tuple")
         alloy::tuple_for_each(tuple, [](auto& elem){ elem = 33 - 4; });
         CHECK(alloy::get<0>(tuple) == 29);
         CHECK(alloy::get<1>(tuple) == 29.);
+    }
+
+    {
+        {
+            std::stringstream ss;
+            ss << alloy::tuple<>();
+            CHECK(ss.str() == "()");
+        }
+        {
+            std::stringstream ss;
+            ss << alloy::tuple<int>(42);
+            CHECK(ss.str() == "(42)");
+        }
+        {
+            std::stringstream ss;
+            ss << alloy::tuple<int, double>(42, 3.14);
+            CHECK(ss.str() == "(42, 3.14)");
+        }
     }
 
     {
