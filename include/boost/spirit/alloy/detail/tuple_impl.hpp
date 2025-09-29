@@ -14,6 +14,7 @@
 
 #include <boost/spirit/alloy/detail/forward_like_t.hpp>
 #include <boost/spirit/alloy/detail/pack_indexing.hpp>
+#include <boost/spirit/alloy/detail/tuple_comparison.hpp>
 
 #include <boost/spirit/alloy/value_initialize.hpp>
 
@@ -29,7 +30,16 @@
 #include <boost/preprocessor/repeat.hpp>
 #include <boost/preprocessor/repeat_from_to.hpp>
 
-namespace boost::spirit::alloy::detail {
+namespace boost::spirit::alloy {
+
+template<class... Ts>
+class tuple;
+
+template<class... Us, class... Vs>
+    requires detail::tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+constexpr bool operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+namespace detail {
 
 template<class... Ts>
 class tuple_impl;
@@ -37,6 +47,13 @@ class tuple_impl;
 template<>
 class tuple_impl<>
 {
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
+private:
+    constexpr bool equal_to(tuple_impl const&) const { return true; }
+
 public:
     tuple_impl() = default;
 
@@ -122,72 +139,92 @@ public:
     if constexpr (I == n) return static_cast<decltype(BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_MEMBER_PREFIX, n)) const_&&>( \
         BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_MEMBER_PREFIX, n));
 
+#define BOOST_SPIRIT_ALLOY_DETAIL_EQUAL_TO(z, n, other) \
+    BOOST_PP_EXPR_IF(n, &&) BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_MEMBER_PREFIX, n) == other.BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_MEMBER_PREFIX, n)
+
 #define BOOST_SPIRIT_ALLOY_DETAIL_TUPLE_IMPL_DEF(z, n, data) \
     template<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1)> \
     class tuple_impl<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1)> \
     { \
         template<class... BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2, s)> \
         friend class tuple_impl; \
-    \
+\
+        template<class... Us, class... Vs> \
+            requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>> \
+        friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&); \
+\
+    private: \
+        template<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> \
+        constexpr bool equal_to(tuple_impl<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> const& other) const \
+        { \
+            return BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_EQUAL_TO, other); \
+        } \
+\
     public: \
         BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_MEM_DEFS, ) \
-    \
+\
         explicit tuple_impl() = default; \
-    \
+\
         explicit tuple_impl(tuple_impl const&) = default; \
-    \
+\
         explicit tuple_impl(tuple_impl&&) = default; \
-    \
+\
         constexpr explicit tuple_impl(value_initialize_t) \
             noexcept(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_DEFAULT_CONSTRUCTIBLE, )>) \
             : BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_VALUE_INITS, ) \
-        {} \
-    \
+        { \
+        } \
+\
         template<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> \
         constexpr explicit tuple_impl(BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_FWD_PARAMS, )) \
             noexcept(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_CONSTRUCTIBLE, )>) \
             : BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_FWD_INITS, ) \
-        {} \
-    \
+        { \
+        } \
+\
         template<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> \
         constexpr explicit tuple_impl(tuple_impl<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)>& other) \
             noexcept(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_CONSTRUCTIBLE, &)>) \
             : BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_INITS, other) \
-        {} \
-    \
+        { \
+        } \
+\
         template<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> \
         constexpr explicit tuple_impl(tuple_impl<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> const& other) \
             noexcept(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_CONSTRUCTIBLE, const&)>) \
             : BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_INITS, other) \
-        {} \
-    \
+        { \
+        } \
+\
         template<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> \
         constexpr explicit tuple_impl(tuple_impl<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)>&& other) \
             noexcept(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_CONSTRUCTIBLE, &&)>) \
             : BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_INITS, static_cast<decltype(other)>(other)) \
-        {} \
-    \
+        { \
+        } \
+\
         template<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> \
         constexpr explicit tuple_impl( \
             tuple_impl<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> const&& other) \
             noexcept(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_CONSTRUCTIBLE, const&&)>) \
             : BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_INITS, static_cast<decltype(other)>(other)) \
-        {} \
-    \
+        { \
+        } \
+\
         constexpr tuple_impl& operator=(tuple_impl const& other) \
             noexcept(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_COPY_ASSIGNABLE, )>) \
         { \
             BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN, other) \
             return *this; \
         } \
-    \
+\
         constexpr tuple_impl& operator=(tuple_impl&& other) \
             noexcept(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_MOVE_ASSIGNABLE, )>) \
         { \
             BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN, static_cast<decltype(other)>(other)) \
             return *this; \
         } \
-    \
+\
         template<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> \
         constexpr tuple_impl& \
         operator=(tuple_impl<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> const& other) \
@@ -196,7 +233,7 @@ public:
             BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN, other) \
             return *this; \
         } \
-    \
+\
         template<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> \
         constexpr tuple_impl& operator=(tuple_impl<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)>&& other) \
             noexcept(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_ASSIGNABLE, &&)>) \
@@ -204,56 +241,42 @@ public:
             BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN, static_cast<decltype(other)>(other)) \
             return *this; \
         } \
-    \
+\
         template<class UTuple> \
         constexpr tuple_impl& operator=(UTuple&& other) \
         { \
             BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN_GET, other) \
             return *this; \
         } \
-    \
+\
         constexpr void swap(tuple_impl& other) noexcept(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_SWAPPABLE, )>) \
         { \
             static_assert(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_SWAPPABLE, )>); \
             using std::swap; \
             BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_SWAP, other) \
         } \
-    \
+\
         template<std::size_t I> \
-        constexpr type_pack_indexing_t< \
-            I, \
-            BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1) \
-        >& \
-        get() & noexcept \
+        constexpr type_pack_indexing_t<I, BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1)>& get() & noexcept \
         { \
             BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_LVALUE_GET, ) \
         } \
-    \
+\
         template<std::size_t I> \
-        constexpr type_pack_indexing_t< \
-            I, \
-            BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1) \
-        > const& \
+        constexpr type_pack_indexing_t<I, BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1)> const& \
         get() const& noexcept \
         { \
             BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_LVALUE_GET, ) \
         } \
-    \
+\
         template<std::size_t I> \
-        constexpr type_pack_indexing_t< \
-            I, \
-            BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1) \
-        >&& \
-        get() && noexcept \
+        constexpr type_pack_indexing_t<I, BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1)>&& get() && noexcept \
         { \
             BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_FORWARDING_GET, ) \
         } \
-    \
+\
         template<std::size_t I> \
-        constexpr type_pack_indexing_t< \
-            I, \
-            BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1) \
-        > const&& \
+        constexpr type_pack_indexing_t<I, BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1)> const&& \
         get() const&& noexcept \
         { \
             BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_FORWARDING_GET, const) \
@@ -268,6 +291,10 @@ class tuple_impl<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_AL
     template<class... Us>
     friend class tuple_impl;
 
+    template<class... Us, class... Vs>
+        requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+
 private:
     template<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2),
              class... Us>
@@ -275,6 +302,13 @@ private:
     {
         BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_ASSIGN_ASSIGN, )
         rest.assign(static_cast<Us>(us)...);
+    }
+
+    template<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)>
+    constexpr bool equal_to(tuple_impl<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_ARGS,
+                                                       BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> const& other) const
+    {
+        return BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_EQUAL_TO, other) && rest == other.rest;
     }
 
 public:
@@ -469,6 +503,8 @@ public:
 #undef BOOST_SPIRIT_ALLOY_DETAIL_LVALUE_GET
 #undef BOOST_SPIRIT_ALLOY_DETAIL_TUPLE_IMPL_DEF
 
-} // boost::spirit::alloy::detail
+} // detail
+
+} // boost::spirit::alloy
 
 #endif

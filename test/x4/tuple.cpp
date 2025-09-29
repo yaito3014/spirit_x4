@@ -355,6 +355,11 @@ TEST_CASE("tuple")
     }
 
     {
+        alloy::tuple<int, double> a(42, 3.14), b = a;
+        CHECK(a == b);
+    }
+
+    {
         struct Empty {};
         struct OnlyChar { char c; };
         [[maybe_unused]] constexpr alloy::tuple<Empty, OnlyChar> a = {{}, {'A'}};
