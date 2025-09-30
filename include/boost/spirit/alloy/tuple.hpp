@@ -281,6 +281,9 @@ public:
     }
 };
 
+template<class... Ts>
+tuple(Ts...) -> tuple<Ts...>;
+
 template<std::size_t I, class... Ts>
 [[nodiscard]] constexpr tuple_element_t<I, tuple<Ts...>>& get(tuple<Ts...>& t) noexcept
 {
