@@ -8,14 +8,9 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
-#include <boost/spirit/alloy/access.hpp>
-#include <boost/spirit/alloy/tuple_like.hpp>
-
 #include <type_traits>
 
-#include <cstddef>
-
-namespace boost::spirit::alloy {
+namespace boost::spirit::alloy::detail {
 
 template<class FromLValue, class FromXValue>
 struct deduce
@@ -39,11 +34,6 @@ struct deduce<T&, T&&>
 template<class FromLValue, class FromXValue>
 using deduce_t = typename deduce<FromLValue, FromXValue>::type;
 
-// Gets the i-th element type for both alloy::tuple and user-defined adapted type.
-template<std::size_t I, class Tuple>
-    requires TupleLike<std::remove_cvref_t<Tuple>>
-using tuple_like_element_t = deduce_t<result_of::get<I, std::remove_cvref_t<Tuple>&>, result_of::get<I, std::remove_cvref_t<Tuple>&&>>;
-
-}
+} // boost::spirit::alloy::detail
 
 #endif

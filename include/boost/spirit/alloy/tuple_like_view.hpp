@@ -8,9 +8,8 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
-#include <boost/spirit/alloy/detail/deduce.hpp>
-
 #include <boost/spirit/alloy/tuple_like.hpp>
+#include <boost/spirit/alloy/tuple_like_element.hpp>
 
 #include <type_traits>
 #include <utility>
