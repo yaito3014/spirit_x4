@@ -25,10 +25,7 @@
 #include <boost/spirit/x4/operator/optional.hpp>
 #include <boost/spirit/x4/operator/alternative.hpp>
 
-#include <boost/fusion/include/at_c.hpp>
-#include <boost/fusion/include/vector.hpp>
-#include <boost/fusion/include/deque.hpp>
-#include <boost/fusion/include/comparison.hpp>
+#include <boost/spirit/alloy/tuple.hpp>
 
 #include <concepts>
 #include <optional>
@@ -53,9 +50,8 @@ TEST_CASE("sequence")
     using x4::_attr;
     using x4::eps;
 
-    using boost::fusion::vector;
-    using boost::fusion::deque;
-    using boost::fusion::at_c;
+    using boost::spirit::alloy::tuple;
+    using boost::spirit::alloy::get;
 
     BOOST_SPIRIT_X4_ASSERT_CONSTEXPR_CTORS(char_ >> char_);
 
@@ -73,42 +69,42 @@ TEST_CASE("sequence")
     CHECK(parse(" Hello, World", lit("Hello") >> ',' >> "World", space));
 
     {
-        vector<char, char> vec;
+        tuple<char, char> vec;
         REQUIRE(parse("ab", char_ >> char_, vec));
-        CHECK(at_c<0>(vec) == 'a');
-        CHECK(at_c<1>(vec) == 'b');
+        CHECK(get<0>(vec) == 'a');
+        CHECK(get<1>(vec) == 'b');
     }
 
     {
-        vector<char, char, char> vec;
+        tuple<char, char, char> vec;
         REQUIRE(parse(" a\n  b\n  c", char_ >> char_ >> char_, space, vec));
-        CHECK(at_c<0>(vec) == 'a');
-        CHECK(at_c<1>(vec) == 'b');
-        CHECK(at_c<2>(vec) == 'c');
+        CHECK(get<0>(vec) == 'a');
+        CHECK(get<1>(vec) == 'b');
+        CHECK(get<2>(vec) == 'c');
     }
 
     {
         // 'b' has an unused_type. unused attributes are not part of the sequence
-        vector<char, char> vec;
+        tuple<char, char> vec;
         REQUIRE(parse("abc", char_ >> 'b' >> char_, vec));
-        CHECK(at_c<0>(vec) == 'a');
-        CHECK(at_c<1>(vec) == 'c');
+        CHECK(get<0>(vec) == 'a');
+        CHECK(get<1>(vec) == 'c');
     }
 
     {
         // 'b' has an unused_type. unused attributes are not part of the sequence
-        vector<char, char> vec;
+        tuple<char, char> vec;
         REQUIRE(parse("acb", char_ >> char_ >> 'b', vec));
-        CHECK(at_c<0>(vec) == 'a');
-        CHECK(at_c<1>(vec) == 'c');
+        CHECK(get<0>(vec) == 'a');
+        CHECK(get<1>(vec) == 'c');
     }
 
     {
         // "hello" has an unused_type. unused attributes are not part of the sequence
-        vector<char, char> vec;
+        tuple<char, char> vec;
         REQUIRE(parse("a hello c", char_ >> "hello" >> char_, space, vec));
-        CHECK(at_c<0>(vec) == 'a');
-        CHECK(at_c<1>(vec) == 'c');
+        CHECK(get<0>(vec) == 'a');
+        CHECK(get<1>(vec) == 'c');
     }
 
     {
@@ -119,10 +115,10 @@ TEST_CASE("sequence")
     }
 
     {
-        // a single element fusion sequence
-        vector<char> vec;
+        // a single element tuple
+        tuple<char> vec;
         REQUIRE(parse("ab", char_ >> 'b', vec));
-        CHECK(at_c<0>(vec) == 'a');
+        CHECK(get<0>(vec) == 'a');
     }
 
     {
@@ -131,10 +127,10 @@ TEST_CASE("sequence")
         // actually the issue here is that if the rhs in this case a rule
         // (r), it should get it (i.e. the sequence parser should not
         // unwrap it). It's odd that the RHS (r) does not really have a
-        // single element tuple (it's a deque<char, int>), so the original
+        // single element tuple (it's a tuple<char, int>), so the original
         // comment is not accurate.
 
-        using attr_type = deque<char, int>;
+        using attr_type = tuple<char, int>;
         attr_type fv;
 
         auto r = rule<class r_id, attr_type>{} = char_ >> ',' >> int_;
@@ -148,7 +144,7 @@ TEST_CASE("sequence")
         // has a single element tuple as its attribute. This is a correction
         // of the test above.
 
-        using attr_type = deque<int>;
+        using attr_type = tuple<int>;
         attr_type fv;
 
         auto r = rule<class r_id, attr_type>{} = int_;
@@ -341,33 +337,33 @@ TEST_CASE("sequence")
     // Test from spirit mailing list
     // "Error with container within sequence"
     {
-        using attr_type = vector<std::string>;
+        using attr_type = tuple<std::string>;
         attr_type vec;
 
         constexpr auto r = *alnum;
 
         REQUIRE(parse("abcdef", r, vec));
-        CHECK(at_c<0>(vec) == "abcdef");
+        CHECK(get<0>(vec) == "abcdef");
     }
     {
-        using attr_type = vector<std::vector<int>>;
+        using attr_type = tuple<std::vector<int>>;
         attr_type vec;
 
         constexpr auto r = *int_;
 
         REQUIRE(parse("123 456", r, space, vec));
-        REQUIRE(at_c<0>(vec).size() == 2);
-        CHECK(at_c<0>(vec)[0] == 123);
-        CHECK(at_c<0>(vec)[1] == 456);
+        REQUIRE(get<0>(vec).size() == 2);
+        CHECK(get<0>(vec)[0] == 123);
+        CHECK(get<0>(vec)[1] == 456);
     }
 
     {
         // Non-flat optional
-        vector<int, std::optional<vector<int, int>>> v;
+        tuple<int, std::optional<tuple<int, int>>> v;
         constexpr auto p = int_ >> -(':' >> int_ >> '-' >> int_);
         REQUIRE(parse("1:2-3", p, v));
-        REQUIRE(at_c<1>(v).has_value());
-        CHECK(at_c<0>(*at_c<1>(v)) == 2);
+        REQUIRE(get<1>(v).has_value());
+        CHECK(get<0>(*get<1>(v)) == 2);
     }
 
     // optional with container attribute
@@ -375,15 +371,15 @@ TEST_CASE("sequence")
         constexpr auto p = char_ >> -(':' >> +char_);
 
         {
-            vector<char, std::optional<std::string>> v;
+            tuple<char, std::optional<std::string>> v;
             REQUIRE(parse("x", p, v));
-            CHECK(!at_c<1>(v).has_value());
+            CHECK(!get<1>(v).has_value());
         }
         {
-            vector<char, std::optional<std::string>> v;
+            tuple<char, std::optional<std::string>> v;
             REQUIRE(parse("x:abc", p, v));
-            REQUIRE(at_c<1>(v).has_value());
-            CHECK(*at_c<1>(v) == "abc");
+            REQUIRE(get<1>(v).has_value());
+            CHECK(*get<1>(v) == "abc");
         }
     }
 
@@ -415,8 +411,8 @@ TEST_CASE("sequence")
         char c = 0;
         int n = 0;
         auto f = [&](auto& ctx) {
-            c = at_c<0>(_attr(ctx));
-            n = at_c<1>(_attr(ctx));
+            c = get<0>(_attr(ctx));
+            n = get<1>(_attr(ctx));
         };
 
         REQUIRE(parse("x123\"a string\"", (char_ >> int_ >> "\"a string\"")[f]));
@@ -429,8 +425,8 @@ TEST_CASE("sequence")
         char c = 0;
         int n = 0;
         auto f = [&](auto& ctx) {
-            c = at_c<0>(_attr(ctx));
-            n = at_c<1>(_attr(ctx));
+            c = get<0>(_attr(ctx));
+            n = get<1>(_attr(ctx));
         };
 
         REQUIRE(parse("x 123 \"a string\"", (char_ >> int_ >> "\"a string\"")[f], space));

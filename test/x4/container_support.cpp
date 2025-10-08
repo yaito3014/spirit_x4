@@ -18,7 +18,7 @@
 #include <boost/spirit/x4/operator/plus.hpp>
 #include <boost/spirit/x4/operator/kleene.hpp>
 
-#include <boost/fusion/include/std_pair.hpp>
+#include <boost/spirit/alloy/adapted/std_pair.hpp>
 
 #include <map>
 #include <set>

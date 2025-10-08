@@ -13,8 +13,7 @@
 #include <boost/spirit/x4/char/char_class.hpp>
 #include <boost/spirit/x4/numeric/int.hpp>
 
-#include <boost/fusion/include/at_c.hpp>
-#include <boost/fusion/include/vector.hpp>
+#include <boost/spirit/alloy/tuple.hpp>
 
 #include <string_view>
 
@@ -231,11 +230,11 @@ TEST_CASE("int")
         CHECK(parse("-12", int2, i));
     }
 
-    // single-element fusion vector tests
+    // single-element tuple tests
     {
-        boost::fusion::vector<int> i{};
+        boost::spirit::alloy::tuple<int> i{};
 
         REQUIRE(parse("-123456", int_, i));
-        CHECK(boost::fusion::at_c<0>(i) == -123456);
+        CHECK(boost::spirit::alloy::get<0>(i) == -123456);
     }
 }

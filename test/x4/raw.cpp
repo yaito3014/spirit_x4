@@ -19,7 +19,7 @@
 #include <boost/spirit/x4/operator/plus.hpp>
 #include <boost/spirit/x4/operator/alternative.hpp>
 
-#include <boost/fusion/include/std_pair.hpp>
+#include <boost/spirit/alloy/adapted/std_pair.hpp>
 #include <boost/variant.hpp>
 
 #include <ranges>

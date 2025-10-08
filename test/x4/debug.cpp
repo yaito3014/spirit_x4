@@ -21,7 +21,7 @@
 #include <boost/spirit/x4/operator/sequence.hpp>
 #include <boost/spirit/x4/operator/kleene.hpp>
 
-#include <boost/fusion/include/vector.hpp>
+#include <boost/spirit/alloy/tuple.hpp>
 
 #include <iterator>
 #include <vector>
@@ -119,8 +119,8 @@ TEST_CASE("debug")
     {
         // std::container attributes
 
-        using fs = boost::fusion::vector<int, char>;
-        rule<class start, std::vector<fs>> start("start");
+        using tuple = boost::spirit::alloy::tuple<int, char>;
+        rule<class start, std::vector<tuple>> start("start");
         auto start_def = start = *(int_ >> alpha);
 
         CHECK(parse("1 a 2 b 3 c", start_def, space));

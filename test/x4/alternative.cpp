@@ -23,9 +23,9 @@
 #include <boost/spirit/x4/operator/list.hpp>
 #include <boost/spirit/x4/operator/optional.hpp>
 
-#include <boost/fusion/include/adapt_struct.hpp>
-#include <boost/fusion/include/at_c.hpp>
-#include <boost/fusion/include/vector.hpp>
+#include <boost/spirit/alloy/adapted/struct.hpp>
+#include <boost/spirit/alloy/non_type_list.hpp>
+#include <boost/spirit/alloy/tuple.hpp>
 
 #include <boost/variant.hpp>
 
@@ -42,13 +42,17 @@ struct di_include
     std::string FileName;
 };
 
-BOOST_FUSION_ADAPT_STRUCT(di_ignore,
-    text
-)
+template<>
+struct boost::spirit::alloy::adaptor<di_ignore>
+{
+    using getters = non_type_list<&di_ignore::text>;
+};
 
-BOOST_FUSION_ADAPT_STRUCT(di_include,
-    FileName
-)
+template<>
+struct boost::spirit::alloy::adaptor<di_include>
+{
+    using getters = non_type_list<&di_include::FileName>;
+};
 
 struct undefined {};
 
@@ -129,13 +133,10 @@ TEST_CASE("alternative")
         // test if alternatives with all components having unused
         // attributes have an unused attribute
 
-        using boost::fusion::vector;
-        using boost::fusion::at_c;
-
-        vector<char, char> v;
+        boost::spirit::alloy::tuple<char, char> v;
         REQUIRE((parse("abc", char_ >> (omit[char_] | omit[char_]) >> char_, v)));
-        CHECK((at_c<0>(v) == 'a'));
-        CHECK((at_c<1>(v) == 'c'));
+        CHECK((boost::spirit::alloy::get<0>(v) == 'a'));
+        CHECK((boost::spirit::alloy::get<1>(v) == 'c'));
     }
 
     {
@@ -221,30 +222,30 @@ TEST_CASE("alternative")
         (void)line;
     }
 
-    // single-element fusion vector tests
+    // single-element tuple tests
     {
-        boost::fusion::vector<boost::variant<int, std::string>> fv;
+        boost::spirit::alloy::tuple<boost::variant<int, std::string>> fv;
         REQUIRE(parse("12345", int_ | +char_, fv));
-        CHECK(boost::get<int>(boost::fusion::at_c<0>(fv)) == 12345);
+        CHECK(boost::get<int>(boost::spirit::alloy::get<0>(fv)) == 12345);
     }
     {
-        boost::fusion::vector<boost::variant<int, std::string>> fvi;
+        boost::spirit::alloy::tuple<boost::variant<int, std::string>> fvi;
         REQUIRE(parse("12345", int_ | int_, fvi));
-        CHECK(boost::get<int>(boost::fusion::at_c<0>(fvi)) == 12345);
+        CHECK(boost::get<int>(boost::spirit::alloy::get<0>(fvi)) == 12345);
     }
 
-    // alternative over single element sequences as part of another sequence
+    // alternative over single element tuple as part of another tuple
     {
         constexpr auto key1 = lit("long") >> attr(long());
         constexpr auto key2 = lit("char") >> attr(char());
         constexpr auto keys = key1 | key2;
         constexpr auto pair = keys >> lit("=") >> +char_;
 
-        boost::fusion::deque<boost::variant<long, char>, std::string> attr_;
+        boost::spirit::alloy::tuple<boost::variant<long, char>, std::string> attr_;
 
         REQUIRE(parse("long=ABC", pair, attr_));
-        CHECK(boost::get<long>(&boost::fusion::front(attr_)) != nullptr);
-        CHECK(boost::get<char>(&boost::fusion::front(attr_)) == nullptr);
+        CHECK(boost::get<long>(&boost::spirit::alloy::get<0>(attr_)) != nullptr);
+        CHECK(boost::get<char>(&boost::spirit::alloy::get<0>(attr_)) == nullptr);
     }
 
     {

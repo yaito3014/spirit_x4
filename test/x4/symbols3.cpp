@@ -17,9 +17,9 @@
 #include <boost/spirit/x4/operator/optional.hpp>
 #include <boost/spirit/x4/operator/sequence.hpp>
 
-#include <boost/fusion/include/at.hpp>
-#include <boost/fusion/include/vector.hpp>
-#include <boost/fusion/include/adapt_struct.hpp>
+#include <boost/spirit/alloy/adapted/struct.hpp>
+#include <boost/spirit/alloy/tuple.hpp>
+#include <boost/spirit/alloy/non_type_list.hpp>
 
 #include <optional>
 #include <numeric>
@@ -31,9 +31,11 @@ struct roman
     std::optional<int> c;
 };
 
-BOOST_FUSION_ADAPT_STRUCT(roman,
-    a, b, c
-)
+template<>
+struct boost::spirit::alloy::adaptor<roman>
+{
+    using getters = non_type_list<&roman::a, &roman::b, &roman::c>;
+};
 
 namespace {
 

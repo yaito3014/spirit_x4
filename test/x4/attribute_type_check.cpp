@@ -12,9 +12,7 @@
 #include <boost/spirit/x4/auxiliary/eps.hpp>
 #include <boost/spirit/x4/operator/sequence.hpp>
 
-#include <boost/fusion/include/vector.hpp>
-#include <boost/fusion/include/make_vector.hpp>
-#include <boost/fusion/include/equal_to.hpp>
+#include <boost/spirit/alloy/tuple.hpp>
 
 #include <concepts>
 #include <iterator>
@@ -98,7 +96,7 @@ void gen_tests(Values const&... values)
 {
     gen_single_item_tests<Expected...>(values...);
 
-    boost::fusion::vector<Expected...> attribute = boost::fusion::make_vector(values...);
+    boost::spirit::alloy::tuple<Expected...> attribute = boost::spirit::alloy::tuple<Values...>(values...);
     gen_sequence_tests<Expected...>(attribute, values...);
 }
 
@@ -110,13 +108,13 @@ void make_test(Attributes const&... attrs)
     gen_tests<Attributes...>(attrs...);
     gen_tests<
         std::optional<Attributes>...,
-        boost::fusion::vector<Attributes>...
+        boost::spirit::alloy::tuple<Attributes>...
     >(attrs..., attrs...);
 
     gen_tests<
-        std::optional<boost::fusion::vector<Attributes>>...,
-        boost::fusion::vector<std::optional<Attributes>>...
-    >(boost::fusion::vector<Attributes>(attrs)..., attrs...);
+        std::optional<boost::spirit::alloy::tuple<Attributes>>...,
+        boost::spirit::alloy::tuple<std::optional<Attributes>>...
+    >(boost::spirit::alloy::tuple<Attributes>(attrs)..., attrs...);
 }
 
 } // anonymous

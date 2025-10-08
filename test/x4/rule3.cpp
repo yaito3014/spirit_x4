@@ -18,8 +18,9 @@
 #include <boost/spirit/x4/operator/sequence.hpp>
 #include <boost/spirit/x4/operator/plus.hpp>
 
-#include <boost/fusion/include/adapt_struct.hpp>
-#include <boost/fusion/include/std_pair.hpp>
+#include <boost/spirit/alloy/adapted/std_pair.hpp>
+#include <boost/spirit/alloy/adapted/struct.hpp>
+#include <boost/spirit/alloy/non_type_list.hpp>
 
 #include <boost/variant.hpp>
 
@@ -75,7 +76,11 @@ struct recursive_tuple
     std::vector<recursive_tuple> children;
 };
 
-BOOST_FUSION_ADAPT_STRUCT(recursive_tuple, value, children)
+template<>
+struct boost::spirit::alloy::adaptor<recursive_tuple>
+{
+    using getters = non_type_list<&recursive_tuple::value, &recursive_tuple::children>;
+};
 
 // regression test for #461
 namespace check_recursive_tuple {

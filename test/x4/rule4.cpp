@@ -15,8 +15,7 @@
 #include <boost/spirit/x4/operator/plus.hpp>
 #include <boost/spirit/x4/operator/sequence.hpp>
 
-#include <boost/fusion/include/at_c.hpp>
-#include <boost/fusion/include/vector.hpp>
+#include <boost/spirit/alloy/tuple.hpp>
 
 #include <boost/variant.hpp>
 
@@ -168,15 +167,16 @@ TEST_CASE("rule4")
         CHECK(*ov == 1);
     }
 
-    // test handling of single element fusion sequences
+    // test handling of single element tuple
     {
-        using boost::fusion::vector;
-        using boost::fusion::at_c;
-        auto r = rule<class r_id, vector<int>>{} = int_;
+        using boost::spirit::alloy::tuple;
+        using boost::spirit::alloy::get;
 
-        vector<int> v(0);
+        auto r = rule<class r_id, tuple<int>>{} = int_;
+
+        tuple<int> v(0);
         REQUIRE(parse("1", r, v));
-        CHECK(at_c<0>(v) == 1);
+        CHECK(get<0>(v) == 1);
     }
 
     // attribute compatibility test

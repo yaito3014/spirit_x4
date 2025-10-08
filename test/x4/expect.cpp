@@ -48,8 +48,7 @@
 #include <boost/spirit/x4/operator/not_predicate.hpp>
 #include <boost/spirit/x4/operator/optional.hpp>
 
-#include <boost/fusion/include/at_c.hpp>
-#include <boost/fusion/include/vector.hpp>
+#include <boost/spirit/alloy/tuple.hpp>
 
 #include <boost/preprocessor/facilities/overload.hpp>
 #include <boost/preprocessor/facilities/expand.hpp>
@@ -314,8 +313,8 @@ TEST_CASE("expect")
     using x4::shared_symbols;
     using x4::with;
 
-    using boost::fusion::vector;
-    using boost::fusion::at_c;
+    using boost::spirit::alloy::tuple;
+    using boost::spirit::alloy::get;
 
     BOOST_SPIRIT_X4_ASSERT_CONSTEXPR_CTORS(expect['x']);
     BOOST_SPIRIT_X4_ASSERT_CONSTEXPR_CTORS(char_ > char_);
@@ -370,27 +369,27 @@ TEST_CASE("expect")
 
     // Test that attributes with > (sequences) work just like >> (sequences)
     {
-        vector<char, char, char> attr;
+        tuple<char, char, char> attr;
         TEST_ATTR_SUCCESS_PASS(" a\n  b\n  c", char_ > char_ > char_, space, attr);
-        CHECK((at_c<0>(attr) == 'a'));
-        CHECK((at_c<1>(attr) == 'b'));
-        CHECK((at_c<2>(attr) == 'c'));
+        CHECK((get<0>(attr) == 'a'));
+        CHECK((get<1>(attr) == 'b'));
+        CHECK((get<2>(attr) == 'c'));
     }
 
     {
-        vector<char, char, char> attr;
+        tuple<char, char, char> attr;
         TEST_ATTR_SUCCESS_PASS(" a\n  b\n  c", char_ > char_ >> char_, space, attr);
-        CHECK((at_c<0>(attr) == 'a'));
-        CHECK((at_c<1>(attr) == 'b'));
-        CHECK((at_c<2>(attr) == 'c'));
+        CHECK((get<0>(attr) == 'a'));
+        CHECK((get<1>(attr) == 'b'));
+        CHECK((get<2>(attr) == 'c'));
     }
 
     {
-        vector<char, char, char> attr;
+        tuple<char, char, char> attr;
         TEST_ATTR_SUCCESS_PASS(" a, b, c", char_ >> ',' > char_ >> ',' > char_, space, attr);
-        CHECK((at_c<0>(attr) == 'a'));
-        CHECK((at_c<1>(attr) == 'b'));
-        CHECK((at_c<2>(attr) == 'c'));
+        CHECK((get<0>(attr) == 'a'));
+        CHECK((get<1>(attr) == 'b'));
+        CHECK((get<2>(attr) == 'c'));
     }
 
     {

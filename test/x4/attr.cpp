@@ -13,7 +13,7 @@
 #include <boost/spirit/x4/operator/sequence.hpp>
 #include <boost/spirit/x4/char/char.hpp>
 
-#include <boost/fusion/include/std_pair.hpp>
+#include <boost/spirit/alloy/adapted/std_pair.hpp>
 
 #include <string>
 #include <string_view>

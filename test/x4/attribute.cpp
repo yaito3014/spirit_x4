@@ -17,7 +17,7 @@
 #include <boost/spirit/x4/operator/sequence.hpp>
 #include <boost/spirit/x4/operator/alternative.hpp>
 
-#include <boost/fusion/adapted/std_pair.hpp>
+#include <boost/spirit/alloy/adapted/std_pair.hpp>
 
 #include <iostream>
 #include <vector>

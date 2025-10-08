@@ -17,8 +17,7 @@
 #include <boost/spirit/x4/numeric/int.hpp>
 #include <boost/spirit/x4/operator/plus.hpp>
 
-#include <boost/fusion/include/at_c.hpp>
-#include <boost/fusion/include/vector.hpp>
+#include <boost/spirit/alloy/tuple.hpp>
 
 #include <string>
 #include <vector>
@@ -133,11 +132,11 @@ TEST_CASE("plus")
         (void)parse("abcde", +char_, x);
     }
 
-    // single-element fusion vector tests
+    // single-element tuple tests
     {
-        boost::fusion::vector<std::string> fs;
+        boost::spirit::alloy::tuple<std::string> fs;
         REQUIRE(parse("12345", +char_, fs));
-        CHECK(boost::fusion::at_c<0>(fs) == "12345");
+        CHECK(boost::spirit::alloy::get<0>(fs) == "12345");
     }
 
     {
