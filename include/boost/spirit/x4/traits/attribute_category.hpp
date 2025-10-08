@@ -14,8 +14,7 @@
 #include <boost/spirit/x4/traits/container_traits.hpp>
 #include <boost/spirit/x4/traits/optional_traits.hpp>
 
-#include <boost/fusion/include/is_sequence.hpp>
-#include <boost/fusion/support/category_of.hpp>
+#include <boost/spirit/alloy/tuple_like.hpp>
 
 #include <type_traits>
 
@@ -89,7 +88,7 @@ concept NonUnusedAttr =
 
 template<class T>
     requires
-        fusion::traits::is_sequence<std::remove_cvref_t<T>>::value
+        alloy::TupleLike<T>
 struct attribute_category<T>
 {
     using type = tuple_attr;

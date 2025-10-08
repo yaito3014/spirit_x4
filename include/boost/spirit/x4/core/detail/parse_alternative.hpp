@@ -19,7 +19,8 @@
 #include <boost/spirit/x4/core/parser.hpp>
 #include <boost/spirit/x4/core/detail/parse_into_container.hpp>
 
-#include <boost/fusion/include/front.hpp>
+#include <boost/spirit/alloy/access.hpp>
+#include <boost/spirit/alloy/tuple_like_element.hpp>
 
 #include <concepts>
 #include <iterator>
@@ -104,13 +105,13 @@ struct pass_non_variant_attribute
     }
 };
 
-// Unwrap single element sequences
+// Unwrap single element tuple-like
 template<class Parser, X4Attribute Attr>
     requires traits::is_size_one_sequence_v<Attr>
 struct pass_non_variant_attribute<Parser, Attr>
 {
-    using attr_type = typename std::remove_reference_t<
-        typename fusion::result_of::front<Attr>::type
+    using attr_type = std::remove_reference_t<
+        alloy::tuple_like_element_t<0, Attr>
     >;
     using pass = pass_parser_attribute<Parser, attr_type>;
     using type = typename pass::type;
@@ -118,9 +119,9 @@ struct pass_non_variant_attribute<Parser, Attr>
     template<X4Attribute Attr_>
     [[nodiscard]] static constexpr type
     call(Attr_& attr)
-        noexcept(noexcept(pass::call(fusion::front(attr))))
+        noexcept(noexcept(pass::call(alloy::get<0>(attr))))
     {
-        return pass::call(fusion::front(attr));
+        return pass::call(alloy::get<0>(attr));
     }
 };
 

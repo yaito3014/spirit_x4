@@ -13,7 +13,7 @@
 #include <boost/spirit/x4/traits/container_traits.hpp>
 #include <boost/spirit/x4/traits/tuple_traits.hpp>
 
-#include <boost/fusion/include/is_sequence.hpp>
+#include <boost/spirit/alloy/tuple_like.hpp>
 
 #include <boost/mpl/placeholders.hpp>
 #include <boost/mpl/equal.hpp>
@@ -51,8 +51,8 @@ struct is_substitute_impl : std::false_type {};
 
 template<class T, X4Attribute Attr>
     requires std::conjunction_v<
-        fusion::traits::is_sequence<T>,
-        fusion::traits::is_sequence<Attr>
+        alloy::is_tuple_like<T>,
+        alloy::is_tuple_like<Attr>
     >
 struct is_substitute_impl<T, Attr>
     : mpl::equal<T, Attr, is_substitute<mpl::_1, mpl::_2>>

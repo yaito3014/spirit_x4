@@ -13,9 +13,8 @@
 #include <boost/spirit/config.hpp>
 #include <boost/spirit/x4/core/unused.hpp>
 
-#include <boost/fusion/support/category_of.hpp>
-#include <boost/fusion/include/deque.hpp>
-#include <boost/fusion/include/is_sequence.hpp>
+#include <boost/spirit/alloy/tuple.hpp>
+#include <boost/spirit/alloy/tuple_like.hpp>
 
 #include <ranges>
 #include <iterator>
@@ -430,8 +429,8 @@ struct is_container<container_appender<ContainerAttr>>
 
 template<class T>
     requires
-        // required; fusion pollutes ADL on `size`, which is called by `std::ranges::empty` on Clang 22
-        (!fusion::traits::is_sequence<std::remove_cvref_t<T>>::value) &&
+        // required; alloy pollutes ADL on `size`, which is called by `std::ranges::empty` on Clang 22
+        (!alloy::TupleLike<std::remove_cvref_t<T>>) &&
 
         std::default_initializable<T> &&
 
@@ -475,7 +474,7 @@ template<class T>
 using build_container_t = typename build_container<T>::type;
 
 template<class T>
-struct build_container<boost::fusion::deque<T>> : build_container<T> {};
+struct build_container<alloy::tuple<T>> : build_container<T> {};
 
 template<>
 struct build_container<unused_type>

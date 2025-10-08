@@ -17,9 +17,8 @@
 #include <boost/spirit/x4/traits/tuple_traits.hpp>
 #include <boost/spirit/x4/traits/variant_traits.hpp>
 
-#include <boost/fusion/include/front.hpp>
-#include <boost/fusion/include/move.hpp>
-#include <boost/fusion/include/copy.hpp>
+#include <boost/spirit/alloy/access.hpp>
+#include <boost/spirit/alloy/utility.hpp>
 
 #include <iterator>
 #include <ranges>
@@ -116,10 +115,10 @@ template<traits::NonUnusedAttr Source, traits::CategorizedAttr<traits::plain_att
     requires traits::is_size_one_sequence_v<Source>
 constexpr void
 move_to(Source&& src, Dest& dest)
-    noexcept(noexcept(dest = std::forward_like<Source>(fusion::front(std::forward<Source>(src)))))
+    noexcept(noexcept(dest = std::forward_like<Source>(alloy::get<0>(std::forward<Source>(src)))))
 {
     static_assert(!std::same_as<std::remove_cvref_t<Source>, Dest>, "[BUG] This call should instead resolve to the overload handling identical types");
-    dest = std::forward_like<Source>(fusion::front(std::forward<Source>(src)));
+    dest = std::forward_like<Source>(alloy::get<0>(std::forward<Source>(src)));
 }
 
 template<traits::NonUnusedAttr Source, traits::CategorizedAttr<traits::plain_attr> Dest>
@@ -135,23 +134,30 @@ move_to(Source&& src, Dest& dest)
 
 template<traits::NonUnusedAttr Source, traits::CategorizedAttr<traits::tuple_attr> Dest>
     requires
+        std::is_rvalue_reference_v<Source&&> &&
         traits::is_same_size_sequence_v<Dest, Source> &&
         (!traits::is_size_one_sequence_v<Dest>)
 constexpr void
 move_to(Source&& src, Dest& dest)
-    noexcept(
-        std::is_rvalue_reference_v<Source&&> ?
-        noexcept(fusion::move(std::move(src), dest)) :
-        noexcept(fusion::copy(src, dest))
-    )
+    noexcept(noexcept(alloy::tuple_assign(std::move(src), dest)))
 {
     static_assert(!std::same_as<std::remove_cvref_t<Source>, Dest>, "[BUG] This call should instead resolve to the overload handling identical types");
 
-    if constexpr (std::is_rvalue_reference_v<Source&&>) {
-        fusion::move(std::move(src), dest);
-    } else {
-        fusion::copy(src, dest);
-    }
+    alloy::tuple_assign(std::move(src), dest);
+}
+
+template<traits::NonUnusedAttr Source, traits::CategorizedAttr<traits::tuple_attr> Dest>
+    requires
+        (!std::is_rvalue_reference_v<Source&&>) &&
+        traits::is_same_size_sequence_v<Dest, Source> &&
+        (!traits::is_size_one_sequence_v<Dest>)
+constexpr void
+move_to(Source&& src, Dest& dest)
+    noexcept(noexcept(alloy::tuple_assign(src, dest)))
+{
+    static_assert(!std::same_as<std::remove_cvref_t<Source>, Dest>, "[BUG] This call should instead resolve to the overload handling identical types");
+
+    alloy::tuple_assign(src, dest);
 }
 
 template<traits::NonUnusedAttr Source, traits::CategorizedAttr<traits::variant_attr> Dest>
@@ -162,7 +168,7 @@ move_to(Source&& src, Dest& dest)
 {
     static_assert(!std::same_as<std::remove_cvref_t<Source>, Dest>, "[BUG] This call should instead resolve to the overload handling identical types");
 
-    // dest is a variant, src is a single element fusion sequence that the variant
+    // dest is a variant, src is a single element tuple-like that the variant
     // *can* directly hold.
     dest = std::forward<Source>(src);
 }
@@ -171,20 +177,20 @@ template<traits::NonUnusedAttr Source, traits::CategorizedAttr<traits::variant_a
     requires traits::is_size_one_sequence_v<Source> && (!traits::variant_has_substitute_v<Dest, Source>)
 constexpr void
 move_to(Source&& src, Dest& dest)
-    noexcept(noexcept(dest = std::forward_like<Source>(fusion::front(std::forward<Source>(src)))))
+    noexcept(noexcept(dest = std::forward_like<Source>(alloy::get<0>(std::forward<Source>(src)))))
 {
     static_assert(!std::same_as<std::remove_cvref_t<Source>, Dest>, "[BUG] This call should instead resolve to the overload handling identical types");
 
-    // dest is a variant, src is a single element fusion sequence that the variant
-    // cannot directly hold. We'll try to unwrap the single element fusion sequence.
+    // dest is a variant, src is a single element tuple-like that the variant
+    // cannot directly hold. We'll try to unwrap the single element tuple-like.
 
     // Make sure that the Dest variant can really hold Source
     static_assert(
-        traits::variant_has_substitute_v<Dest, typename fusion::result_of::front<Source>::type>,
+        traits::variant_has_substitute_v<Dest, alloy::tuple_like_element_t<0, Source>>,
         "Error! The destination variant (Dest) cannot hold the source type (Source)"
     );
 
-    dest = std::forward_like<Source>(fusion::front(std::forward<Source>(src)));
+    dest = std::forward_like<Source>(alloy::get<0>(std::forward<Source>(src)));
 }
 
 template<traits::NonUnusedAttr Source, traits::CategorizedAttr<traits::variant_attr> Dest>
@@ -245,9 +251,9 @@ template<std::forward_iterator It, std::sentinel_for<It> Se, traits::Categorized
     requires traits::is_size_one_sequence_v<Dest>
 constexpr void
 move_to(It first, Se last, Dest& dest)
-    noexcept(noexcept(x4::move_to(first, last, fusion::front(dest))))
+    noexcept(noexcept(x4::move_to(first, last, alloy::get<0>(dest))))
 {
-    x4::move_to(first, last, fusion::front(dest));
+    x4::move_to(first, last, alloy::get<0>(dest));
 }
 
 // Move non-container `src` into container `dest`.
@@ -283,16 +289,16 @@ move_to(Source&& src, Dest& dest)
     }
 }
 
-// Size-one fusion tuple forwarding
+// Size-one tuple-like forwarding
 template<traits::NonUnusedAttr Source, traits::CategorizedAttr<traits::tuple_attr> Dest>
     requires traits::is_size_one_sequence_v<Dest>
 constexpr void
 move_to(Source&& src, Dest& dest)
-    noexcept(noexcept(x4::move_to(std::forward<Source>(src), fusion::front(dest))))
+    noexcept(noexcept(x4::move_to(std::forward<Source>(src), alloy::get<0>(dest))))
 {
     static_assert(!std::same_as<std::remove_cvref_t<Source>, Dest>, "[BUG] This call should instead resolve to the overload handling identical types");
 
-    x4::move_to(std::forward<Source>(src), fusion::front(dest));
+    x4::move_to(std::forward<Source>(src), alloy::get<0>(dest));
 }
 
 template<class Source, class Dest>

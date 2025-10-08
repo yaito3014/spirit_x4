@@ -13,7 +13,7 @@
 #include <boost/spirit/x4/traits/attribute_category.hpp>
 #include <boost/spirit/x4/traits/variant_traits.hpp>
 
-#include <boost/fusion/include/for_each.hpp>
+#include <boost/spirit/alloy/utility.hpp>
 
 #include <boost/variant.hpp>
 #include <boost/variant/apply_visitor.hpp> // TODO: remove this
@@ -30,9 +30,9 @@ void print_attribute(Out& out, T const& val);
 namespace detail {
 
 template<class Out>
-struct print_fusion_sequence
+struct print_tuple_like
 {
-    print_fusion_sequence(Out& out)
+    print_tuple_like(Out& out)
         : out(out)
         , is_first(true)
     {}
@@ -114,11 +114,11 @@ struct print_attribute_debug
     }
 #endif
 
-    // for fusion data types
+    // for tuple-like types
     static void call(Out& out, CategorizedAttr<tuple_attr> auto const& val)
     {
         out << '[';
-        fusion::for_each(val, detail::print_fusion_sequence<Out>(out));
+        alloy::tuple_for_each(val, detail::print_tuple_like<Out>(out));
         out << ']';
     }
 

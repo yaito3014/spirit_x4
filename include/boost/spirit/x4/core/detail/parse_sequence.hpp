@@ -18,11 +18,9 @@
 #include <boost/spirit/x4/traits/tuple_traits.hpp>
 #include <boost/spirit/x4/traits/substitution.hpp>
 
-#include <boost/fusion/include/begin.hpp>
-#include <boost/fusion/include/end.hpp>
-#include <boost/fusion/include/advance.hpp>
-#include <boost/fusion/include/deref.hpp>
-#include <boost/fusion/include/iterator_range.hpp>
+#include <boost/spirit/alloy/access.hpp>
+#include <boost/spirit/alloy/tuple.hpp>
+#include <boost/spirit/alloy/utility.hpp>
 
 #include <iterator>
 #include <type_traits>
@@ -53,15 +51,13 @@ struct pass_sequence_attribute_unused
 template<class Attr>
 struct pass_sequence_attribute_size_one_view
 {
-    using type = typename fusion::result_of::deref<
-        typename fusion::result_of::begin<Attr>::type
-    >::type;
+    using type = alloy::result_of::get<0, Attr>;
 
     [[nodiscard]] static constexpr type
     call(Attr& attribute)
-        noexcept(noexcept(fusion::deref(fusion::begin(attribute))))
+        noexcept(noexcept(alloy::get<0>(attribute)))
     {
-        return fusion::deref(fusion::begin(attribute));
+        return alloy::get<0>(attribute);
     }
 };
 
@@ -112,43 +108,38 @@ struct partition_attribute
     static constexpr std::size_t l_size = parser_traits<LParser>::sequence_size;
     static constexpr std::size_t r_size = parser_traits<RParser>::sequence_size;
 
-    static constexpr std::size_t actual_size = static_cast<std::size_t>(fusion::result_of::size<Attr>::value);
+    static constexpr std::size_t actual_size = alloy::result_of::size<Attr>;
     static constexpr std::size_t expected_size = l_size + r_size;
 
     // If you got an error here, then you are trying to pass
-    // a fusion sequence with the wrong number of elements
+    // a tuple-like with the wrong number of elements
     // as that expected by the (sequence) parser.
     static_assert(
         actual_size >= expected_size,
-        "Sequence size of the passed attribute is less than expected."
+        "size of the passed tuple-like attribute is less than expected."
     );
     static_assert(
         actual_size <= expected_size,
-        "Sequence size of the passed attribute is greater than expected."
+        "size of the passed tuple-like attribute is greater than expected."
     );
 
-    using l_begin = fusion::result_of::begin<Attr>::type;
-    using l_end = fusion::result_of::advance_c<l_begin, l_size>::type;
-    using r_end = fusion::result_of::end<Attr>::type;
-    using l_part = fusion::iterator_range<l_begin, l_end>;
-    using r_part = fusion::iterator_range<l_end, r_end>;
+    using view = alloy::result_of::make_tuple_view<Attr>;
+    using parts = alloy::result_of::tuple_split<view, l_size, r_size>;
+    using l_part = alloy::tuple_element_t<0, parts>;
+    using r_part = alloy::tuple_element_t<1, parts>;
     using l_pass = pass_sequence_attribute<LParser, l_part>;
     using r_pass = pass_sequence_attribute<RParser, r_part>;
 
     [[nodiscard]] static constexpr l_part left(Attr& s)
         // TODO: noexcept
     {
-        auto i = fusion::begin(s);
-        return l_part(i, fusion::advance_c<l_size>(i));
+        return alloy::get<0>(alloy::tuple_split<l_size, r_size>(alloy::make_tuple_view(s)));
     }
 
     [[nodiscard]] static constexpr r_part right(Attr& s)
         // TODO: noexcept
     {
-        return r_part(
-            fusion::advance_c<l_size>(fusion::begin(s)),
-            fusion::end(s)
-        );
+        return alloy::get<1>(alloy::tuple_split<l_size, r_size>(alloy::make_tuple_view(s)));
     }
 };
 

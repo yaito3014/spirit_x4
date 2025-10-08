@@ -18,7 +18,7 @@
 
 #include <boost/spirit/x4/directive/expect.hpp>
 
-#include <boost/fusion/include/deque_fwd.hpp> // TODO: remove this
+#include <boost/spirit/alloy/tuple.hpp>
 
 #include <concepts>
 #include <iterator>
@@ -30,7 +30,7 @@ namespace boost::spirit::x4 {
 template<class Left, class Right>
 struct sequence : binary_parser<Left, Right, sequence<Left, Right>>
 {
-    using attribute_type = traits::attribute_of_binary<boost::fusion::deque, x4::sequence, Left, Right>::type;
+    using attribute_type = traits::attribute_of_binary<alloy::tuple, x4::sequence, Left, Right>::type;
 
     static constexpr std::size_t sequence_size =
         parser_traits<Left>::sequence_size + parser_traits<Right>::sequence_size;
