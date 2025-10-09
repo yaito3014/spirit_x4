@@ -8,7 +8,7 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
-#include <boost/spirit/alloy/non_type_list.hpp>
+#include <boost/spirit/alloy/detail/non_type_list.hpp>
 
 #include <type_traits>
 

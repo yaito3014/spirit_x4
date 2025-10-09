@@ -1,5 +1,5 @@
-#ifndef BOOST_SPIRIT_ALLOY_NON_TYPE_LIST_HPP
-#define BOOST_SPIRIT_ALLOY_NON_TYPE_LIST_HPP
+#ifndef BOOST_SPIRIT_ALLOY_DETAIL_NON_TYPE_LIST_HPP
+#define BOOST_SPIRIT_ALLOY_DETAIL_NON_TYPE_LIST_HPP
 
 /*=============================================================================
     Copyright (c) 2025 Yaito Kakeyama
@@ -14,7 +14,7 @@
 
 #include <cstddef>
 
-namespace boost::spirit::alloy {
+namespace boost::spirit::alloy::detail {
 
 template<auto... Vs>
 struct non_type_list
@@ -25,16 +25,12 @@ struct non_type_list
     static constexpr auto get = detail::non_type_pack_indexing_v<I, Vs...>;
 };
 
-namespace detail {
-
 template<class T>
 struct is_non_type_list : std::false_type {};
 
 template<auto... Vs>
 struct is_non_type_list<non_type_list<Vs...>> : std::true_type {};
 
-} // detail
-
-} // boost::spirit::alloy
+} // boost::spirit::alloy::detail
 
 #endif

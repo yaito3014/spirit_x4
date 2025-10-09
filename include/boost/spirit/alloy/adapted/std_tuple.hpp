@@ -20,9 +20,6 @@ namespace boost::spirit::alloy {
 template<class T>
 struct adaptor;
 
-template<auto... Vs>
-struct non_type_list;
-
 namespace detail {
 
 template<std::size_t I>

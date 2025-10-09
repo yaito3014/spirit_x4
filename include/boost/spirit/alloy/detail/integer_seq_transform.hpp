@@ -8,7 +8,7 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
-#include <boost/spirit/alloy/non_type_list.hpp>
+#include <boost/spirit/alloy/detail/non_type_list.hpp>
 
 #include <utility>
 
@@ -20,7 +20,7 @@ struct integer_seq_transform;
 template<class T, T... Is, template<T> class F>
 struct integer_seq_transform<std::integer_sequence<T, Is...>, F>
 {
-    using type = non_type_list<F<Is>::value...>;
+    using type = detail::non_type_list<F<Is>::value...>;
 };
 
 template<class IntegerSeq, template<typename IntegerSeq::value_type> class F>
