@@ -1,5 +1,5 @@
-#ifndef BOOST_SPIRIT_ALLOY_ADAPTED_STRUCT_HPP
-#define BOOST_SPIRIT_ALLOY_ADAPTED_STRUCT_HPP
+#ifndef BOOST_SPIRIT_ALLOY_ADAPT_HPP
+#define BOOST_SPIRIT_ALLOY_ADAPT_HPP
 
 /*=============================================================================
     Copyright (c) 2025 Yaito Kakeyama

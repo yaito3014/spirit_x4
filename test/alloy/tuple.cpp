@@ -12,7 +12,9 @@
 #endif
 
 #include <boost/spirit/alloy/access.hpp>
-#include <boost/spirit/alloy/adapted.hpp>
+#include <boost/spirit/alloy/adapted/std_pair.hpp>
+#include <boost/spirit/alloy/adapted/std_tuple.hpp>
+#include <boost/spirit/alloy/adapt.hpp>
 #include <boost/spirit/alloy/io.hpp>
 #include <boost/spirit/alloy/tuple.hpp>
 #include <boost/spirit/alloy/tuple_like.hpp>
@@ -35,7 +37,7 @@ struct AdaptedStruct
 template<>
 struct boost::spirit::alloy::adaptor<AdaptedStruct>
 {
-    using getters_list = detail::non_type_list<&AdaptedStruct::x, &AdaptedStruct::y>;
+    using getters_list = make_getters_list<&AdaptedStruct::x, &AdaptedStruct::y>;
 };
 
 void swap(); // poison-pill
