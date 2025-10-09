@@ -56,4 +56,5 @@ target_link_libraries(boost_spirit_x4_cxx_test INTERFACE Catch2::Catch2WithMain)
 # --------------------------------------------
 
 add_subdirectory(x4)
+add_subdirectory(alloy)
 

@@ -5,7 +5,11 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
-#include "test.hpp"
+#if BOOST_SPIRIT_CI_IS_B2
+# include "catch_amalgamated.hpp"
+#else
+# include <catch2/catch_test_macros.hpp>
+#endif
 
 #include <boost/spirit/alloy/access.hpp>
 #include <boost/spirit/alloy/adapted.hpp>
