@@ -33,9 +33,6 @@ struct is_non_type_list : std::false_type {};
 template<auto... Vs>
 struct is_non_type_list<non_type_list<Vs...>> : std::true_type {};
 
-template<class T>
-concept NonTypeList = is_non_type_list<T>::value;
-
 } // detail
 
 } // boost::spirit::alloy

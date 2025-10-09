@@ -18,7 +18,7 @@ template<class T>
 struct adaptor;
 
 template<class T>
-concept TupleLike = detail::NonTypeList<typename adaptor<T>::getters>;
+concept TupleLike = detail::is_non_type_list<typename adaptor<T>::getters>::value;
 
 template<class T>
 struct is_tuple_like : std::bool_constant<TupleLike<T>> {};
