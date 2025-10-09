@@ -8,11 +8,12 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
-#include <boost/spirit/alloy/detail/non_type_list.hpp>
-
 #include <utility>
 
 namespace boost::spirit::alloy::detail {
+
+template<auto... Vs>
+struct non_type_list;
 
 template<class IntegerSeq, template<typename IntegerSeq::value_type> class F>
 struct integer_seq_transform;

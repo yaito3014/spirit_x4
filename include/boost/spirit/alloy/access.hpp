@@ -8,6 +8,8 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
+#include <boost/spirit/alloy/detail/pack_indexing.hpp>
+
 #include <boost/spirit/alloy/tuple_like.hpp>
 
 #include <functional>
@@ -18,11 +20,27 @@
 
 namespace boost::spirit::alloy {
 
+namespace detail {
+
+template<class NonTypeList>
+struct non_type_list_size {};
+
+template<template<auto...> class TList, auto... Vs>
+struct non_type_list_size<TList<Vs...>> : std::integral_constant<std::size_t, sizeof...(Vs)> {};
+
+template<std::size_t I, class NonTypeList>
+struct non_type_list_indexing {};
+
+template<std::size_t I, template<auto...> class TList, auto... Vs>
+struct non_type_list_indexing<I, TList<Vs...>> : non_type_pack_indexing<I, Vs...> {};
+
+} // detail
+
 namespace result_of {
 
 template<class T>
     requires TupleLike<std::remove_cvref_t<T>>
-inline constexpr std::size_t size = adaptor<std::remove_cvref_t<T>>::getters::size;
+inline constexpr std::size_t size = detail::non_type_list_size<typename adaptor<std::remove_cvref_t<T>>::getters_list>::value;
 
 } // result_of
 
@@ -33,30 +51,22 @@ constexpr std::size_t size(T&&) noexcept
     return result_of::size<T>;
 }
 
-namespace detail {
-
-// Clang workaround
-template<std::size_t I, class T>
-inline constexpr auto getter_of = adaptor<T>::getters::template get<I>;
-
-} // detail
-
 namespace result_of {
 
 // `std::invoke_result_t` MUST NOT be used here due to its side effects:
 // <https://eel.is/c++draft/meta.trans.other#tab:meta.trans.other-row-11-column-2-note-2>
 template<std::size_t I, class T>
     requires TupleLike<std::remove_cvref_t<T>>
-using get = decltype(std::invoke(detail::getter_of<I, std::remove_cvref_t<T>>, std::declval<T>()));
+using get = decltype(std::invoke(detail::non_type_list_indexing<I, typename adaptor<std::remove_cvref_t<T>>::getters_list>::value, std::declval<T>()));
 
 } // result_of
 
 template<std::size_t I, class T>
     requires TupleLike<std::remove_cvref_t<T>>
 constexpr result_of::get<I, T> get(T&& x)
-    noexcept(noexcept(std::is_nothrow_invocable_v<decltype(detail::getter_of<I, std::remove_cvref_t<T>>), T>))
+    noexcept(noexcept(std::is_nothrow_invocable_v<decltype(detail::non_type_list_indexing<I, typename adaptor<std::remove_cvref_t<T>>::getters_list>::value), T>))
 {
-    return std::invoke(detail::getter_of<I, std::remove_cvref_t<T>>, std::forward<T>(x));
+    return std::invoke(detail::non_type_list_indexing<I, typename adaptor<std::remove_cvref_t<T>>::getters_list>::value, std::forward<T>(x));
 }
 
 } // boost::spirit::alloy

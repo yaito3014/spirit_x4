@@ -8,7 +8,7 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
-#include <boost/spirit/alloy/detail/non_type_list.hpp>
+#include <boost/spirit/alloy/adapted/struct.hpp>
 
 #include <utility>
 
@@ -20,7 +20,7 @@ struct adaptor;
 template<class T, class U>
 struct adaptor<std::pair<T, U>>
 {
-    using getters = detail::non_type_list<&std::pair<T, U>::first, &std::pair<T, U>::second>;
+    using getters_list = make_getters_list<&std::pair<T, U>::first, &std::pair<T, U>::second>;
 };
 
 } // boost::spirit::alloy

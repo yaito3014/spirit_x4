@@ -43,7 +43,7 @@ struct make_call_std_get
 template<class... Ts>
 struct adaptor<std::tuple<Ts...>>
 {
-    using getters = detail::integer_seq_transform_t<std::make_index_sequence<sizeof...(Ts)>, detail::make_call_std_get>;
+    using getters_list = detail::integer_seq_transform_t<std::make_index_sequence<sizeof...(Ts)>, detail::make_call_std_get>;
 };
 
 } // boost::spirit::alloy

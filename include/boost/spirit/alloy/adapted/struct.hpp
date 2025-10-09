@@ -10,8 +10,18 @@
 
 namespace boost::spirit::alloy {
 
+namespace detail {
+
+template<auto... Vs>
+struct non_type_list;
+
+} // detail
+
 template<class T>
 struct adaptor;
+
+template<auto... Getters>
+using make_getters_list = detail::non_type_list<Getters...>;
 
 } // boost::spirit::alloy
 
