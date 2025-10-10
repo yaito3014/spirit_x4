@@ -9,7 +9,6 @@
 ==============================================================================*/
 
 #include <boost/spirit/alloy/tuple.hpp>
-#include <boost/spirit/alloy/tuple_like_element.hpp>
 
 #include <functional>
 #include <type_traits>
@@ -35,7 +34,7 @@ struct tuple_cat_result_impl<type_list<ResultTypes...>, type_list<>>
 
 template<class... ResultTypes, std::size_t... Is, class... IndexSeqs, class Tuple, class... Tuples>
 struct tuple_cat_result_impl<type_list<ResultTypes...>, type_list<std::index_sequence<Is...>, IndexSeqs...>, Tuple, Tuples...>
-    : tuple_cat_result_impl<type_list<ResultTypes..., tuple_like_element_t<Is, Tuple>...>, type_list<IndexSeqs...>, Tuples...> {};
+    : tuple_cat_result_impl<type_list<ResultTypes..., tuple_element_t<Is, std::remove_cvref_t<Tuple>>...>, type_list<IndexSeqs...>, Tuples...> {};
 
 template<class... Tuples>
 struct tuple_cat_result : tuple_cat_result_impl<type_list<>, type_list<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuples>>>...>, Tuples...> {};
@@ -171,7 +170,7 @@ struct tuple_from_tuple_and_index_sequence;
 template<class Tuple, std::size_t... Is>
 struct tuple_from_tuple_and_index_sequence<Tuple, std::index_sequence<Is...>>
 {
-    using type = tuple<tuple_like_element_t<Is, Tuple>...>;
+    using type = tuple<tuple_element_t<Is, std::remove_cvref_t<Tuple>>...>;
 };
 
 template<class Tuple, class IndexSeq>
@@ -239,7 +238,7 @@ struct tuple_assign_noexcept_impl;
 
 template<class From, class To, std::size_t... Is>
 struct tuple_assign_noexcept_impl<From, To, std::index_sequence<Is...>>
-    : are_all_nothrow_assignable<type_list<tuple_like_element_t<Is, From>...>, type_list<tuple_like_element_t<Is, To>...>> {};
+    : are_all_nothrow_assignable<type_list<tuple_element_t<Is, std::remove_cvref_t<From>>...>, type_list<tuple_element_t<Is, std::remove_cvref_t<To>>...>> {};
 
 template<class From, class To>
 struct tuple_assign_noexcept
@@ -267,7 +266,7 @@ struct make_tuple_view_result_impl;
 template<class Tuple, std::size_t... Is>
 struct make_tuple_view_result_impl<Tuple, std::index_sequence<Is...>>
 {
-    using type = tuple<tuple_like_element_t<Is, Tuple>&...>;
+    using type = tuple<tuple_element_t<Is, Tuple>&...>;
 };
 
 template<class Tuple>

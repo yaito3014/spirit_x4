@@ -32,9 +32,6 @@ namespace boost::spirit::alloy {
 
 namespace detail {
 
-template<std::size_t I, class T>
-using tuple_get_t = decltype(alloy::get<I>(std::declval<T>()));
-
 template<class... Ts>
 struct type_list;
 

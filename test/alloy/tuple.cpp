@@ -16,8 +16,6 @@
 #include <boost/spirit/alloy/adapt.hpp>
 #include <boost/spirit/alloy/io.hpp>
 #include <boost/spirit/alloy/tuple.hpp>
-#include <boost/spirit/alloy/tuple_like.hpp>
-#include <boost/spirit/alloy/tuple_like_view.hpp>
 #include <boost/spirit/alloy/utility.hpp>
 
 #include <sstream>
