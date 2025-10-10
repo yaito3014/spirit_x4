@@ -5,11 +5,7 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
-#if BOOST_SPIRIT_CI_IS_B2
-# include "catch_amalgamated.hpp"
-#else
-# include <catch2/catch_test_macros.hpp>
-#endif
+#include <catch2/catch_test_macros.hpp>
 
 #include <boost/spirit/alloy/adapt.hpp>
 #include <boost/spirit/alloy/adapted/std_pair.hpp>
@@ -54,11 +50,14 @@ struct alloy::adaptor<OldStyle>
     using getters_list = make_getters_list<&OldStyle::get_int, &OldStyle::get_string>;
 };
 
-void swap(); // poison-pill
-
-    
 template<std::size_t I, class T>
 using alloy_get_t = decltype(alloy::get<I>(std::declval<T>()));
+
+namespace {
+
+void swap() = delete; // poison-pill
+
+}
 
 TEST_CASE("tuple")
 {
