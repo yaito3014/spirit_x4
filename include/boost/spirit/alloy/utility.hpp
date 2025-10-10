@@ -8,6 +8,7 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
+#include <boost/spirit/alloy/traits.hpp>
 #include <boost/spirit/alloy/tuple.hpp>
 
 #include <functional>
@@ -40,26 +41,47 @@ template<class... Tuples>
 struct tuple_cat_result : tuple_cat_result_impl<type_list<>, type_list<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuples>>>...>, Tuples...> {};
 
 template<class ResultTuple, class IndexSeqList, class... Tuples>
-struct tuple_cat_impl;
+struct tuple_cat_impl_base;
 
 template<class ResultTuple>
-struct tuple_cat_impl<ResultTuple, type_list<>>
+struct tuple_cat_impl_base<ResultTuple, type_list<>>
 {
     template<class... Args>
-    static constexpr ResultTuple apply(Args&&... args)
+    static constexpr bool nothrow = std::is_nothrow_constructible_v<ResultTuple, Args...>;
+
+    template<class... Args>
+    static constexpr ResultTuple apply(Args&&... args) noexcept(nothrow<Args...>)
     {
         return ResultTuple(std::forward<Args>(args)...);
     }
 };
 
 template<class ResultTuple, std::size_t... Is, class... IndexSeqs, class Tuple, class... Tuples>
-struct tuple_cat_impl<ResultTuple, type_list<std::index_sequence<Is...>, IndexSeqs...>, Tuple, Tuples...>
+struct tuple_cat_impl_base<ResultTuple, type_list<std::index_sequence<Is...>, IndexSeqs...>, Tuple, Tuples...>
 {
     template<class... Args>
-    static constexpr ResultTuple apply(Tuple&& tuple, Tuples&&... tuples, Args&&... args)
+    static constexpr bool nothrow =
+        tuple_cat_impl_base<ResultTuple, type_list<IndexSeqs...>, Tuples...>::template nothrow<Args...> && (is_nothrow_gettable_v<Is, Tuple> && ...);
+
+    template<class... Args>
+    static constexpr ResultTuple apply(Tuple&& tuple, Tuples&&... tuples, Args&&... args) noexcept(nothrow<Args...>)
     {
-        return tuple_cat_impl<ResultTuple, type_list<IndexSeqs...>, Tuples...>::apply(std::forward<Tuples>(tuples)..., std::forward<Args>(args)...,
-                                                                                      alloy::get<Is>(std::forward<Tuple>(tuple))...);
+        return tuple_cat_impl_base<ResultTuple, type_list<IndexSeqs...>, Tuples...>::apply(std::forward<Tuples>(tuples)..., std::forward<Args>(args)...,
+                                                                                           alloy::get<Is>(std::forward<Tuple>(tuple))...);
+    }
+};
+
+template<class... Tuples>
+struct tuple_cat_impl
+{
+    using Base = tuple_cat_impl_base<typename tuple_cat_result<Tuples...>::type,
+                                     detail::type_list<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuples>>>...>, Tuples...>;
+
+    static constexpr bool nothrow = Base::template nothrow<>;
+
+    static constexpr typename tuple_cat_result<Tuples...>::type apply(Tuples&&... tuples) noexcept(nothrow)
+    {
+        return Base::apply(std::forward<Tuples>(tuples)...);
     }
 };
 
@@ -188,67 +210,51 @@ struct tuple_split_result
     using type = typename tuple_split_result_impl<Tuple, index_sequence_segment_t<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuple>>>, Sizes...>>::type;
 };
 
-template<class IndexSeq>
+template<class ResultInnerTuple, class Tuple, class IndexSeq>
 struct tuple_split_make_inner;
 
-template<std::size_t... Is>
-struct tuple_split_make_inner<std::index_sequence<Is...>>
+template<class ResultInnerTuple, class Tuple, std::size_t... Is>
+struct tuple_split_make_inner<ResultInnerTuple, Tuple, std::index_sequence<Is...>>
 {
-    template<class Tuple>
-    using ResultInnerTuple = tuple_from_tuple_and_index_sequence_t<Tuple, std::index_sequence<Is...>>;
+    static constexpr bool nothrow = std::conjunction_v<
+        is_nothrow_gettable<Is, Tuple>...,
+        std::is_nothrow_constructible<ResultInnerTuple, tuple_get_t<Is, Tuple>...>
+    >;
 
-    template<class Tuple>
-    static constexpr ResultInnerTuple<Tuple> apply(Tuple&& t)
+    static constexpr ResultInnerTuple apply(Tuple&& t) noexcept(nothrow)
     {
-        return ResultInnerTuple<Tuple>(alloy::get<Is>(std::forward<Tuple>(t))...);
+        return ResultInnerTuple(alloy::get<Is>(std::forward<Tuple>(t))...);
     }
 };
 
-template<class ResultTuple, class SegmentedIndexSeqList>
+template<class ResultTuple, class Tuple, class SegmentedIndexSeqList>
 struct tuple_split_make_outer;
 
-template<class... ResultInnerTuples, class... SegmentedIndexSeqs>
-struct tuple_split_make_outer<tuple<ResultInnerTuples...>, type_list<SegmentedIndexSeqs...>>
+template<class... ResultInnerTuples, class Tuple, class... SegmentedIndexSeqs>
+struct tuple_split_make_outer<tuple<ResultInnerTuples...>, Tuple, type_list<SegmentedIndexSeqs...>>
 {
-    template<class Tuple>
-    static constexpr tuple<ResultInnerTuples...> apply(Tuple&& t)
+    static constexpr bool nothrow = (tuple_split_make_inner<ResultInnerTuples, Tuple, SegmentedIndexSeqs>::nothrow && ...);
+
+    static constexpr tuple<ResultInnerTuples...> apply(Tuple&& t) noexcept(nothrow)
     {
-        return tuple<ResultInnerTuples...>(tuple_split_make_inner<SegmentedIndexSeqs>::apply(std::forward<Tuple>(t))...);
+        return tuple<ResultInnerTuples...>(tuple_split_make_inner<ResultInnerTuples, Tuple, SegmentedIndexSeqs>::apply(std::forward<Tuple>(t))...);
     }
 };
 
-template<class ResultTuple, class Tuple, std::size_t... Sizes>
-struct tuple_split_impl : tuple_split_make_outer<ResultTuple, index_sequence_segment_t<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuple>>>, Sizes...>> {};
+template<class Tuple, std::size_t... Sizes>
+struct tuple_split_impl : tuple_split_make_outer<typename tuple_split_result<Tuple, Sizes...>::type, Tuple,
+                                                 index_sequence_segment_t<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuple>>>, Sizes...>> {};
 
-template<class FromTypeList, class ToTypeList>
-struct are_all_nothrow_assignable;
-
-template<class... Froms, class... Tos>
-struct are_all_nothrow_assignable<type_list<Froms...>, type_list<Tos...>>
-    : std::conjunction<std::is_nothrow_assignable<Tos, Froms>...> {};
-
-template<class From, class To, class IndexSeq>
-struct tuple_assign_noexcept_impl;
-
-template<class From, class To, std::size_t... Is>
-struct tuple_assign_noexcept_impl<From, To, std::index_sequence<Is...>>
-    : are_all_nothrow_assignable<type_list<tuple_element_t<Is, std::remove_cvref_t<From>>...>, type_list<tuple_element_t<Is, std::remove_cvref_t<To>>...>> {};
-
-template<class From, class To>
-struct tuple_assign_noexcept
-    : tuple_assign_noexcept_impl<From, To, std::make_index_sequence<tuple_size_v<std::remove_cvref_t<From>>>> {};
-
-template<class From, class To>
-inline constexpr bool tuple_assign_noexcept_v = tuple_assign_noexcept<From, To>::value;
-
-template<class IndexSeq>
+template<class From, class To, class IndexSeq = std::make_index_sequence<tuple_size_v<std::remove_cvref_t<From>>>>
 struct tuple_assign_impl;
 
-template<std::size_t... Is>
-struct tuple_assign_impl<std::index_sequence<Is...>>
+template<class From, class To, std::size_t... Is>
+struct tuple_assign_impl<From, To, std::index_sequence<Is...>>
 {
-    template<class From, class To>
-    static constexpr void apply(From&& from, To&& to)
+    static constexpr bool nothrow = std::conjunction_v<std::conjunction<is_nothrow_gettable<Is, From>, is_nothrow_gettable<Is, To>>...,
+                                                       std::is_nothrow_assignable<tuple_get_t<Is, To>, tuple_get_t<Is, From>>...>;
+
+    static constexpr void apply(From&& from, To&& to) noexcept(nothrow)
     {
         ((void)(alloy::get<Is>(std::forward<To>(to)) = alloy::get<Is>(std::forward<From>(from))), ...);
     }
@@ -291,33 +297,29 @@ using tuple_ref_t = typename detail::tuple_ref_result<Tuple>::type;
 
 template<class... Tuples>
     requires (TupleLike<std::remove_cvref_t<Tuples>> && ...)
-constexpr tuple_cat_t<Tuples...> tuple_cat(Tuples&&... tuples)
+[[nodiscard]] constexpr tuple_cat_t<Tuples...> tuple_cat(Tuples&&... tuples) noexcept(detail::tuple_cat_impl<Tuples...>::nothrow)
 {
-    using Impl = detail::tuple_cat_impl<tuple_cat_t<Tuples...>, detail::type_list<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuples>>>...>, Tuples...>;
-    return Impl::apply(std::forward<Tuples>(tuples)...);
+    return detail::tuple_cat_impl<Tuples...>::apply(std::forward<Tuples>(tuples)...);
 }
 
 template<std::size_t... Sizes, class Tuple>
     requires TupleLike<std::remove_cvref_t<Tuple>>
-constexpr tuple_split_t<Tuple, Sizes...> tuple_split(Tuple&& t)
+[[nodiscard]] constexpr tuple_split_t<Tuple, Sizes...> tuple_split(Tuple&& t) noexcept(detail::tuple_split_impl<Tuple, Sizes...>::nothrow)
 {
     static_assert((0 + ... + Sizes) == tuple_size_v<std::remove_cvref_t<Tuple>>);
-    using Impl = detail::tuple_split_impl<tuple_split_t<Tuple, Sizes...>, Tuple, Sizes...>;
-    return Impl::apply(std::forward<Tuple>(t));
+    return detail::tuple_split_impl<Tuple, Sizes...>::apply(std::forward<Tuple>(t));
 }
 
 template<class From, class To>
     requires TupleLike<std::remove_cvref_t<From>> && TupleLike<std::remove_cvref_t<To>>
-constexpr void tuple_assign(From&& from, To&& to) noexcept(detail::tuple_assign_noexcept_v<From, To>)
+constexpr void tuple_assign(From&& from, To&& to) noexcept(detail::tuple_assign_impl<From, To>::nothrow)
 {
     static_assert(tuple_size_v<std::remove_cvref_t<From>> == tuple_size_v<std::remove_cvref_t<To>>);
-    using Impl = detail::tuple_assign_impl<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<From>>>>;
-    Impl::apply(std::forward<From>(from), std::forward<To>(to));
+    detail::tuple_assign_impl<From, To>::apply(std::forward<From>(from), std::forward<To>(to));
 }
 
-template<class Tuple>
-    requires TupleLike<std::remove_cvref_t<Tuple>>
-constexpr tuple_ref_t<Tuple> tuple_ref(Tuple& t) noexcept
+template<TupleLike Tuple>
+[[nodiscard]] constexpr tuple_ref_t<Tuple> tuple_ref(Tuple& t) noexcept(std::is_nothrow_constructible_v<tuple_ref_t<Tuple>, Tuple&>)
 {
     return tuple_ref_t<Tuple>(t);
 }

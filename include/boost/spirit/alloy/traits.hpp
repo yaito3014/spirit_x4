@@ -114,6 +114,12 @@ namespace detail {
 template<std::size_t I, class T>
 using tuple_get_t = decltype(alloy::get<I>(std::declval<T>()));
 
+template<std::size_t I, class T>
+struct is_nothrow_gettable : std::bool_constant<noexcept(alloy::get<I>(std::declval<T>()))> {};
+
+template<std::size_t I, class T>
+inline constexpr bool is_nothrow_gettable_v = is_nothrow_gettable<I, T>::value;
+
 } // detail
 
 template<std::size_t I, Adapted T>
