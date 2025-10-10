@@ -361,7 +361,7 @@ TEST_CASE("tuple")
 
     {
         alloy::tuple<int, double> tuple(42, 3.14);
-        auto view = alloy::make_tuple_view(tuple);
+        auto view = alloy::tuple_ref(tuple);
         CHECK(alloy::get<0>(view) == 42);
         CHECK(alloy::get<1>(view) == 3.14);
     }

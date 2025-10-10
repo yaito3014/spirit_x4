@@ -39,9 +39,6 @@ struct tuple_cat_result_impl<type_list<ResultTypes...>, type_list<std::index_seq
 template<class... Tuples>
 struct tuple_cat_result : tuple_cat_result_impl<type_list<>, type_list<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuples>>>...>, Tuples...> {};
 
-template<class... Tuples>
-using tuple_cat_result_t = typename tuple_cat_result<Tuples...>::type;
-
 template<class ResultTuple, class IndexSeqList, class... Tuples>
 struct tuple_cat_impl;
 
@@ -191,9 +188,6 @@ struct tuple_split_result
     using type = typename tuple_split_result_impl<Tuple, index_sequence_segment_t<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuple>>>, Sizes...>>::type;
 };
 
-template<class Tuple, std::size_t... Sizes>
-using tuple_split_result_t = typename tuple_split_result<Tuple, Sizes...>::type;
-
 template<class IndexSeq>
 struct tuple_split_make_inner;
 
@@ -261,19 +255,16 @@ struct tuple_assign_impl<std::index_sequence<Is...>>
 };
 
 template<class Tuple, class IndexSeq>
-struct make_tuple_view_result_impl;
+struct tuple_ref_result_impl;
 
 template<class Tuple, std::size_t... Is>
-struct make_tuple_view_result_impl<Tuple, std::index_sequence<Is...>>
+struct tuple_ref_result_impl<Tuple, std::index_sequence<Is...>>
 {
     using type = tuple<tuple_element_t<Is, Tuple>&...>;
 };
 
 template<class Tuple>
-struct make_tuple_view_result : make_tuple_view_result_impl<Tuple, std::make_index_sequence<tuple_size_v<Tuple>>> {};
-
-template<class Tuple>
-using make_tuple_view_result_t = typename make_tuple_view_result<Tuple>::type;
+struct tuple_ref_result : tuple_ref_result_impl<Tuple, std::make_index_sequence<tuple_size_v<Tuple>>> {};
 
 template<class IndexSeq>
 struct tuple_for_each_impl;
@@ -289,33 +280,29 @@ struct tuple_for_each_impl<std::index_sequence<Is...>>
 
 } // detail
 
-namespace result_of {
-
 template<class... Tuples>
-using tuple_cat = detail::tuple_cat_result_t<Tuples...>;
+using tuple_cat_t = typename detail::tuple_cat_result<Tuples...>::type;
 
 template<class Tuple, std::size_t... Sizes>
-using tuple_split = detail::tuple_split_result_t<Tuple, Sizes...>;
+using tuple_split_t = typename detail::tuple_split_result<Tuple, Sizes...>::type;
 
 template<class Tuple>
-using make_tuple_view = detail::make_tuple_view_result_t<Tuple>;
-
-} // result_of
+using tuple_ref_t = typename detail::tuple_ref_result<Tuple>::type;
 
 template<class... Tuples>
     requires (TupleLike<std::remove_cvref_t<Tuples>> && ...)
-constexpr result_of::tuple_cat<Tuples...> tuple_cat(Tuples&&... tuples)
+constexpr tuple_cat_t<Tuples...> tuple_cat(Tuples&&... tuples)
 {
-    using Impl = detail::tuple_cat_impl<detail::tuple_cat_result_t<Tuples...>, detail::type_list<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuples>>>...>, Tuples...>;
+    using Impl = detail::tuple_cat_impl<tuple_cat_t<Tuples...>, detail::type_list<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuples>>>...>, Tuples...>;
     return Impl::apply(std::forward<Tuples>(tuples)...);
 }
 
 template<std::size_t... Sizes, class Tuple>
     requires TupleLike<std::remove_cvref_t<Tuple>>
-constexpr result_of::tuple_split<Tuple, Sizes...> tuple_split(Tuple&& t)
+constexpr tuple_split_t<Tuple, Sizes...> tuple_split(Tuple&& t)
 {
     static_assert((0 + ... + Sizes) == tuple_size_v<std::remove_cvref_t<Tuple>>);
-    using Impl = detail::tuple_split_impl<detail::tuple_split_result_t<Tuple, Sizes...>, Tuple, Sizes...>;
+    using Impl = detail::tuple_split_impl<tuple_split_t<Tuple, Sizes...>, Tuple, Sizes...>;
     return Impl::apply(std::forward<Tuple>(t));
 }
 
@@ -330,9 +317,9 @@ constexpr void tuple_assign(From&& from, To&& to) noexcept(detail::tuple_assign_
 
 template<class Tuple>
     requires TupleLike<std::remove_cvref_t<Tuple>>
-constexpr result_of::make_tuple_view<Tuple> make_tuple_view(Tuple& t) noexcept
+constexpr tuple_ref_t<Tuple> tuple_ref(Tuple& t) noexcept
 {
-    return result_of::make_tuple_view<Tuple>(t);
+    return tuple_ref_t<Tuple>(t);
 }
 
 template<class Tuple, class F>
