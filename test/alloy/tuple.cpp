@@ -11,10 +11,11 @@
 # include <catch2/catch_test_macros.hpp>
 #endif
 
+#include <boost/spirit/alloy/adapt.hpp>
 #include <boost/spirit/alloy/adapted/std_pair.hpp>
 #include <boost/spirit/alloy/adapted/std_tuple.hpp>
-#include <boost/spirit/alloy/adapt.hpp>
 #include <boost/spirit/alloy/io.hpp>
+#include <boost/spirit/alloy/traits.hpp>
 #include <boost/spirit/alloy/tuple.hpp>
 #include <boost/spirit/alloy/utility.hpp>
 
