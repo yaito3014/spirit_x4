@@ -41,16 +41,6 @@ inline constexpr bool is_tuple_like_v = is_tuple_like<T>::value;
 
 namespace detail {
 
-template<std::size_t I, class NonTypeList>
-struct non_type_list_indexing {};
-
-template<std::size_t I, template<auto...> class TList, auto... Vs>
-struct non_type_list_indexing<I, TList<Vs...>> : non_type_pack_indexing<I, Vs...> {};
-
-} // detail
-
-namespace detail {
-
 template<class T>
 struct non_type_list_size {};
 
@@ -76,6 +66,12 @@ template<class T>
 inline constexpr std::size_t tuple_size_v = tuple_size<T>::value;
 
 namespace detail {
+
+template<std::size_t I, class NonTypeList>
+struct non_type_list_indexing {};
+
+template<std::size_t I, template<auto...> class TList, auto... Vs>
+struct non_type_list_indexing<I, TList<Vs...>> : non_type_pack_indexing<I, Vs...> {};
 
 template<std::size_t I, class T>
 inline constexpr auto getter_of = non_type_list_indexing<I, typename adaptor<T>::getters_list>::value;
