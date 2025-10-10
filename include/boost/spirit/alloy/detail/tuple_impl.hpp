@@ -16,7 +16,7 @@
 #include <boost/spirit/alloy/detail/pack_indexing.hpp>
 #include <boost/spirit/alloy/detail/tuple_comparison.hpp>
 
-#include <boost/spirit/alloy/value_initialize.hpp>
+#include <boost/spirit/alloy/common_def.hpp>
 
 #include <type_traits>
 

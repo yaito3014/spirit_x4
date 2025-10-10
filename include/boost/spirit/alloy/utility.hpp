@@ -8,7 +8,6 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
-#include <boost/spirit/alloy/access.hpp>
 #include <boost/spirit/alloy/tuple.hpp>
 #include <boost/spirit/alloy/tuple_like_element.hpp>
 
@@ -39,7 +38,7 @@ struct tuple_cat_result_impl<type_list<ResultTypes...>, type_list<std::index_seq
     : tuple_cat_result_impl<type_list<ResultTypes..., tuple_like_element_t<Is, Tuple>...>, type_list<IndexSeqs...>, Tuples...> {};
 
 template<class... Tuples>
-struct tuple_cat_result : tuple_cat_result_impl<type_list<>, type_list<std::make_index_sequence<result_of::size<Tuples>>...>, Tuples...> {};
+struct tuple_cat_result : tuple_cat_result_impl<type_list<>, type_list<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuples>>>...>, Tuples...> {};
 
 template<class... Tuples>
 using tuple_cat_result_t = typename tuple_cat_result<Tuples...>::type;
@@ -190,7 +189,7 @@ struct tuple_split_result_impl<Tuple, type_list<SegmentedIndexSeqs...>>
 template<class Tuple, std::size_t... Sizes>
 struct tuple_split_result
 {
-    using type = typename tuple_split_result_impl<Tuple, index_sequence_segment_t<std::make_index_sequence<result_of::size<Tuple>>, Sizes...>>::type;
+    using type = typename tuple_split_result_impl<Tuple, index_sequence_segment_t<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuple>>>, Sizes...>>::type;
 };
 
 template<class Tuple, std::size_t... Sizes>
@@ -226,7 +225,7 @@ struct tuple_split_make_outer<tuple<ResultInnerTuples...>, type_list<SegmentedIn
 };
 
 template<class ResultTuple, class Tuple, std::size_t... Sizes>
-struct tuple_split_impl : tuple_split_make_outer<ResultTuple, index_sequence_segment_t<std::make_index_sequence<result_of::size<Tuple>>, Sizes...>> {};
+struct tuple_split_impl : tuple_split_make_outer<ResultTuple, index_sequence_segment_t<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuple>>>, Sizes...>> {};
 
 template<class FromTypeList, class ToTypeList>
 struct are_all_nothrow_assignable;
@@ -244,7 +243,7 @@ struct tuple_assign_noexcept_impl<From, To, std::index_sequence<Is...>>
 
 template<class From, class To>
 struct tuple_assign_noexcept
-    : tuple_assign_noexcept_impl<From, To, std::make_index_sequence<result_of::size<From>>> {};
+    : tuple_assign_noexcept_impl<From, To, std::make_index_sequence<tuple_size_v<std::remove_cvref_t<From>>>> {};
 
 template<class From, class To>
 inline constexpr bool tuple_assign_noexcept_v = tuple_assign_noexcept<From, To>::value;
@@ -272,7 +271,7 @@ struct make_tuple_view_result_impl<Tuple, std::index_sequence<Is...>>
 };
 
 template<class Tuple>
-struct make_tuple_view_result : make_tuple_view_result_impl<Tuple, std::make_index_sequence<result_of::size<Tuple>>> {};
+struct make_tuple_view_result : make_tuple_view_result_impl<Tuple, std::make_index_sequence<tuple_size_v<Tuple>>> {};
 
 template<class Tuple>
 using make_tuple_view_result_t = typename make_tuple_view_result<Tuple>::type;
@@ -308,7 +307,7 @@ template<class... Tuples>
     requires (TupleLike<std::remove_cvref_t<Tuples>> && ...)
 constexpr result_of::tuple_cat<Tuples...> tuple_cat(Tuples&&... tuples)
 {
-    using Impl = detail::tuple_cat_impl<detail::tuple_cat_result_t<Tuples...>, detail::type_list<std::make_index_sequence<result_of::size<Tuples>>...>, Tuples...>;
+    using Impl = detail::tuple_cat_impl<detail::tuple_cat_result_t<Tuples...>, detail::type_list<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuples>>>...>, Tuples...>;
     return Impl::apply(std::forward<Tuples>(tuples)...);
 }
 
@@ -316,7 +315,7 @@ template<std::size_t... Sizes, class Tuple>
     requires TupleLike<std::remove_cvref_t<Tuple>>
 constexpr result_of::tuple_split<Tuple, Sizes...> tuple_split(Tuple&& t)
 {
-    static_assert((0 + ... + Sizes) == result_of::size<Tuple>);
+    static_assert((0 + ... + Sizes) == tuple_size_v<std::remove_cvref_t<Tuple>>);
     using Impl = detail::tuple_split_impl<detail::tuple_split_result_t<Tuple, Sizes...>, Tuple, Sizes...>;
     return Impl::apply(std::forward<Tuple>(t));
 }
@@ -325,8 +324,8 @@ template<class From, class To>
     requires TupleLike<std::remove_cvref_t<From>> && TupleLike<std::remove_cvref_t<To>>
 constexpr void tuple_assign(From&& from, To&& to) noexcept(detail::tuple_assign_noexcept_v<From, To>)
 {
-    static_assert(result_of::size<From> == result_of::size<To>);
-    using Impl = detail::tuple_assign_impl<std::make_index_sequence<result_of::size<From>>>;
+    static_assert(tuple_size_v<std::remove_cvref_t<From>> == tuple_size_v<std::remove_cvref_t<To>>);
+    using Impl = detail::tuple_assign_impl<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<From>>>>;
     Impl::apply(std::forward<From>(from), std::forward<To>(to));
 }
 
@@ -341,7 +340,7 @@ template<class Tuple, class F>
     requires TupleLike<std::remove_cvref_t<Tuple>>
 constexpr void tuple_for_each(Tuple&& t, F&& f)
 {
-    return detail::tuple_for_each_impl<std::make_index_sequence<result_of::size<Tuple>>>::apply(std::forward<Tuple>(t), std::forward<F>(f));
+    return detail::tuple_for_each_impl<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuple>>>>::apply(std::forward<Tuple>(t), std::forward<F>(f));
 }
 
 } // boost::spirit::alloy

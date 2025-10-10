@@ -1,7 +1,6 @@
 #ifndef BOOST_SPIRIT_ALLOY_IO_HPP
 #define BOOST_SPIRIT_ALLOY_IO_HPP
 
-#include <boost/spirit/alloy/access.hpp>
 #include <boost/spirit/alloy/tuple.hpp>
 
 #include <ostream>

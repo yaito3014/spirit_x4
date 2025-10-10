@@ -23,8 +23,6 @@
 #include <boost/spirit/alloy/detail/pack_indexing.hpp>
 #include <boost/spirit/alloy/detail/tuple_comparison.hpp>
 
-#include <boost/spirit/alloy/value_initialize.hpp>
-
 #include <type_traits>
 #include <utility>
 
@@ -32,21 +30,10 @@
 
 namespace boost::spirit::alloy {
 
-template<class... Ts>
-class tuple;
-
-template<std::size_t I, class Tuple>
-struct tuple_element {};
-
-template<std::size_t I, class... Ts>
-struct tuple_element<I, tuple<Ts...>> {
-    using type = detail::type_pack_indexing_t<I, Ts...>;
-};
-
-template<std::size_t I, class Tuple>
-using tuple_element_t = typename tuple_element<I, Tuple>::type;
-
 namespace detail {
+
+template<std::size_t I, class T>
+using tuple_get_t = decltype(alloy::get<I>(std::declval<T>()));
 
 template<class... Ts>
 struct type_list;
@@ -56,13 +43,13 @@ struct tuple_traits_impl;
 
 template<std::size_t... Is, class UTuple, class... Ts>
 struct tuple_traits_impl<std::index_sequence<Is...>, UTuple, Ts...>
-    : std::conjunction<std::is_constructible<Ts, result_of::get<Is, UTuple>>...>
+    : std::conjunction<std::is_constructible<Ts, tuple_get_t<Is, UTuple>>...>
 {
-    static constexpr bool all_convertible = std::conjunction_v<std::is_convertible<result_of::get<Is, UTuple>, Ts>...>;
-    static constexpr bool all_constructible = std::conjunction_v<std::is_constructible<Ts, result_of::get<Is, UTuple>>...>;
-    static constexpr bool all_nothrow_constructible = std::conjunction_v<std::is_nothrow_constructible<Ts, result_of::get<Is, UTuple>>...>;
-    static constexpr bool all_assignable = std::conjunction_v<std::is_assignable<Ts&, result_of::get<Is, UTuple>>...>;
-    static constexpr bool all_nothrow_assignable = std::conjunction_v<std::is_nothrow_assignable<Ts&, result_of::get<Is, UTuple>>...>;
+    static constexpr bool all_convertible = std::conjunction_v<std::is_convertible<tuple_get_t<Is, UTuple>, Ts>...>;
+    static constexpr bool all_constructible = std::conjunction_v<std::is_constructible<Ts, tuple_get_t<Is, UTuple>>...>;
+    static constexpr bool all_nothrow_constructible = std::conjunction_v<std::is_nothrow_constructible<Ts, tuple_get_t<Is, UTuple>>...>;
+    static constexpr bool all_assignable = std::conjunction_v<std::is_assignable<Ts&, tuple_get_t<Is, UTuple>>...>;
+    static constexpr bool all_nothrow_assignable = std::conjunction_v<std::is_nothrow_assignable<Ts&, tuple_get_t<Is, UTuple>>...>;
 };
 
 template<class UTuple, class... Ts>
@@ -186,13 +173,13 @@ public:
     template<class UTuple>
         requires requires {
             requires TupleLike<std::remove_cvref_t<UTuple>>;
-            requires !std::is_same_v<std::remove_cvref<UTuple>, tuple>;
-            requires sizeof...(Ts) == result_of::size<UTuple>;
+            requires !std::is_same_v<std::remove_cvref_t<UTuple>, tuple>;
+            requires sizeof...(Ts) == tuple_size_v<std::remove_cvref_t<UTuple>>;
             requires detail::tuple_traits<UTuple, Ts...>::all_constructible;
             requires !(detail::tuple_one_element_is_constructible_from_tuple_v<UTuple, Ts...>);
         }
     constexpr explicit(!detail::tuple_traits<UTuple, Ts...>::all_convertible) tuple(UTuple&& other)
-        : tuple(construct, std::make_index_sequence<result_of::size<UTuple>>{}, static_cast<UTuple>(other))
+        : tuple(construct, std::make_index_sequence<tuple_size_v<std::remove_cvref_t<UTuple>>>{}, static_cast<UTuple>(other))
     {}
 
     constexpr tuple& operator=(tuple const& other)
@@ -237,7 +224,7 @@ public:
         requires requires {
             requires TupleLike<std::remove_cvref_t<UTuple>>;
             requires (!std::is_same_v<std::remove_cvref_t<UTuple>, tuple>);
-            requires sizeof...(Ts) == result_of::size<UTuple>;
+            requires sizeof...(Ts) == tuple_size_v<std::remove_cvref_t<UTuple>>;
             requires detail::tuple_traits<UTuple, Ts...>::all_assignable;
         }
     constexpr tuple& operator=(UTuple&& other)
@@ -284,6 +271,20 @@ public:
 template<class... Ts>
 tuple(Ts...) -> tuple<Ts...>;
 
+template<class... Ts>
+    requires std::conjunction_v<std::is_nothrow_swappable<Ts>...>
+constexpr void swap(tuple<Ts...>& a, tuple<Ts...>& b) noexcept(noexcept(a.swap(b)))
+{
+    a.swap(b);
+}
+
+template<class... Ts, class... Us>
+    requires detail::tuple_all_elements_have_equality_operator<tuple<Ts...>, tuple<Us...>>
+constexpr bool operator==(tuple<Ts...> const& a, tuple<Us...> const& b)
+{
+    return a.equal_to(b);
+}
+
 template<std::size_t I, class... Ts>
 [[nodiscard]] constexpr tuple_element_t<I, tuple<Ts...>>& get(tuple<Ts...>& t) noexcept
 {
@@ -311,49 +312,6 @@ template<std::size_t I, class... Ts>
     static_assert(I < sizeof...(Ts));
     return static_cast<tuple<Ts...> const&&>(t).template get<I>();
 }
-
-template<class... Ts>
-    requires std::conjunction_v<std::is_nothrow_swappable<Ts>...>
-constexpr void swap(tuple<Ts...>& a, tuple<Ts...>& b) noexcept(noexcept(a.swap(b)))
-{
-    a.swap(b);
-}
-
-template<class... Ts, class... Us>
-    requires detail::tuple_all_elements_have_equality_operator<tuple<Ts...>, tuple<Us...>>
-constexpr bool operator==(tuple<Ts...> const& a, tuple<Us...> const& b)
-{
-    return a.equal_to(b);
-}
-
-namespace detail {
-
-template<std::size_t I>
-struct call_member_get
-{
-    template<typename Tuple>
-    static constexpr decltype(auto) operator()(Tuple&& t) noexcept
-    {
-        return static_cast<Tuple&&>(t).template get<I>();
-    }
-};
-
-template<std::size_t I>
-struct make_call_member_get
-{
-    static constexpr auto value = call_member_get<I>{};
-};
-
-} // detail
-
-template<class T>
-struct adaptor;
-
-template<class... Ts>
-struct adaptor<tuple<Ts...>>
-{
-    using getters_list = detail::integer_seq_transform_t<std::make_index_sequence<sizeof...(Ts)>, detail::make_call_member_get>;
-};
 
 } // boost::spirit::alloy
 

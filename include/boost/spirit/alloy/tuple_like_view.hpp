@@ -8,6 +8,7 @@
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
 
+#include <boost/spirit/alloy/common_def.hpp>
 #include <boost/spirit/alloy/tuple_like.hpp>
 #include <boost/spirit/alloy/tuple_like_element.hpp>
 
@@ -18,7 +19,7 @@ namespace boost::spirit::alloy {
 
 namespace detail {
 
-template<TupleLike T, class IndexSeq = std::make_index_sequence<result_of::size<T>>>
+template<TupleLike T, class IndexSeq = std::make_index_sequence<tuple_size_v<T>>>
 struct is_view;
 
 template<TupleLike T, std::size_t... Is>
