@@ -40,6 +40,20 @@ struct boost::spirit::alloy::adaptor<AdaptedStruct>
     using getters_list = make_getters_list<&AdaptedStruct::x, &AdaptedStruct::y>;
 };
 
+struct OldStyle
+{
+    int i;
+    std::string str;
+    int get_int() const { return i; }
+    std::string const& get_string() const { return str; }
+};
+
+template<>
+struct boost::spirit::alloy::adaptor<OldStyle>
+{
+    using getters_list = make_getters_list<&OldStyle::get_int, &OldStyle::get_string>;
+};
+
 void swap(); // poison-pill
 
 TEST_CASE("tuple")
@@ -71,6 +85,17 @@ TEST_CASE("tuple")
 
         STATIC_CHECK(alloy::get<0>(a) == 42);
         STATIC_CHECK(alloy::get<1>(a) == 3.14);
+    }
+
+    {
+        STATIC_CHECK(alloy::TupleLike<OldStyle>);
+
+        STATIC_CHECK(alloy::result_of::size<OldStyle> == 2);
+
+        STATIC_CHECK(std::is_same_v<alloy::result_of::get<0, OldStyle&>, int>);
+        STATIC_CHECK(std::is_same_v<alloy::result_of::get<0, OldStyle&&>, int>);
+        STATIC_CHECK(std::is_same_v<alloy::result_of::get<1, OldStyle&>, std::string const&>);
+        STATIC_CHECK(std::is_same_v<alloy::result_of::get<1, OldStyle&&>, std::string const&>);
     }
 
     {
@@ -273,6 +298,44 @@ TEST_CASE("tuple")
         constexpr auto c = alloy::tuple_cat(a, b);
         STATIC_CHECK(alloy::get<0>(c) == 42);
         STATIC_CHECK(alloy::get<1>(c) == 3.14);
+    }
+    
+    {
+        constexpr alloy::tuple<int> a(12);
+        constexpr AdaptedStruct b{34, 3.14};
+        constexpr auto c = alloy::tuple_cat(a, b);
+        STATIC_CHECK(alloy::get<0>(c) == 12);
+        STATIC_CHECK(alloy::get<1>(c) == 34);
+        STATIC_CHECK(alloy::get<2>(c) == 3.14);
+    }
+
+    {
+        constexpr AdaptedStruct a{12, 3.14};
+        constexpr alloy::tuple<int> b(34);
+        constexpr auto c = alloy::tuple_cat(a, b);
+        STATIC_CHECK(alloy::get<0>(c) == 12);
+        STATIC_CHECK(alloy::get<1>(c) == 3.14);
+        STATIC_CHECK(alloy::get<2>(c) == 34);
+    }
+
+    {
+        constexpr AdaptedStruct a{12, 3.14};
+        constexpr AdaptedStruct b{34, 2.18};
+        constexpr auto c = alloy::tuple_cat(a, b);
+        STATIC_CHECK(alloy::get<0>(c) == 12);
+        STATIC_CHECK(alloy::get<1>(c) == 3.14);
+        STATIC_CHECK(alloy::get<2>(c) == 34);
+        STATIC_CHECK(alloy::get<3>(c) == 2.18);
+    }
+
+    {
+        OldStyle const a{12, "foo"};
+        OldStyle const b{34, "bar"};
+        auto const c = alloy::tuple_cat(a, b);
+        CHECK(alloy::get<0>(c) == 12);
+        CHECK(alloy::get<1>(c) == "foo");
+        CHECK(alloy::get<2>(c) == 34);
+        CHECK(alloy::get<3>(c) == "bar");
     }
 
     {

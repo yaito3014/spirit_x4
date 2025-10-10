@@ -25,7 +25,7 @@ template<std::size_t I, class Tuple>
     requires TupleLike<std::remove_cvref_t<Tuple>>
 struct tuple_like_element
 {
-    using type = detail::deduce_t<result_of::get<I, std::remove_cvref_t<Tuple>&>, result_of::get<I, std::remove_cvref_t<Tuple>&&>>;
+    using type = detail::deduce_t<result_of::get<I, std::remove_cvref_t<Tuple>&>&&, result_of::get<I, std::remove_cvref_t<Tuple>&&>&&>;
 };
 
 template<std::size_t I, class Tuple>

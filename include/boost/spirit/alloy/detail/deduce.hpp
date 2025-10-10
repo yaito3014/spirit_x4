@@ -15,7 +15,7 @@ namespace boost::spirit::alloy::detail {
 template<class FromLValue, class FromXValue>
 struct deduce
 {
-    static_assert(std::conjunction_v<std::is_lvalue_reference<FromLValue>, std::is_reference<FromXValue>,
+    static_assert(std::conjunction_v<std::is_reference<FromLValue>, std::is_reference<FromXValue>,
                                      std::is_same<std::remove_reference_t<FromLValue>, std::remove_reference_t<FromXValue>>>);
 };
 
@@ -27,6 +27,12 @@ struct deduce<T&, T&>
 
 template<class T>
 struct deduce<T&, T&&>
+{
+    using type = T;
+};
+
+template<class T>
+struct deduce<T&&, T&&>
 {
     using type = T;
 };
