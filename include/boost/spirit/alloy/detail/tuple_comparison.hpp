@@ -19,7 +19,7 @@ concept boolean_testable = boolean_testable_impl<T> && requires(T&& x) {
     { !static_cast<T&&>(x) } -> boolean_testable_impl;
 };
 
-namespace equality_operator_adl_barrier {
+namespace equality_operator_poison_barrier {
 
 bool operator==(auto, auto) = delete;  // poison-pill
 
@@ -28,9 +28,9 @@ concept has_equality_operator = requires(T&& x, U&& y) {
     { static_cast<T&&>(x) == static_cast<U&&>(y) } -> boolean_testable;
 };
 
-}  // equality_operator_adl_barrier
+}  // equality_operator_poison_barrier
 
-using equality_operator_adl_barrier::has_equality_operator;
+using equality_operator_poison_barrier::has_equality_operator;
 
 template<class TTuple, class UTuple>
 struct do_tuple_all_elements_have_equality_operator : std::false_type {};
