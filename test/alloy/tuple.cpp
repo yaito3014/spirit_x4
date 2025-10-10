@@ -59,7 +59,7 @@ void swap() = delete; // poison-pill
 
 }
 
-TEST_CASE("tuple")
+TEST_CASE("adapt_struct")
 {
 
     {
@@ -97,7 +97,10 @@ TEST_CASE("tuple")
         STATIC_CHECK(std::is_same_v<alloy_get_t<1, OldStyle&>, std::string const&>);
         STATIC_CHECK(std::is_same_v<alloy_get_t<1, OldStyle&&>, std::string const&>);
     }
+}
 
+TEST_CASE("adapt_std_pair")
+{
     {
         using Pair = std::pair<int, double>;
 
@@ -120,7 +123,11 @@ TEST_CASE("tuple")
         STATIC_CHECK(alloy::get<0>(p) == 42);
         STATIC_CHECK(alloy::get<1>(p) == 3.14);
     }
+}
 
+
+TEST_CASE("adapt_std_tuple")
+{
     {
         using Tuple = std::tuple<int, double, char>;
 
@@ -149,7 +156,10 @@ TEST_CASE("tuple")
         STATIC_CHECK(alloy::get<1>(p) == 3.14);
         STATIC_CHECK(alloy::get<2>(p) == 'A');
     }
+}
 
+TEST_CASE("tuple")
+{
     {
         STATIC_CHECK(std::is_trivially_default_constructible_v<alloy::tuple<>>);
 
@@ -289,6 +299,78 @@ TEST_CASE("tuple")
     }
 
     {
+        STATIC_CHECK(std::is_copy_assignable_v<alloy::tuple<int>>);
+        STATIC_CHECK(std::is_nothrow_move_assignable_v<alloy::tuple<int>>);
+
+        alloy::tuple<int> a(33), b(4);
+        a = b;
+        a = std::move(b);
+        CHECK(alloy::get<0>(a) == 4);
+    }
+
+    {
+        STATIC_CHECK(std::is_copy_assignable_v<alloy::tuple<int&>>);
+        STATIC_CHECK(std::is_nothrow_move_assignable_v<alloy::tuple<int&>>);
+
+        int x = 33, y = 4;
+        alloy::tuple<int&> a(x);
+        alloy::tuple<int&> b(y);
+        a = b;
+        a = std::move(b);
+        CHECK(alloy::get<0>(a) == 4);
+    }
+
+    {
+        STATIC_CHECK(std::is_assignable_v<alloy::tuple<int>&, alloy::tuple<float> const&>);
+        STATIC_CHECK(std::is_assignable_v<alloy::tuple<int>&, alloy::tuple<float>&&>);
+        STATIC_CHECK(std::is_nothrow_assignable_v<alloy::tuple<int>&, alloy::tuple<float> const&>);
+        STATIC_CHECK(std::is_nothrow_assignable_v<alloy::tuple<int>&, alloy::tuple<float>&&>);
+
+        alloy::tuple<int> a(33);
+        alloy::tuple<float> b(4.f);
+        a = b;
+        a = std::move(b);
+        CHECK(alloy::get<0>(a) == 4);
+    }
+
+    {
+        STATIC_CHECK(std::is_assignable_v<alloy::tuple<int, double>&, AdaptedStruct const&>);
+        STATIC_CHECK(std::is_assignable_v<alloy::tuple<int, double>&, AdaptedStruct&&>);
+
+        alloy::tuple<int, double> a(33, 3.14);
+        AdaptedStruct b{4, 2.18};
+        a = b;
+        a = std::move(b);
+        CHECK(alloy::get<0>(a) == 4);
+        CHECK(alloy::get<1>(a) == 2.18);
+    }
+
+    {
+        alloy::tuple<int> a(33), b(4);
+        a.swap(b);
+        swap(a, b);
+        CHECK(alloy::get<0>(a) == 33);
+        CHECK(alloy::get<0>(b) == 4);
+    }
+
+    {
+        alloy::tuple<int, double> a(42, 3.14), b = a;
+        CHECK(a == b);
+    }
+
+    {
+        struct Empty {};
+        struct OnlyChar { char c; };
+        [[maybe_unused]] constexpr alloy::tuple<Empty, OnlyChar> a = {{}, {'A'}};
+        [[maybe_unused]] constexpr alloy::tuple<OnlyChar, Empty> b = {{'A'}, {}};
+        STATIC_CHECK(sizeof(a) == sizeof(OnlyChar));
+        STATIC_CHECK(sizeof(b) == sizeof(OnlyChar));
+    }
+}
+
+TEST_CASE("utility")
+{
+    {
         constexpr alloy::tuple<int> a(42);
         constexpr alloy::tuple<double> b(3.14);
         constexpr auto c = alloy::tuple_cat(a, b);
@@ -371,7 +453,10 @@ TEST_CASE("tuple")
         CHECK(alloy::get<0>(tuple) == 29);
         CHECK(alloy::get<1>(tuple) == 29.);
     }
+}
 
+TEST_CASE("io")
+{
     {
         {
             std::stringstream ss;
@@ -388,74 +473,5 @@ TEST_CASE("tuple")
             ss << alloy::tuple<int, double>(42, 3.14);
             CHECK(ss.str() == "(42, 3.14)");
         }
-    }
-
-    {
-        STATIC_CHECK(std::is_copy_assignable_v<alloy::tuple<int>>);
-        STATIC_CHECK(std::is_nothrow_move_assignable_v<alloy::tuple<int>>);
-
-        alloy::tuple<int> a(33), b(4);
-        a = b;
-        a = std::move(b);
-        CHECK(alloy::get<0>(a) == 4);
-    }
-
-    {
-        STATIC_CHECK(std::is_copy_assignable_v<alloy::tuple<int&>>);
-        STATIC_CHECK(std::is_nothrow_move_assignable_v<alloy::tuple<int&>>);
-
-        int x = 33, y = 4;
-        alloy::tuple<int&> a(x);
-        alloy::tuple<int&> b(y);
-        a = b;
-        a = std::move(b);
-        CHECK(alloy::get<0>(a) == 4);
-    }
-
-    {
-        STATIC_CHECK(std::is_assignable_v<alloy::tuple<int>&, alloy::tuple<float> const&>);
-        STATIC_CHECK(std::is_assignable_v<alloy::tuple<int>&, alloy::tuple<float>&&>);
-        STATIC_CHECK(std::is_nothrow_assignable_v<alloy::tuple<int>&, alloy::tuple<float> const&>);
-        STATIC_CHECK(std::is_nothrow_assignable_v<alloy::tuple<int>&, alloy::tuple<float>&&>);
-
-        alloy::tuple<int> a(33);
-        alloy::tuple<float> b(4.f);
-        a = b;
-        a = std::move(b);
-        CHECK(alloy::get<0>(a) == 4);
-    }
-
-    {
-        STATIC_CHECK(std::is_assignable_v<alloy::tuple<int, double>&, AdaptedStruct const&>);
-        STATIC_CHECK(std::is_assignable_v<alloy::tuple<int, double>&, AdaptedStruct&&>);
-
-        alloy::tuple<int, double> a(33, 3.14);
-        AdaptedStruct b{4, 2.18};
-        a = b;
-        a = std::move(b);
-        CHECK(alloy::get<0>(a) == 4);
-        CHECK(alloy::get<1>(a) == 2.18);
-    }
-
-    {
-        alloy::tuple<int> a(33), b(4);
-        a.swap(b);
-        swap(a, b);
-        CHECK(alloy::get<0>(a) == 33);
-        CHECK(alloy::get<0>(b) == 4);
-    }
-
-    {
-        alloy::tuple<int, double> a(42, 3.14), b = a;
-        CHECK(a == b);
-    }
-
-    {
-        struct Empty {};
-        struct OnlyChar { char c; };
-        [[maybe_unused]] constexpr alloy::tuple<Empty, OnlyChar> a = {{}, {'A'}};
-        [[maybe_unused]] constexpr alloy::tuple<OnlyChar, Empty> b = {{'A'}, {}};
-        STATIC_CHECK(sizeof(a) == sizeof(OnlyChar));
-        STATIC_CHECK(sizeof(b) == sizeof(OnlyChar));
     }
 }
