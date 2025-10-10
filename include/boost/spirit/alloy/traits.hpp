@@ -31,7 +31,10 @@ template<class T>
 struct adaptor;
 
 template<class T>
-concept TupleLike = is_ttp_specialization_of_v<T, tuple> || requires { typename adaptor<T>::getters_list; };
+concept Adapted = requires { typename adaptor<T>::getters_list; };
+
+template<class T>
+concept TupleLike = is_ttp_specialization_of_v<T, tuple> || Adapted<T>;
 
 template<class T>
 struct is_tuple_like : std::bool_constant<TupleLike<T>> {};
@@ -58,8 +61,7 @@ struct tuple_size<T const> : tuple_size<T> {};
 template<class... Ts>
 struct tuple_size<tuple<Ts...>> : std::integral_constant<std::size_t, sizeof...(Ts)> {};
 
-template<TupleLike T>
-    requires (!is_ttp_specialization_of_v<T, tuple>)
+template<Adapted T>
 struct tuple_size<T> : detail::non_type_list_size<typename adaptor<T>::getters_list> {};
 
 template<class T>
@@ -77,15 +79,6 @@ template<std::size_t I, class T>
 inline constexpr auto getter_of = non_type_list_indexing<I, typename adaptor<T>::getters_list>::value;
 
 } // detail
-
-// gets i-th element in tuple-like object
-template<std::size_t I, class T>
-    requires TupleLike<std::remove_cvref_t<T>>
-[[nodiscard]] constexpr decltype(auto) get(T&& x)
-    noexcept(std::is_nothrow_invocable_v<decltype(detail::getter_of<I, std::remove_cvref_t<T>>), T>)
-{
-    return std::invoke(detail::getter_of<I, std::remove_cvref_t<T>>, std::forward<T>(x));
-}
 
 template<std::size_t I, class Tuple>
 struct tuple_element {};
@@ -111,6 +104,15 @@ template<std::size_t I, class... Ts>
 template<std::size_t I, class... Ts>
 [[nodiscard]] constexpr tuple_element_t<I, tuple<Ts...>> const&& get(tuple<Ts...> const&& t) noexcept;
 
+template<std::size_t I, class T>
+    requires Adapted<std::remove_cvref_t<T>>
+[[nodiscard]] constexpr auto get(T&& x)
+    noexcept(std::is_nothrow_invocable_v<decltype(detail::getter_of<I, std::remove_cvref_t<T>>), T>)
+    -> decltype(std::invoke(detail::getter_of<I, std::remove_cvref_t<T>>, std::forward<T>(x)))
+{
+    return std::invoke(detail::getter_of<I, std::remove_cvref_t<T>>, std::forward<T>(x));
+}
+
 namespace detail {
 
 template<std::size_t I, class T>
@@ -118,8 +120,7 @@ using tuple_get_t = decltype(alloy::get<I>(std::declval<T>()));
 
 } // detail
 
-template<std::size_t I, TupleLike T>
-    requires (!is_ttp_specialization_of_v<T, tuple>)
+template<std::size_t I, Adapted T>
 struct tuple_element<I, T>
 {
     using type = detail::deduce_t<detail::tuple_get_t<I, std::remove_cvref_t<T>&>&&, detail::tuple_get_t<I, std::remove_cvref_t<T>&&>&&>;
