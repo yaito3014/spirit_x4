@@ -108,7 +108,7 @@ template<std::size_t I, class T>
     requires Adapted<std::remove_cvref_t<T>>
 [[nodiscard]] constexpr auto get(T&& x)
     noexcept(std::is_nothrow_invocable_v<decltype(detail::getter_of<I, std::remove_cvref_t<T>>), T>)
-    -> decltype(std::invoke(detail::getter_of<I, std::remove_cvref_t<T>>, std::forward<T>(x)))
+    -> std::invoke_result_t<decltype(detail::getter_of<I, std::remove_cvref_t<T>>), T>
 {
     return std::invoke(detail::getter_of<I, std::remove_cvref_t<T>>, std::forward<T>(x));
 }
