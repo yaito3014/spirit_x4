@@ -368,6 +368,7 @@ TEST_CASE("tuple")
     }
 
     STATIC_CHECK(std::is_same_v<std::common_reference_t<alloy::tuple<int&, int&>, alloy::tuple<int, int>&>, alloy::tuple<int&, int&>>);
+    STATIC_CHECK(std::is_same_v<std::common_reference_t<AdaptedStruct&, alloy::tuple<int, double>&>, alloy::tuple<int&, double&>>);
 }
 
 TEST_CASE("utility")
