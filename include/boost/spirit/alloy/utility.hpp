@@ -273,10 +273,10 @@ template<class Tuple>
 struct tuple_ref_result : tuple_ref_result_impl<Tuple, std::make_index_sequence<tuple_size_v<Tuple>>> {};
 
 template<class IndexSeq>
-struct tuple_for_each_impl;
+struct for_each_impl;
 
 template<std::size_t... Is>
-struct tuple_for_each_impl<std::index_sequence<Is...>>
+struct for_each_impl<std::index_sequence<Is...>>
 {
     template<class Tuple, class F>
     static constexpr void apply(Tuple&& t, F&& f){
@@ -326,9 +326,9 @@ template<TupleLike Tuple>
 
 template<class Tuple, class F>
     requires TupleLike<std::remove_cvref_t<Tuple>>
-constexpr void tuple_for_each(Tuple&& t, F&& f)
+constexpr void for_each(Tuple&& t, F&& f)
 {
-    return detail::tuple_for_each_impl<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuple>>>>::apply(std::forward<Tuple>(t), std::forward<F>(f));
+    return detail::for_each_impl<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuple>>>>::apply(std::forward<Tuple>(t), std::forward<F>(f));
 }
 
 } // boost::spirit::alloy

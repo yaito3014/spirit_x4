@@ -449,7 +449,7 @@ TEST_CASE("utility")
 
     {
         alloy::tuple<int, double> tuple(42, 3.14);
-        alloy::tuple_for_each(tuple, [](auto& elem){ elem = 33 - 4; });
+        alloy::for_each(tuple, [](auto& elem){ elem = 33 - 4; });
         CHECK(alloy::get<0>(tuple) == 29);
         CHECK(alloy::get<1>(tuple) == 29.);
     }
