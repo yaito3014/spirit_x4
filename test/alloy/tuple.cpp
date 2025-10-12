@@ -366,6 +366,8 @@ TEST_CASE("tuple")
         STATIC_CHECK(sizeof(a) == sizeof(OnlyChar));
         STATIC_CHECK(sizeof(b) == sizeof(OnlyChar));
     }
+
+    STATIC_CHECK(std::is_same_v<std::common_reference_t<alloy::tuple<int&, int&>, alloy::tuple<int, int>&>, alloy::tuple<int&, int&>>);
 }
 
 TEST_CASE("utility")

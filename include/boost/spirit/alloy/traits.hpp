@@ -150,6 +150,27 @@ struct is_tuple_like_view : std::bool_constant<TupleLikeView<T>> {};
 template<class T>
 inline constexpr bool is_tuple_like_view_v = is_tuple_like<T>::value;
 
+namespace detail {
+
+template<class TTuple, class UTuple, template<class> class TQual, template<class> class UQual, class IndexSeq>
+struct basic_common_reference_impl;
+
+template<class TTuple, class UTuple, template<class> class TQual, template<class> class UQual, std::size_t... Is>
+struct basic_common_reference_impl<TTuple, UTuple, TQual, UQual, std::index_sequence<Is...>>
+{
+    using type = tuple<std::common_reference_t<TQual<tuple_element_t<Is, TTuple>>, UQual<tuple_element_t<Is, UTuple>>>...>;
+};
+
+} // detail
+
 } // boost::spirit::alloy
+
+template<boost::spirit::alloy::TupleLike TTuple, boost::spirit::alloy::TupleLike UTuple, template<class> class TQual, template<class> class UQual>
+    requires (boost::spirit::is_ttp_specialization_of_v<TTuple, boost::spirit::alloy::tuple> ||
+              boost::spirit::is_ttp_specialization_of_v<UTuple, boost::spirit::alloy::tuple>) &&
+             (boost::spirit::alloy::tuple_size_v<TTuple> == boost::spirit::alloy::tuple_size_v<UTuple>)
+struct std::basic_common_reference<TTuple, UTuple, TQual, UQual>
+    : boost::spirit::alloy::detail::basic_common_reference_impl<TTuple, UTuple, TQual, UQual,
+                                                                std::make_index_sequence<boost::spirit::alloy::tuple_size_v<TTuple>>> {};
 
 #endif
