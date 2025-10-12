@@ -20,6 +20,9 @@
 
 namespace boost::spirit::alloy {
 
+template<class T>
+struct adaptor;
+
 namespace detail {
 
 template<class T>
