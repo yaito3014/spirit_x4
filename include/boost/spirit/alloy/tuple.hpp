@@ -46,6 +46,7 @@ struct tuple_traits_impl<std::index_sequence<Is...>, UTuple, Ts...>
     static constexpr bool all_nothrow_constructible = std::conjunction_v<std::is_nothrow_constructible<Ts, tuple_get_t<Is, UTuple>>...>;
     static constexpr bool all_assignable = std::conjunction_v<std::is_assignable<Ts&, tuple_get_t<Is, UTuple>>...>;
     static constexpr bool all_nothrow_assignable = std::conjunction_v<std::is_nothrow_assignable<Ts&, tuple_get_t<Is, UTuple>>...>;
+    static constexpr bool all_nothrow_gettable = std::conjunction_v<is_nothrow_gettable<Is, UTuple>...>;
 };
 
 template<class UTuple, class... Ts>
@@ -96,7 +97,9 @@ public:
         requires std::conjunction_v<std::is_move_constructible<Ts>...>
     = default;
 
-    constexpr explicit tuple(value_initialize_t vi) : base_type(vi) {}
+    constexpr explicit tuple(value_initialize_t vi)
+        noexcept(std::conjunction_v<std::is_nothrow_default_constructible<Ts>...>)
+        : base_type(vi) {}
 
     constexpr explicit(!std::conjunction_v<std::is_convertible<Ts const&, Ts>...>) tuple(Ts const&... ts)
         noexcept(std::conjunction_v<std::is_nothrow_copy_constructible<Ts>...>)
@@ -175,6 +178,7 @@ public:
             requires !(detail::tuple_one_element_is_constructible_from_tuple_v<UTuple, Ts...>);
         }
     constexpr explicit(!detail::tuple_traits<UTuple, Ts...>::all_convertible) tuple(UTuple&& other)
+        noexcept(detail::tuple_traits<UTuple, Ts...>::all_nothrow_gettable && detail::tuple_traits<UTuple, Ts...>::all_nothrow_constructible)
         : tuple(construct, std::make_index_sequence<tuple_size_v<std::remove_cvref_t<UTuple>>>{}, static_cast<UTuple>(other))
     {}
 
