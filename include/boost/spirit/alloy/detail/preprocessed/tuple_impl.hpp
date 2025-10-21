@@ -23,9 +23,10 @@
 namespace boost::spirit::alloy {
 template<class... Ts>
 class tuple;
-template<class... Us, class... Vs>
-    requires detail::tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-constexpr bool operator==(tuple<Us...> const&, tuple<Vs...> const&);
+template<class... Ts, class... Us>
+    requires detail::tuple_all_elements_have_equality_operator<tuple<Ts...>, tuple<Us...>>
+constexpr bool operator==(tuple<Ts...> const&, tuple<Us...> const&)
+    noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Ts...>, tuple<Us...>>);
 namespace detail {
 template<class... Ts>
 class tuple_impl;
@@ -34,10 +35,11 @@ class tuple_impl<>
 {
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const& a, tuple<Vs...> const& b)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
-    constexpr bool equal_to(tuple_impl const&) const { return true; }
+    constexpr bool equal_to(tuple_impl const&) const noexcept { return true; }
 
 public:
     tuple_impl() = default;
@@ -52,11 +54,12 @@ class tuple_impl<T0>
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0>
-    constexpr bool equal_to(tuple_impl<U0> const& other) const
+    constexpr bool equal_to(tuple_impl<U0> const& other) const noexcept(std::conjunction_v<is_nothrow_equality_comparable<T0, U0>>)
     {
         return _0 == other._0;
     }
@@ -155,11 +158,13 @@ class tuple_impl<T0, T1>
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1>
     constexpr bool equal_to(tuple_impl<U0, U1> const& other) const
+        noexcept(std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>>)
     {
         return _0 == other._0 && _1 == other._1;
     }
@@ -287,11 +292,13 @@ class tuple_impl<T0, T1, T2>
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2>
     constexpr bool equal_to(tuple_impl<U0, U1, U2> const& other) const
+        noexcept(std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2;
     }
@@ -439,11 +446,14 @@ class tuple_impl<T0, T1, T2, T3>
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3> const& other) const
+        noexcept(std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                                    is_nothrow_equality_comparable<T3, U3>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3;
     }
@@ -615,11 +625,14 @@ class tuple_impl<T0, T1, T2, T3, T4>
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4> const& other) const
+        noexcept(std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                                    is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4;
     }
@@ -810,11 +823,14 @@ class tuple_impl<T0, T1, T2, T3, T4, T5>
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5> const& other) const
+        noexcept(std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                                    is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5;
     }
@@ -1021,11 +1037,15 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6>
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6> const& other) const
+        noexcept(std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                                    is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                                    is_nothrow_equality_comparable<T6, U6>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6;
     }
@@ -1260,11 +1280,15 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7>
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7> const& other) const
+        noexcept(std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                                    is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                                    is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7;
     }
@@ -1514,11 +1538,15 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8>
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8> const& other) const
+        noexcept(std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                                    is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                                    is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8;
@@ -1785,11 +1813,16 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9> const& other) const
+        noexcept(std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                                    is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                                    is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                                    is_nothrow_equality_comparable<T9, U9>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9;
@@ -2083,11 +2116,16 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10> const& other) const
+        noexcept(std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                                    is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                                    is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                                    is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10;
@@ -2399,11 +2437,16 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11> const& other) const
+        noexcept(std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                                    is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                                    is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                                    is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11;
@@ -2732,11 +2775,17 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12> const& other) const
+        noexcept(std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                                    is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                                    is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                                    is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                                    is_nothrow_equality_comparable<T12, U12>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12;
@@ -3092,11 +3141,17 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13> const& other) const
+        noexcept(std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                                    is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                                    is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                                    is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                                    is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13;
@@ -3470,12 +3525,18 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
              class U14>
-    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14> const& other) const
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14> const& other) const noexcept(
+        std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                           is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                           is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                           is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                           is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14;
@@ -3872,12 +3933,19 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
              class U14, class U15>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15> const& other) const
+        noexcept(std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                                    is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                                    is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                                    is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                                    is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>,
+                                    is_nothrow_equality_comparable<T14, U14>, is_nothrow_equality_comparable<T15, U15>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
@@ -4302,12 +4370,19 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
              class U14, class U15, class U16>
-    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16> const& other) const
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16> const& other) const noexcept(
+        std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                           is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                           is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                           is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                           is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>,
+                           is_nothrow_equality_comparable<T15, U15>, is_nothrow_equality_comparable<T16, U16>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
@@ -4749,12 +4824,19 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
              class U14, class U15, class U16, class U17>
-    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17> const& other) const
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17> const& other) const noexcept(
+        std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                           is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                           is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                           is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                           is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>,
+                           is_nothrow_equality_comparable<T15, U15>, is_nothrow_equality_comparable<T16, U16>, is_nothrow_equality_comparable<T17, U17>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
@@ -5211,12 +5293,20 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
              class U14, class U15, class U16, class U17, class U18>
-    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18> const& other) const
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18> const& other) const noexcept(
+        std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                           is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                           is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                           is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                           is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>,
+                           is_nothrow_equality_comparable<T15, U15>, is_nothrow_equality_comparable<T16, U16>, is_nothrow_equality_comparable<T17, U17>,
+                           is_nothrow_equality_comparable<T18, U18>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
@@ -5700,12 +5790,20 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
              class U14, class U15, class U16, class U17, class U18, class U19>
-    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19> const& other) const
+    constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19> const& other) const noexcept(
+        std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                           is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                           is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                           is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                           is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>,
+                           is_nothrow_equality_comparable<T15, U15>, is_nothrow_equality_comparable<T16, U16>, is_nothrow_equality_comparable<T17, U17>,
+                           is_nothrow_equality_comparable<T18, U18>, is_nothrow_equality_comparable<T19, U19>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
@@ -6207,12 +6305,21 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
              class U14, class U15, class U16, class U17, class U18, class U19, class U20>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20> const& other) const
+        noexcept(
+            std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                               is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                               is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                               is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                               is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>,
+                               is_nothrow_equality_comparable<T15, U15>, is_nothrow_equality_comparable<T16, U16>, is_nothrow_equality_comparable<T17, U17>,
+                               is_nothrow_equality_comparable<T18, U18>, is_nothrow_equality_comparable<T19, U19>, is_nothrow_equality_comparable<T20, U20>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
@@ -6735,12 +6842,22 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
              class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21> const& other) const
+        noexcept(
+            std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                               is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                               is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                               is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                               is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>,
+                               is_nothrow_equality_comparable<T15, U15>, is_nothrow_equality_comparable<T16, U16>, is_nothrow_equality_comparable<T17, U17>,
+                               is_nothrow_equality_comparable<T18, U18>, is_nothrow_equality_comparable<T19, U19>, is_nothrow_equality_comparable<T20, U20>,
+                               is_nothrow_equality_comparable<T21, U21>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
@@ -7292,13 +7409,22 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
              class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22>
     constexpr bool
-    equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22> const& other) const
+    equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22> const& other) const noexcept(
+        std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                           is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                           is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                           is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                           is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>,
+                           is_nothrow_equality_comparable<T15, U15>, is_nothrow_equality_comparable<T16, U16>, is_nothrow_equality_comparable<T17, U17>,
+                           is_nothrow_equality_comparable<T18, U18>, is_nothrow_equality_comparable<T19, U19>, is_nothrow_equality_comparable<T20, U20>,
+                           is_nothrow_equality_comparable<T21, U21>, is_nothrow_equality_comparable<T22, U22>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
@@ -7870,13 +7996,23 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
              class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23>
     constexpr bool
     equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23> const& other) const
+        noexcept(
+            std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                               is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                               is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                               is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                               is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>,
+                               is_nothrow_equality_comparable<T15, U15>, is_nothrow_equality_comparable<T16, U16>, is_nothrow_equality_comparable<T17, U17>,
+                               is_nothrow_equality_comparable<T18, U18>, is_nothrow_equality_comparable<T19, U19>, is_nothrow_equality_comparable<T20, U20>,
+                               is_nothrow_equality_comparable<T21, U21>, is_nothrow_equality_comparable<T22, U22>, is_nothrow_equality_comparable<T23, U23>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
@@ -8470,13 +8606,24 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
              class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24>
     constexpr bool
     equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24> const& other) const
+        noexcept(
+            std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                               is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                               is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                               is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                               is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>,
+                               is_nothrow_equality_comparable<T15, U15>, is_nothrow_equality_comparable<T16, U16>, is_nothrow_equality_comparable<T17, U17>,
+                               is_nothrow_equality_comparable<T18, U18>, is_nothrow_equality_comparable<T19, U19>, is_nothrow_equality_comparable<T20, U20>,
+                               is_nothrow_equality_comparable<T21, U21>, is_nothrow_equality_comparable<T22, U22>, is_nothrow_equality_comparable<T23, U23>,
+                               is_nothrow_equality_comparable<T24, U24>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
@@ -9098,13 +9245,24 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
              class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25>
     constexpr bool equal_to(
         tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25> const& other) const
+        noexcept(
+            std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                               is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                               is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                               is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                               is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>,
+                               is_nothrow_equality_comparable<T15, U15>, is_nothrow_equality_comparable<T16, U16>, is_nothrow_equality_comparable<T17, U17>,
+                               is_nothrow_equality_comparable<T18, U18>, is_nothrow_equality_comparable<T19, U19>, is_nothrow_equality_comparable<T20, U20>,
+                               is_nothrow_equality_comparable<T21, U21>, is_nothrow_equality_comparable<T22, U22>, is_nothrow_equality_comparable<T23, U23>,
+                               is_nothrow_equality_comparable<T24, U24>, is_nothrow_equality_comparable<T25, U25>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
@@ -9744,13 +9902,24 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
              class U14, class U15, class U16, class U17, class U18, class U19, class U20, class U21, class U22, class U23, class U24, class U25, class U26>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25,
                                        U26> const& other) const
+        noexcept(
+            std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                               is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                               is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                               is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                               is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>,
+                               is_nothrow_equality_comparable<T15, U15>, is_nothrow_equality_comparable<T16, U16>, is_nothrow_equality_comparable<T17, U17>,
+                               is_nothrow_equality_comparable<T18, U18>, is_nothrow_equality_comparable<T19, U19>, is_nothrow_equality_comparable<T20, U20>,
+                               is_nothrow_equality_comparable<T21, U21>, is_nothrow_equality_comparable<T22, U22>, is_nothrow_equality_comparable<T23, U23>,
+                               is_nothrow_equality_comparable<T24, U24>, is_nothrow_equality_comparable<T25, U25>, is_nothrow_equality_comparable<T26, U26>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
@@ -10410,7 +10579,8 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
@@ -10418,6 +10588,17 @@ private:
              class U27>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25,
                                        U26, U27> const& other) const
+        noexcept(
+            std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                               is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                               is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                               is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                               is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>,
+                               is_nothrow_equality_comparable<T15, U15>, is_nothrow_equality_comparable<T16, U16>, is_nothrow_equality_comparable<T17, U17>,
+                               is_nothrow_equality_comparable<T18, U18>, is_nothrow_equality_comparable<T19, U19>, is_nothrow_equality_comparable<T20, U20>,
+                               is_nothrow_equality_comparable<T21, U21>, is_nothrow_equality_comparable<T22, U22>, is_nothrow_equality_comparable<T23, U23>,
+                               is_nothrow_equality_comparable<T24, U24>, is_nothrow_equality_comparable<T25, U25>, is_nothrow_equality_comparable<T26, U26>,
+                               is_nothrow_equality_comparable<T27, U27>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
@@ -11110,7 +11291,8 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
@@ -11118,6 +11300,17 @@ private:
              class U27, class U28>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25,
                                        U26, U27, U28> const& other) const
+        noexcept(
+            std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                               is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                               is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                               is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                               is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>,
+                               is_nothrow_equality_comparable<T15, U15>, is_nothrow_equality_comparable<T16, U16>, is_nothrow_equality_comparable<T17, U17>,
+                               is_nothrow_equality_comparable<T18, U18>, is_nothrow_equality_comparable<T19, U19>, is_nothrow_equality_comparable<T20, U20>,
+                               is_nothrow_equality_comparable<T21, U21>, is_nothrow_equality_comparable<T22, U22>, is_nothrow_equality_comparable<T23, U23>,
+                               is_nothrow_equality_comparable<T24, U24>, is_nothrow_equality_comparable<T25, U25>, is_nothrow_equality_comparable<T26, U26>,
+                               is_nothrow_equality_comparable<T27, U27>, is_nothrow_equality_comparable<T28, U28>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
@@ -11828,7 +12021,8 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
@@ -11836,6 +12030,17 @@ private:
              class U27, class U28, class U29>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25,
                                        U26, U27, U28, U29> const& other) const
+        noexcept(
+            std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                               is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                               is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                               is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                               is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>,
+                               is_nothrow_equality_comparable<T15, U15>, is_nothrow_equality_comparable<T16, U16>, is_nothrow_equality_comparable<T17, U17>,
+                               is_nothrow_equality_comparable<T18, U18>, is_nothrow_equality_comparable<T19, U19>, is_nothrow_equality_comparable<T20, U20>,
+                               is_nothrow_equality_comparable<T21, U21>, is_nothrow_equality_comparable<T22, U22>, is_nothrow_equality_comparable<T23, U23>,
+                               is_nothrow_equality_comparable<T24, U24>, is_nothrow_equality_comparable<T25, U25>, is_nothrow_equality_comparable<T26, U26>,
+                               is_nothrow_equality_comparable<T27, U27>, is_nothrow_equality_comparable<T28, U28>, is_nothrow_equality_comparable<T29, U29>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
@@ -12566,7 +12771,8 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
@@ -12574,6 +12780,18 @@ private:
              class U27, class U28, class U29, class U30>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25,
                                        U26, U27, U28, U29, U30> const& other) const
+        noexcept(
+            std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                               is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                               is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                               is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                               is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>,
+                               is_nothrow_equality_comparable<T15, U15>, is_nothrow_equality_comparable<T16, U16>, is_nothrow_equality_comparable<T17, U17>,
+                               is_nothrow_equality_comparable<T18, U18>, is_nothrow_equality_comparable<T19, U19>, is_nothrow_equality_comparable<T20, U20>,
+                               is_nothrow_equality_comparable<T21, U21>, is_nothrow_equality_comparable<T22, U22>, is_nothrow_equality_comparable<T23, U23>,
+                               is_nothrow_equality_comparable<T24, U24>, is_nothrow_equality_comparable<T25, U25>, is_nothrow_equality_comparable<T26, U26>,
+                               is_nothrow_equality_comparable<T27, U27>, is_nothrow_equality_comparable<T28, U28>, is_nothrow_equality_comparable<T29, U29>,
+                               is_nothrow_equality_comparable<T30, U30>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&
@@ -13329,7 +13547,8 @@ class tuple_impl<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     friend class tuple_impl;
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const& a, tuple<Vs...> const& b)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<class U0, class U1, class U2, class U3, class U4, class U5, class U6, class U7, class U8, class U9, class U10, class U11, class U12, class U13,
@@ -13378,6 +13597,18 @@ private:
              class U27, class U28, class U29, class U30, class U31>
     constexpr bool equal_to(tuple_impl<U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25,
                                        U26, U27, U28, U29, U30, U31> const& other) const
+        noexcept(
+            std::conjunction_v<is_nothrow_equality_comparable<T0, U0>, is_nothrow_equality_comparable<T1, U1>, is_nothrow_equality_comparable<T2, U2>,
+                               is_nothrow_equality_comparable<T3, U3>, is_nothrow_equality_comparable<T4, U4>, is_nothrow_equality_comparable<T5, U5>,
+                               is_nothrow_equality_comparable<T6, U6>, is_nothrow_equality_comparable<T7, U7>, is_nothrow_equality_comparable<T8, U8>,
+                               is_nothrow_equality_comparable<T9, U9>, is_nothrow_equality_comparable<T10, U10>, is_nothrow_equality_comparable<T11, U11>,
+                               is_nothrow_equality_comparable<T12, U12>, is_nothrow_equality_comparable<T13, U13>, is_nothrow_equality_comparable<T14, U14>,
+                               is_nothrow_equality_comparable<T15, U15>, is_nothrow_equality_comparable<T16, U16>, is_nothrow_equality_comparable<T17, U17>,
+                               is_nothrow_equality_comparable<T18, U18>, is_nothrow_equality_comparable<T19, U19>, is_nothrow_equality_comparable<T20, U20>,
+                               is_nothrow_equality_comparable<T21, U21>, is_nothrow_equality_comparable<T22, U22>, is_nothrow_equality_comparable<T23, U23>,
+                               is_nothrow_equality_comparable<T24, U24>, is_nothrow_equality_comparable<T25, U25>, is_nothrow_equality_comparable<T26, U26>,
+                               is_nothrow_equality_comparable<T27, U27>, is_nothrow_equality_comparable<T28, U28>, is_nothrow_equality_comparable<T29, U29>,
+                               is_nothrow_equality_comparable<T30, U30>, is_nothrow_equality_comparable<T31, U31>>)
     {
         return _0 == other._0 && _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7 &&
                _8 == other._8 && _9 == other._9 && _10 == other._10 && _11 == other._11 && _12 == other._12 && _13 == other._13 && _14 == other._14 &&

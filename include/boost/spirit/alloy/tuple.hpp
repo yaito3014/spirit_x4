@@ -176,7 +176,7 @@ public:
             requires !std::is_same_v<std::remove_cvref_t<UTuple>, tuple>;
             requires sizeof...(Ts) == tuple_size_v<std::remove_cvref_t<UTuple>>;
             requires detail::tuple_traits<UTuple, Ts...>::all_constructible;
-            requires !(detail::tuple_one_element_is_constructible_from_tuple_v<UTuple, Ts...>);
+            requires !detail::tuple_one_element_is_constructible_from_tuple_v<UTuple, Ts...>;
         }
     constexpr explicit(!detail::tuple_traits<UTuple, Ts...>::all_convertible) tuple(UTuple&& other)
         noexcept(detail::tuple_traits<UTuple, Ts...>::all_nothrow_gettable && detail::tuple_traits<UTuple, Ts...>::all_nothrow_constructible)
@@ -225,7 +225,7 @@ public:
     template<class UTuple>
         requires requires {
             requires TupleLike<std::remove_cvref_t<UTuple>>;
-            requires (!std::is_same_v<std::remove_cvref_t<UTuple>, tuple>);
+            requires !std::is_same_v<std::remove_cvref_t<UTuple>, tuple>;
             requires sizeof...(Ts) == tuple_size_v<std::remove_cvref_t<UTuple>>;
             requires detail::tuple_traits<UTuple, Ts...>::all_assignable;
         }
@@ -283,6 +283,7 @@ constexpr void swap(tuple<Ts...>& a, tuple<Ts...>& b) noexcept(noexcept(a.swap(b
 template<class... Ts, class... Us>
     requires detail::tuple_all_elements_have_equality_operator<tuple<Ts...>, tuple<Us...>>
 constexpr bool operator==(tuple<Ts...> const& a, tuple<Us...> const& b)
+    noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Ts...>, tuple<Us...>>)
 {
     return a.equal_to(b);
 }

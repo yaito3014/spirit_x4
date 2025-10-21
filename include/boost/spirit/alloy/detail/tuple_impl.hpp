@@ -35,9 +35,10 @@ namespace boost::spirit::alloy {
 template<class... Ts>
 class tuple;
 
-template<class... Us, class... Vs>
-    requires detail::tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-constexpr bool operator==(tuple<Us...> const&, tuple<Vs...> const&);
+template<class... Ts, class... Us>
+    requires detail::tuple_all_elements_have_equality_operator<tuple<Ts...>, tuple<Us...>>
+constexpr bool operator==(tuple<Ts...> const&, tuple<Us...> const&)
+    noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Ts...>, tuple<Us...>>);
 
 namespace detail {
 
@@ -49,10 +50,11 @@ class tuple_impl<>
 {
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const& a, tuple<Vs...> const& b)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
-    constexpr bool equal_to(tuple_impl const&) const { return true; }
+    constexpr bool equal_to(tuple_impl const&) const noexcept { return true; }
 
 public:
     tuple_impl() = default;
@@ -142,6 +144,10 @@ public:
 #define BOOST_SPIRIT_ALLOY_DETAIL_EQUAL_TO(z, n, other) \
     BOOST_PP_EXPR_IF(n, &&) BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_MEMBER_PREFIX, n) == other.BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_MEMBER_PREFIX, n)
 
+#define BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_EQUALITY_COMPARABLE(z, n, data) \
+    BOOST_PP_COMMA_IF(n) \
+    is_nothrow_equality_comparable<BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1, n), BOOST_PP_CAT(BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2, n)>
+
 #define BOOST_SPIRIT_ALLOY_DETAIL_TUPLE_IMPL_DEF(z, n, data) \
     template<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1)> \
     class tuple_impl<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_1)> \
@@ -151,11 +157,13 @@ public:
 \
         template<class... Us, class... Vs> \
             requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>> \
-        friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&); \
+        friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&) \
+            noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>); \
 \
     private: \
         template<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> \
         constexpr bool equal_to(tuple_impl<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_ARGS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> const& other) const \
+            noexcept(std::conjunction_v<BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_EQUALITY_COMPARABLE, )>) \
         { \
             return BOOST_PP_REPEAT(n, BOOST_SPIRIT_ALLOY_DETAIL_EQUAL_TO, other); \
         } \
@@ -293,7 +301,8 @@ class tuple_impl<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_AL
 
     template<class... Us, class... Vs>
         requires tuple_all_elements_have_equality_operator<tuple<Us...>, tuple<Vs...>>
-    friend constexpr bool alloy::operator==(tuple<Us...> const&, tuple<Vs...> const&);
+    friend constexpr bool alloy::operator==(tuple<Us...> const& a, tuple<Vs...> const& b)
+        noexcept(detail::are_tuple_all_elements_nothrow_equality_comparable_v<tuple<Us...>, tuple<Vs...>>);
 
 private:
     template<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2),
@@ -307,6 +316,7 @@ private:
     template<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAMS, BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)>
     constexpr bool equal_to(tuple_impl<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_ARGS,
                                                        BOOST_SPIRIT_ALLOY_DETAIL_TEMPLATE_PARAM_2)> const& other) const
+         noexcept(std::conjunction_v<BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_NOTHROW_EQUALITY_COMPARABLE, )>) \
     {
         return BOOST_PP_REPEAT(BOOST_SPIRIT_ALLOY_TUPLE_LIMIT, BOOST_SPIRIT_ALLOY_DETAIL_EQUAL_TO, other) && rest == other.rest;
     }
