@@ -186,7 +186,7 @@ public:
     }
     constexpr tuple& operator=(tuple&& other)
         noexcept(std::conjunction_v<std::is_nothrow_move_assignable<Ts>...>)
-        requires (std::conjunction_v<std::is_move_assignable<Ts>...>)
+        requires std::conjunction_v<std::is_move_assignable<Ts>...>
     {
         base_type::operator=(static_cast<tuple&&>(other));
         return *this;
