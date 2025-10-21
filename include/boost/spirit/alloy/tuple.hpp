@@ -85,6 +85,7 @@ private:
 
     template<std::size_t... Is, class UTuple>
     constexpr explicit tuple(construct_t, std::index_sequence<Is...>, UTuple&& other)
+        noexcept(detail::tuple_traits<UTuple, Ts...>::all_nothrow_gettable && detail::tuple_traits<UTuple, Ts...>::all_nothrow_constructible)
         : base_type(alloy::get<Is>(static_cast<UTuple>(other))...)
     {}
 
