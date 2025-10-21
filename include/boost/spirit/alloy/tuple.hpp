@@ -40,7 +40,6 @@ struct tuple_traits_impl;
 
 template<std::size_t... Is, class UTuple, class... Ts>
 struct tuple_traits_impl<std::index_sequence<Is...>, UTuple, Ts...>
-    : std::conjunction<std::is_constructible<Ts, tuple_get_t<Is, UTuple>>...>
 {
     static constexpr bool all_convertible = std::conjunction_v<std::is_convertible<tuple_get_t<Is, UTuple>, Ts>...>;
     static constexpr bool all_constructible = std::conjunction_v<std::is_constructible<Ts, tuple_get_t<Is, UTuple>>...>;
