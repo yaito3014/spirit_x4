@@ -22,7 +22,8 @@
 
 namespace alloy = boost::spirit::alloy;
 
-struct NonAdaptedStruct {};
+struct NonAdaptedStruct
+{};
 
 struct AdaptedStruct
 {
@@ -124,7 +125,6 @@ TEST_CASE("adapt_std_pair")
         STATIC_CHECK(alloy::get<1>(p) == 3.14);
     }
 }
-
 
 TEST_CASE("adapt_std_tuple")
 {
@@ -263,10 +263,20 @@ TEST_CASE("tuple")
         STATIC_CHECK(std::is_constructible_v<alloy::tuple<int, float>, alloy::tuple<float, int>&&>);
         STATIC_CHECK(std::is_constructible_v<alloy::tuple<int, float>, alloy::tuple<float, int> const&&>);
 
+        STATIC_CHECK(std::is_nothrow_constructible_v<alloy::tuple<int, float>, alloy::tuple<float, int>&>);
+        STATIC_CHECK(std::is_nothrow_constructible_v<alloy::tuple<int, float>, alloy::tuple<float, int> const&>);
+        STATIC_CHECK(std::is_nothrow_constructible_v<alloy::tuple<int, float>, alloy::tuple<float, int>&&>);
+        STATIC_CHECK(std::is_nothrow_constructible_v<alloy::tuple<int, float>, alloy::tuple<float, int> const&&>);
+
         STATIC_CHECK(std::is_convertible_v<alloy::tuple<float, int>&, alloy::tuple<int, float>>);
         STATIC_CHECK(std::is_convertible_v<alloy::tuple<float, int> const&, alloy::tuple<int, float>>);
         STATIC_CHECK(std::is_convertible_v<alloy::tuple<float, int>&&, alloy::tuple<int, float>>);
         STATIC_CHECK(std::is_convertible_v<alloy::tuple<float, int> const&&, alloy::tuple<int, float>>);
+
+        STATIC_CHECK(std::is_nothrow_convertible_v<alloy::tuple<float, int>&, alloy::tuple<int, float>>);
+        STATIC_CHECK(std::is_nothrow_convertible_v<alloy::tuple<float, int> const&, alloy::tuple<int, float>>);
+        STATIC_CHECK(std::is_nothrow_convertible_v<alloy::tuple<float, int>&&, alloy::tuple<int, float>>);
+        STATIC_CHECK(std::is_nothrow_convertible_v<alloy::tuple<float, int> const&&, alloy::tuple<int, float>>);
 
         struct NeedExplicitConversion
         {
@@ -282,6 +292,21 @@ TEST_CASE("tuple")
         STATIC_CHECK(!std::is_convertible_v<alloy::tuple<int> const&, alloy::tuple<NeedExplicitConversion>>);
         STATIC_CHECK(!std::is_convertible_v<alloy::tuple<int>&&, alloy::tuple<NeedExplicitConversion>>);
         STATIC_CHECK(!std::is_convertible_v<alloy::tuple<int> const&&, alloy::tuple<NeedExplicitConversion>>);
+
+        struct PotentiallyThrowing
+        {
+            PotentiallyThrowing(int) noexcept(false) {}
+        };
+
+        STATIC_CHECK(std::is_constructible_v<alloy::tuple<PotentiallyThrowing>, alloy::tuple<int>&>);
+        STATIC_CHECK(std::is_constructible_v<alloy::tuple<PotentiallyThrowing>, alloy::tuple<int> const&>);
+        STATIC_CHECK(std::is_constructible_v<alloy::tuple<PotentiallyThrowing>, alloy::tuple<int>&&>);
+        STATIC_CHECK(std::is_constructible_v<alloy::tuple<PotentiallyThrowing>, alloy::tuple<int> const&&>);
+
+        STATIC_CHECK(!std::is_nothrow_constructible_v<alloy::tuple<PotentiallyThrowing>, alloy::tuple<int>&>);
+        STATIC_CHECK(!std::is_nothrow_constructible_v<alloy::tuple<PotentiallyThrowing>, alloy::tuple<int> const&>);
+        STATIC_CHECK(!std::is_nothrow_constructible_v<alloy::tuple<PotentiallyThrowing>, alloy::tuple<int>&&>);
+        STATIC_CHECK(!std::is_nothrow_constructible_v<alloy::tuple<PotentiallyThrowing>, alloy::tuple<int> const&&>);
 
         alloy::tuple<int, float> a(42, 3.14f);
         alloy::tuple<float, int> b(a);
@@ -359,8 +384,12 @@ TEST_CASE("tuple")
     }
 
     {
-        struct Empty {};
-        struct OnlyChar { char c; };
+        struct Empty
+        {};
+        struct OnlyChar
+        {
+            char c;
+        };
         [[maybe_unused]] constexpr alloy::tuple<Empty, OnlyChar> a = {{}, {'A'}};
         [[maybe_unused]] constexpr alloy::tuple<OnlyChar, Empty> b = {{'A'}, {}};
         STATIC_CHECK(sizeof(a) == sizeof(OnlyChar));
@@ -380,7 +409,7 @@ TEST_CASE("utility")
         STATIC_CHECK(alloy::get<0>(c) == 42);
         STATIC_CHECK(alloy::get<1>(c) == 3.14);
     }
-    
+
     {
         constexpr alloy::tuple<int> a(12);
         constexpr AdaptedStruct b{34, 3.14};
@@ -434,7 +463,7 @@ TEST_CASE("utility")
         CHECK(alloy::get<0>(to) == 33);
         CHECK(alloy::get<1>(to) == 3.14);
     }
-    
+
     {
         alloy::tuple<int, double> from(33, 3.14);
         alloy::tuple<int, double> to(4, 2.18);
@@ -452,7 +481,7 @@ TEST_CASE("utility")
 
     {
         alloy::tuple<int, double> tuple(42, 3.14);
-        alloy::for_each(tuple, [](auto& elem){ elem = 33 - 4; });
+        alloy::for_each(tuple, [](auto& elem) { elem = 33 - 4; });
         CHECK(alloy::get<0>(tuple) == 29);
         CHECK(alloy::get<1>(tuple) == 29.);
     }
