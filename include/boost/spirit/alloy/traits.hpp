@@ -137,6 +137,8 @@ inline constexpr bool is_nothrow_gettable_v = is_nothrow_gettable<I, T>::value;
 template<std::size_t I, Adapted T>
 struct tuple_element<I, T>
 {
+    // Since we only have access through getters, we don't know exact types of user-defined tuple-like types' elements.
+    // Threrefore, we deduce the types from what we get from getters.
     using type = detail::deduce_t<detail::tuple_get_t<I, std::remove_cvref_t<T>&>&&, detail::tuple_get_t<I, std::remove_cvref_t<T>&&>&&>;
 };
 
