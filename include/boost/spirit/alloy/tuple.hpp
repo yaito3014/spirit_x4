@@ -170,9 +170,8 @@ public:
         : base_type(static_cast<tuple<Us...> const&&>(other))
     {}
 
-    template<class UTuple>
+    template<TupleLike UTuple>
         requires requires {
-            requires TupleLike<std::remove_cvref_t<UTuple>>;
             requires !std::is_same_v<std::remove_cvref_t<UTuple>, tuple>;
             requires sizeof...(Ts) == tuple_size_v<std::remove_cvref_t<UTuple>>;
             requires detail::tuple_traits<UTuple, Ts...>::all_constructible;
@@ -222,9 +221,8 @@ public:
         return *this;
     }
 
-    template<class UTuple>
+    template<TupleLike UTuple>
         requires requires {
-            requires TupleLike<std::remove_cvref_t<UTuple>>;
             requires !std::is_same_v<std::remove_cvref_t<UTuple>, tuple>;
             requires sizeof...(Ts) == tuple_size_v<std::remove_cvref_t<UTuple>>;
             requires detail::tuple_traits<UTuple, Ts...>::all_assignable;

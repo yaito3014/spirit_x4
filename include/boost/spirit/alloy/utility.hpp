@@ -295,23 +295,20 @@ using tuple_split_t = typename detail::tuple_split_result<Tuple, Sizes...>::type
 template<class Tuple>
 using tuple_ref_t = typename detail::tuple_ref_result<Tuple>::type;
 
-template<class... Tuples>
-    requires (TupleLike<std::remove_cvref_t<Tuples>> && ...)
+template<TupleLike... Tuples>
 [[nodiscard]] constexpr tuple_cat_t<Tuples...> tuple_cat(Tuples&&... tuples) noexcept(detail::tuple_cat_impl<Tuples...>::nothrow)
 {
     return detail::tuple_cat_impl<Tuples...>::apply(std::forward<Tuples>(tuples)...);
 }
 
-template<std::size_t... Sizes, class Tuple>
-    requires TupleLike<std::remove_cvref_t<Tuple>>
+template<std::size_t... Sizes, TupleLike Tuple>
 [[nodiscard]] constexpr tuple_split_t<Tuple, Sizes...> tuple_split(Tuple&& t) noexcept(detail::tuple_split_impl<Tuple, Sizes...>::nothrow)
 {
     static_assert((0 + ... + Sizes) == tuple_size_v<std::remove_cvref_t<Tuple>>);
     return detail::tuple_split_impl<Tuple, Sizes...>::apply(std::forward<Tuple>(t));
 }
 
-template<class From, class To>
-    requires TupleLike<std::remove_cvref_t<From>> && TupleLike<std::remove_cvref_t<To>>
+template<TupleLike From, TupleLike To>
 constexpr void tuple_assign(From&& from, To&& to) noexcept(detail::tuple_assign_impl<From, To>::nothrow)
 {
     static_assert(tuple_size_v<std::remove_cvref_t<From>> == tuple_size_v<std::remove_cvref_t<To>>);
@@ -324,8 +321,7 @@ template<TupleLike Tuple>
     return tuple_ref_t<Tuple>(t);
 }
 
-template<class Tuple, class F>
-    requires TupleLike<std::remove_cvref_t<Tuple>>
+template<TupleLike Tuple, class F>
 constexpr void for_each(Tuple&& t, F&& f)
 {
     return detail::for_each_impl<std::make_index_sequence<tuple_size_v<std::remove_cvref_t<Tuple>>>>::apply(std::forward<Tuple>(t), std::forward<F>(f));

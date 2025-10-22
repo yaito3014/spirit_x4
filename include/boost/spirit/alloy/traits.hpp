@@ -52,17 +52,27 @@ class tuple;
 template<class T>
 struct adaptor;
 
-template<class T>
-concept Adapted = requires { typename adaptor<T>::getters_list; };
+namespace detail {
 
 template<class T>
-concept TupleLike = is_ttp_specialization_of_v<T, tuple> || Adapted<T>;
+concept PureAdapted = requires { typename adaptor<T>::getters_list; };
 
 template<class T>
-struct is_tuple_like : std::bool_constant<TupleLike<T>> {};
+concept PureTupleLike = is_ttp_specialization_of_v<T, tuple> || PureAdapted<T>;
+
+} // detail
+
+template<class T>
+struct is_tuple_like : std::bool_constant<detail::PureTupleLike<T>> {};
 
 template<class T>
 inline constexpr bool is_tuple_like_v = is_tuple_like<T>::value;
+
+template<class T>
+concept Adapted = detail::PureAdapted<std::remove_cvref_t<T>>;
+
+template<class T>
+concept TupleLike = detail::PureTupleLike<std::remove_cvref_t<T>>;
 
 template<class T>
 struct tuple_size {};
@@ -103,8 +113,7 @@ template<std::size_t I, class... Ts>
 template<std::size_t I, class... Ts>
 [[nodiscard]] constexpr tuple_element_t<I, tuple<Ts...>> const&& get(tuple<Ts...> const&& t) noexcept;
 
-template<std::size_t I, class T>
-    requires Adapted<std::remove_cvref_t<T>>
+template<std::size_t I, Adapted T>
 [[nodiscard]] constexpr auto get(T&& x)
     noexcept(std::is_nothrow_invocable_v<decltype(detail::getter_of<I, std::remove_cvref_t<T>>), T>)
     -> std::invoke_result_t<decltype(detail::getter_of<I, std::remove_cvref_t<T>>), T>
