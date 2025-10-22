@@ -144,19 +144,21 @@ struct tuple_element<I, T>
 
 namespace detail {
 
-template<TupleLike T, class IndexSeq = std::make_index_sequence<tuple_size_v<T>>>
+template<class T, class IndexSeq = std::make_index_sequence<tuple_size_v<T>>>
+    requires is_tuple_like_v<T>
 struct is_view;
 
-template<TupleLike T, std::size_t... Is>
+template<class T, std::size_t... Is>
+    requires is_tuple_like_v<T>
 struct is_view<T, std::index_sequence<Is...>> : std::conjunction<std::is_lvalue_reference<tuple_element_t<Is, T>>...> {};
 
 } // detail
 
 template<class T>
-concept TupleLikeView = TupleLike<T> && detail::is_view<T>::value;
+struct is_tuple_like_view : std::conjunction<is_tuple_like<T>, detail::is_view<T>> {};
 
 template<class T>
-struct is_tuple_like_view : std::bool_constant<TupleLikeView<T>> {};
+concept TupleLikeView = TupleLike<T> && detail::is_view<std::remove_cvref_t<T>>::value;
 
 template<class T>
 inline constexpr bool is_tuple_like_view_v = is_tuple_like<T>::value;
