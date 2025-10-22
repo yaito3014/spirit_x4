@@ -324,7 +324,7 @@ TEST_CASE("tuple")
     }
 
     {
-        STATIC_CHECK(std::is_copy_assignable_v<alloy::tuple<int>>);
+        STATIC_CHECK(std::is_nothrow_copy_assignable_v<alloy::tuple<int>>);
         STATIC_CHECK(std::is_nothrow_move_assignable_v<alloy::tuple<int>>);
 
         alloy::tuple<int> a(33), b(4);
@@ -334,7 +334,7 @@ TEST_CASE("tuple")
     }
 
     {
-        STATIC_CHECK(std::is_copy_assignable_v<alloy::tuple<int&>>);
+        STATIC_CHECK(std::is_nothrow_copy_assignable_v<alloy::tuple<int&>>);
         STATIC_CHECK(std::is_nothrow_move_assignable_v<alloy::tuple<int&>>);
 
         int x = 33, y = 4;
