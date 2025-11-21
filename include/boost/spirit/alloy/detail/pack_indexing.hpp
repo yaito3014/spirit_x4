@@ -22,11 +22,16 @@ using type_pack_indexing_t = typename type_pack_indexing<I, Ts...>::type;
 
 #if __cpp_pack_indexing >= 202311L
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wc++26-extensions"
+
 template<std::size_t I, class... Ts>
 struct type_pack_indexing
 {
     using type = Ts...[I];
 };
+
+#pragma clang diagnostic pop
 
 #else
 
@@ -49,11 +54,16 @@ inline constexpr auto non_type_pack_indexing_v = non_type_pack_indexing<I, Vs...
 
 #if __cpp_pack_indexing >= 202311L
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wc++26-extensions"
+
 template<std::size_t I, auto... Vs>
 struct non_type_pack_indexing
 {
     static constexpr auto value = Vs...[I];
 };
+
+#pragma clang diagnostic pop
 
 #else
 
