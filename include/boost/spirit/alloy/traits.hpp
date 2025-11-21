@@ -37,9 +37,6 @@ struct non_type_list_indexing {};
 template<std::size_t I, template<auto...> class TList, auto... Vs>
 struct non_type_list_indexing<I, TList<Vs...>> : non_type_pack_indexing<I, Vs...> {};
 
-template<std::size_t I, class T>
-inline constexpr auto getter_of = non_type_list_indexing<I, typename adaptor<T>::getters_list>::value;
-
 } // detail
 
 struct value_initialize_t {};
@@ -112,6 +109,13 @@ template<std::size_t I, class... Ts>
 
 template<std::size_t I, class... Ts>
 [[nodiscard]] constexpr tuple_element_t<I, tuple<Ts...>> const&& get(tuple<Ts...> const&& t) noexcept;
+
+namespace detail {
+
+template<std::size_t I, Adapted T>
+inline constexpr auto getter_of = non_type_list_indexing<I, typename adaptor<T>::getters_list>::value;
+
+}  // namespace detail
 
 template<std::size_t I, Adapted T>
 [[nodiscard]] constexpr auto get(T&& x)
