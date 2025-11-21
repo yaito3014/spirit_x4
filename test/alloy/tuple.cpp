@@ -398,6 +398,26 @@ TEST_CASE("tuple")
 
     STATIC_CHECK(std::is_same_v<std::common_reference_t<alloy::tuple<int&, int&>, alloy::tuple<int, int>&>, alloy::tuple<int&, int&>>);
     STATIC_CHECK(std::is_same_v<std::common_reference_t<AdaptedStruct&, alloy::tuple<int, double>&>, alloy::tuple<int&, double&>>);
+
+#if __cpp_lib_reference_from_temporary >= 202202L
+    STATIC_CHECK(!std::is_constructible_v<alloy::tuple<int const&>, double>);
+    STATIC_CHECK(!std::is_constructible_v<alloy::tuple<int const&>, double&>);
+    STATIC_CHECK(!std::is_constructible_v<alloy::tuple<int const&>, double&&>);
+    
+    STATIC_CHECK(!std::is_constructible_v<alloy::tuple<int const&>, alloy::tuple<double>&>);
+    STATIC_CHECK(!std::is_constructible_v<alloy::tuple<int const&>, alloy::tuple<double&>&>);
+    
+    STATIC_CHECK(!std::is_constructible_v<alloy::tuple<int const&>, alloy::tuple<double> const&>);
+    STATIC_CHECK(!std::is_constructible_v<alloy::tuple<int const&>, alloy::tuple<double&> const&>);
+    
+    STATIC_CHECK(!std::is_constructible_v<alloy::tuple<int const&>, alloy::tuple<double>&&>);
+    STATIC_CHECK(!std::is_constructible_v<alloy::tuple<int const&>, alloy::tuple<double&>&&>);
+    
+    STATIC_CHECK(!std::is_constructible_v<alloy::tuple<int const&>, alloy::tuple<double> const&&>);
+    STATIC_CHECK(!std::is_constructible_v<alloy::tuple<int const&>, alloy::tuple<double&> const&&>);
+
+    STATIC_CHECK(!std::is_constructible_v<alloy::tuple<double const&, int const&>, AdaptedStruct>);
+#endif
 }
 
 TEST_CASE("utility")

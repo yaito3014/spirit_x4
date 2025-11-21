@@ -47,6 +47,9 @@ struct tuple_traits_impl<std::index_sequence<Is...>, UTuple, Ts...>
     static constexpr bool all_assignable = std::conjunction_v<std::is_assignable<Ts&, tuple_get_t<Is, UTuple>>...>;
     static constexpr bool all_nothrow_assignable = std::conjunction_v<std::is_nothrow_assignable<Ts&, tuple_get_t<Is, UTuple>>...>;
     static constexpr bool all_nothrow_gettable = std::conjunction_v<is_nothrow_gettable<Is, UTuple>...>;
+#if __cpp_lib_reference_from_temporary >= 202202L
+    static constexpr bool any_reference_constructs_from_temporary = std::disjunction_v<std::reference_constructs_from_temporary<Ts, tuple_get_t<Is, UTuple>>...>;
+#endif
 };
 
 template<class UTuple, class... Ts>
@@ -117,6 +120,9 @@ public:
             requires disambiguating_constraint<Us...>;
             requires std::conjunction_v<std::is_constructible<Ts, Us>...>;
         }
+#if __cpp_lib_reference_from_temporary >= 202202L
+    && (!(std::reference_constructs_from_temporary_v<Ts, Us&&> || ...))
+#endif
     constexpr explicit(!std::conjunction_v<std::is_convertible<Us, Ts>...>) tuple(Us&&... us)
         noexcept(std::conjunction_v<std::is_nothrow_constructible<Ts, Us>...>)
         : base_type(static_cast<Us&&>(us)...)
@@ -129,6 +135,9 @@ public:
             requires detail::tuple_traits<tuple<Us...>&, Ts...>::all_constructible;
             requires (!detail::tuple_one_element_is_constructible_from_tuple_v<tuple<Us...>&, Ts...>);
         }
+#if __cpp_lib_reference_from_temporary >= 202202L
+        && (!detail::tuple_traits<tuple<Us...>&, Ts...>::any_reference_constructs_from_temporary)
+#endif
     constexpr explicit(!detail::tuple_traits<tuple<Us...>&, Ts...>::all_convertible) tuple(tuple<Us...>& other)
         noexcept(detail::tuple_traits<tuple<Us...>&, Ts...>::all_nothrow_constructible)
         : base_type(other)
@@ -141,6 +150,9 @@ public:
             requires detail::tuple_traits<tuple<Us...> const&, Ts...>::all_constructible;
             requires (!detail::tuple_one_element_is_constructible_from_tuple_v<tuple<Us...> const&, Ts...>);
         }
+#if __cpp_lib_reference_from_temporary >= 202202L
+        && (!detail::tuple_traits<tuple<Us...> const&, Ts...>::any_reference_constructs_from_temporary)
+#endif
     constexpr explicit(!detail::tuple_traits<tuple<Us...> const&, Ts...>::all_convertible) tuple(tuple<Us...> const& other)
         noexcept(detail::tuple_traits<tuple<Us...> const&, Ts...>::all_nothrow_constructible)
         : base_type(other)
@@ -153,6 +165,9 @@ public:
             requires detail::tuple_traits<tuple<Us...>&&, Ts...>::all_constructible;
             requires (!detail::tuple_one_element_is_constructible_from_tuple_v<tuple<Us...>&&, Ts...>);
         }
+#if __cpp_lib_reference_from_temporary >= 202202L
+        && (!detail::tuple_traits<tuple<Us...>&&, Ts...>::any_reference_constructs_from_temporary)
+#endif
     constexpr explicit(!detail::tuple_traits<tuple<Us...>&&, Ts...>::all_convertible) tuple(tuple<Us...>&& other)
         noexcept(detail::tuple_traits<tuple<Us...>&&, Ts...>::all_nothrow_constructible)
         : base_type(static_cast<tuple<Us...>&&>(other))
@@ -165,6 +180,9 @@ public:
             requires detail::tuple_traits<tuple<Us...> const&&, Ts...>::all_constructible;
             requires (!detail::tuple_one_element_is_constructible_from_tuple_v<tuple<Us...> const&&, Ts...>);
         }
+#if __cpp_lib_reference_from_temporary >= 202202L
+        && (!detail::tuple_traits<tuple<Us...> const&&, Ts...>::any_reference_constructs_from_temporary)
+#endif
     constexpr explicit(!detail::tuple_traits<tuple<Us...> const&&, Ts...>::all_convertible) tuple(tuple<Us...> const&& other)
         noexcept(detail::tuple_traits<tuple<Us...> const&&, Ts...>::all_nothrow_constructible)
         : base_type(static_cast<tuple<Us...> const&&>(other))
@@ -177,10 +195,86 @@ public:
             requires detail::tuple_traits<UTuple, Ts...>::all_constructible;
             requires !detail::tuple_one_element_is_constructible_from_tuple_v<UTuple, Ts...>;
         }
+#if __cpp_lib_reference_from_temporary >= 202202L
+        && (!detail::tuple_traits<UTuple, Ts...>::any_reference_constructs_from_temporary)
+#endif
     constexpr explicit(!detail::tuple_traits<UTuple, Ts...>::all_convertible) tuple(UTuple&& other)
         noexcept(detail::tuple_traits<UTuple, Ts...>::all_nothrow_gettable && detail::tuple_traits<UTuple, Ts...>::all_nothrow_constructible)
         : tuple(construct, std::make_index_sequence<tuple_size_v<std::remove_cvref_t<UTuple>>>{}, static_cast<UTuple>(other))
     {}
+
+#if __cpp_lib_reference_from_temporary >= 202202L
+    template<class... Us>
+        requires requires {
+            requires (sizeof...(Ts) == sizeof...(Us));
+            requires disambiguating_constraint<Us...>;
+            requires std::conjunction_v<std::is_constructible<Ts, Us>...>;
+        }
+    && (std::reference_constructs_from_temporary_v<Ts, Us&&> || ...)
+    constexpr explicit(!std::conjunction_v<std::is_convertible<Us, Ts>...>) tuple(Us&&... us)
+        noexcept(std::conjunction_v<std::is_nothrow_constructible<Ts, Us>...>)
+    = delete;
+
+    template<class... Us>
+        requires requires {
+            requires sizeof...(Ts) == sizeof...(Us);
+            requires std::negation_v<std::conjunction<std::is_same<Ts, Us>...>>;
+            requires detail::tuple_traits<tuple<Us...>&, Ts...>::all_constructible;
+            requires (!detail::tuple_one_element_is_constructible_from_tuple_v<tuple<Us...>&, Ts...>);
+        }
+        && detail::tuple_traits<tuple<Us...>&, Ts...>::any_reference_constructs_from_temporary
+    constexpr explicit(!detail::tuple_traits<tuple<Us...>&, Ts...>::all_convertible) tuple(tuple<Us...>& other)
+        noexcept(detail::tuple_traits<tuple<Us...>&, Ts...>::all_nothrow_constructible)
+    = delete;
+
+    template<class... Us>
+        requires requires {
+            requires sizeof...(Ts) == sizeof...(Us);
+            requires std::negation_v<std::conjunction<std::is_same<Ts, Us>...>>;
+            requires detail::tuple_traits<tuple<Us...> const&, Ts...>::all_constructible;
+            requires (!detail::tuple_one_element_is_constructible_from_tuple_v<tuple<Us...> const&, Ts...>);
+        }
+        && detail::tuple_traits<tuple<Us...> const&, Ts...>::any_reference_constructs_from_temporary
+    constexpr explicit(!detail::tuple_traits<tuple<Us...> const&, Ts...>::all_convertible) tuple(tuple<Us...> const& other)
+        noexcept(detail::tuple_traits<tuple<Us...> const&, Ts...>::all_nothrow_constructible)
+    = delete;
+
+    template<class... Us>
+        requires requires {
+            requires sizeof...(Ts) == sizeof...(Us);
+            requires std::negation_v<std::conjunction<std::is_same<Ts, Us>...>>;
+            requires detail::tuple_traits<tuple<Us...>&&, Ts...>::all_constructible;
+            requires (!detail::tuple_one_element_is_constructible_from_tuple_v<tuple<Us...>&&, Ts...>);
+        }
+        && detail::tuple_traits<tuple<Us...>&&, Ts...>::any_reference_constructs_from_temporary
+    constexpr explicit(!detail::tuple_traits<tuple<Us...>&&, Ts...>::all_convertible) tuple(tuple<Us...>&& other)
+        noexcept(detail::tuple_traits<tuple<Us...>&&, Ts...>::all_nothrow_constructible)
+    = delete;
+
+    template<class... Us>
+        requires requires {
+            requires sizeof...(Ts) == sizeof...(Us);
+            requires std::negation_v<std::conjunction<std::is_same<Ts, Us>...>>;
+            requires detail::tuple_traits<tuple<Us...> const&&, Ts...>::all_constructible;
+            requires (!detail::tuple_one_element_is_constructible_from_tuple_v<tuple<Us...> const&&, Ts...>);
+        }
+        && detail::tuple_traits<tuple<Us...> const&&, Ts...>::any_reference_constructs_from_temporary
+    constexpr explicit(!detail::tuple_traits<tuple<Us...> const&&, Ts...>::all_convertible) tuple(tuple<Us...> const&& other)
+        noexcept(detail::tuple_traits<tuple<Us...> const&&, Ts...>::all_nothrow_constructible)
+    = delete;
+
+    template<TupleLike UTuple>
+        requires requires {
+            requires !std::is_same_v<std::remove_cvref_t<UTuple>, tuple>;
+            requires sizeof...(Ts) == tuple_size_v<std::remove_cvref_t<UTuple>>;
+            requires detail::tuple_traits<UTuple, Ts...>::all_constructible;
+            requires !detail::tuple_one_element_is_constructible_from_tuple_v<UTuple, Ts...>;
+        }
+        && detail::tuple_traits<UTuple, Ts...>::any_reference_constructs_from_temporary
+    constexpr explicit(!detail::tuple_traits<UTuple, Ts...>::all_convertible) tuple(UTuple&& other)
+        noexcept(detail::tuple_traits<UTuple, Ts...>::all_nothrow_gettable && detail::tuple_traits<UTuple, Ts...>::all_nothrow_constructible)
+    = delete;
+#endif
 
     constexpr tuple& operator=(tuple const& other)
         noexcept(std::conjunction_v<std::is_nothrow_copy_assignable<Ts>...>)
